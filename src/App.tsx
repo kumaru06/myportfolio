@@ -7,7 +7,6 @@ import CertificationCard from './components/CertificationCard';
 import ContactForm from './components/ContactForm';
 import Footer from './components/Footer';
 import profilePic from './assets/images/gallery4.png';
-import mpLogo from './assets/images/logo/mp.png';
 
 const sectionVariants = {
   hidden: { opacity: 0, y: 28 },
