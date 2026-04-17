@@ -7,10 +7,10 @@ import CertificationCard from './components/CertificationCard';
 import ContactForm from './components/ContactForm';
 import Footer from './components/Footer';
 import profilePic from './assets/images/gallery4.png';
-import emailIcon from './assets/images/logo/picture/email.png';
-import githubIcon from './assets/images/logo/picture/github.png';
-import linkedinIcon from './assets/images/logo/picture/linkedin.png';
-import facebookIcon from './assets/images/logo/picture/facebook.png';
+import emailIcon from '../src/assets/images/logo/picture/email.png';
+import githubIcon from '../src/assets/images/logo/picture/github.png';
+import linkedinIcon from '../src/assets/images/logo/picture/linkedin.png';
+import facebookIcon from '../src/assets/images/logo/picture/facebook.png';
 
 const sectionVariants = {
   hidden: { opacity: 0, y: 28 },
@@ -289,11 +289,7 @@ function App() {
               <div className="mt-8 space-y-2">
                 <div className="group flex items-start gap-3 rounded-lg border border-transparent bg-slate-50 p-3 transition-all hover:border-slate-200 hover:bg-slate-100 dark:bg-slate-800/50 dark:hover:border-slate-700 dark:hover:bg-slate-800">
                   <div className="mt-0.5 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-md bg-blue-50 dark:bg-blue-900/30">
-                    <img
-                      src="./src/assets/images/logo/email.png"
-                      alt="Email"
-                      className="h-4 w-4"
-                    />
+                    <img src={emailIcon} alt="Email" className="h-4 w-4" />
                   </div>
                   <div className="flex-1">
                     <p className="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">Email</p>
@@ -302,11 +298,7 @@ function App() {
                 </div>
                 <a href="https://github.com/kumaru06" target="_blank" rel="noopener noreferrer" className="group flex items-start gap-3 rounded-lg border border-transparent bg-slate-50 p-3 transition-all hover:border-slate-200 hover:bg-slate-100 dark:bg-slate-800/50 dark:hover:border-slate-700 dark:hover:bg-slate-800">
                   <div className="mt-0.5 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-md bg-slate-900/5 transition-all group-hover:bg-slate-900/10 dark:bg-slate-400/10 dark:group-hover:bg-slate-400/20">
-                    <img
-                      src="./src/assets/images/logo/github.png"
-                      alt="GitHub"
-                      className="h-4 w-4"
-                    />
+                    <img src={githubIcon} alt="GitHub" className="h-4 w-4" />
                   </div>
                   <div className="flex-1">
                     <p className="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">GitHub</p>
@@ -317,11 +309,7 @@ function App() {
                 </a>
                 <a href="https://www.linkedin.com/in/mark-perez-5a5346404/" target="_blank" rel="noopener noreferrer" className="group flex items-start gap-3 rounded-lg border border-transparent bg-slate-50 p-3 transition-all hover:border-slate-200 hover:bg-slate-100 dark:bg-slate-800/50 dark:hover:border-slate-700 dark:hover:bg-slate-800">
                   <div className="mt-0.5 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-md bg-blue-50 transition-all group-hover:bg-blue-100 dark:bg-blue-900/30 dark:group-hover:bg-blue-900/50">
-                    <img
-                      src="./src/assets/images/logo/linkedin.png"
-                      alt="LinkedIn"
-                      className="h-4 w-4"
-                    />
+                    <img src={linkedinIcon} alt="LinkedIn" className="h-4 w-4" />
                   </div>
                   <div className="flex-1">
                     <p className="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">LinkedIn</p>
@@ -332,11 +320,7 @@ function App() {
                 </a>
                 <a href="https://web.facebook.com/errantknight01/" target="_blank" rel="noopener noreferrer" className="group flex items-start gap-3 rounded-lg border border-transparent bg-slate-50 p-3 transition-all hover:border-slate-200 hover:bg-slate-100 dark:bg-slate-800/50 dark:hover:border-slate-700 dark:hover:bg-slate-800">
                   <div className="mt-0.5 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-md bg-blue-50 transition-all group-hover:bg-blue-100 dark:bg-blue-900/30 dark:group-hover:bg-blue-900/50">
-                    <img
-                      src="./src/assets/images/logo/facebook.png"
-                      alt="Facebook"
-                      className="h-4 w-4"
-                    />
+                   <img src={facebookIcon} alt="Facebook" className="h-4 w-4" />
                   </div>
                   <div className="flex-1">
                     <p className="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">Facebook</p>
