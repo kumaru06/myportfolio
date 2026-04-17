@@ -23,8 +23,8 @@ export default function Navbar({ darkMode, setDarkMode }: NavbarProps) {
       transition={{ duration: 0.5 }}
     >
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
-        <a href="#about" className="text-sm font-semibold uppercase tracking-[0.3em] text-slate-900 dark:text-slate-100">
-          MAP
+        <a href="#about" className="text-xl font-bold tracking-widest text-slate-800">
+          M A P
         </a>
         <nav className="hidden items-center gap-6 md:flex">
           {links.map((link) => (
