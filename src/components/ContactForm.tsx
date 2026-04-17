@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import emailjs from '@emailjs/browser';
-import emailIcon from '../src/assets/images/logo/picture/email.png';
-import githubIcon from '../src/assets/images/logo/picture/github.png';
-import linkedinIcon from '../src/assets/images/logo/picture/linkedin.png';
-import facebookIcon from '../src/assets/images/logo/picture/facebook.png';
+import emailIcon from './assets/images/logo/picture/email.png';
+import githubIcon from './assets/images/logo/picture/github.png';
+import linkedinIcon from './assets/images/logo/picture/linkedin.png';
+import facebookIcon from './assets/images/logo/picture/facebook.png';
 
 export default function ContactForm() {
   const [formState, setFormState] = useState({ name: '', email: '', message: '' });

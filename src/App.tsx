@@ -7,10 +7,10 @@ import CertificationCard from './components/CertificationCard';
 import ContactForm from './components/ContactForm';
 import Footer from './components/Footer';
 import profilePic from './assets/images/gallery4.png';
-import emailIcon from '../src/assets/images/logo/picture/email.png';
-import githubIcon from '../src/assets/images/logo/picture/github.png';
-import linkedinIcon from '../src/assets/images/logo/picture/linkedin.png';
-import facebookIcon from '../src/assets/images/logo/picture/facebook.png';
+import emailIcon from './assets/images/logo/picture/email.png';
+import githubIcon from './assets/images/logo/picture/github.png';
+import linkedinIcon from './assets/images/logo/picture/linkedin.png';
+import facebookIcon from './assets/images/logo/picture/facebook.png';
 
 const sectionVariants = {
   hidden: { opacity: 0, y: 28 },
