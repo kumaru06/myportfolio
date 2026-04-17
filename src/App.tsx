@@ -6,6 +6,8 @@ import ProjectCard from './components/ProjectCard';
 import CertificationCard from './components/CertificationCard';
 import ContactForm from './components/ContactForm';
 import Footer from './components/Footer';
+import profilePic from './assets/images/gallery4.png';
+import mpLogo from './assets/images/logo/mp.png';
 
 const sectionVariants = {
   hidden: { opacity: 0, y: 28 },
@@ -103,11 +105,11 @@ function App() {
           >
             <div className="flex flex-col items-center justify-center">
               <div className="relative h-72 w-64 overflow-hidden rounded-3xl border-4 border-slate-200 shadow-lg dark:border-slate-700">
-                <img
-                  src="./src/assets/images/gallery4.png"
-                  alt="Mark Andrey Perez"
-                  className="h-full w-full object-cover"
-                />
+                <img 
+                    src={profilePic} 
+                    alt="Mark Andrey Perez" 
+                    className="h-full w-full object-cover" 
+                  />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-900/10 to-transparent dark:from-slate-950/20" />
               </div>
               <div className="mt-6 hidden text-center lg:block">
