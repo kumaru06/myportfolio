@@ -6,11 +6,42 @@ import ProjectCard from './components/ProjectCard';
 import CertificationCard from './components/CertificationCard';
 import ContactForm from './components/ContactForm';
 import Footer from './components/Footer';
-import profilePic from './assets/images/gallery4.png';
+import profilePic from './assets/images/profile.png';
+import gcashDashboard from './assets/images/gcashposdashboard.png';
+import gcashSales from './assets/images/gcashposdailysales.png';
+import gcashMonthlySales from './assets/images/gcashposmonthlysales.png';
+import gcashCustomer from './assets/images/customertransactions.png';
+import southdevImg from './assets/southdev.png';
+import certCCNA from './assets/images/certificationspdf/CCNAv7 Introduction to Networks.pdf';
+import certDevNet from './assets/images/certificationspdf/DevNet Associate.pdf';
+import certPacketTracer from './assets/images/certificationspdf/Getting Started with Cisco Packet Tracer.pdf';
+import certNetSec from './assets/images/certificationspdf/Network Security.pdf';
+import certCPA from './assets/images/certificationspdf/Partner CPA - Programming Essentials in C++.pdf';
+import certCPP from './assets/images/certificationspdf/Partner CPP - Advanced Programming in C++.pdf';
 import emailIcon from './assets/images/logo/email.png';
 import facebookIcon from './assets/images/logo/facebook.png';
 import githubIcon from './assets/images/logo/github.png';
 import linkedinIcon from './assets/images/logo/linkedin.png';
+import iconHtml from './assets/images/programminglogo/front-end/HTML.png';
+import iconCss from './assets/images/programminglogo/front-end/CSS.png';
+import iconJs from './assets/images/programminglogo/front-end/JavaScript.png';
+import iconReact from './assets/images/programminglogo/front-end/React.png';
+import iconTs from './assets/images/programminglogo/front-end/TypeScript.png';
+
+import iconNode from './assets/images/programminglogo/back-end/Node.js.png';
+import iconPhp from './assets/images/programminglogo/back-end/PHP.png';
+import iconRest from './assets/images/programminglogo/back-end/REST API Design.png';
+import iconAuth from './assets/images/programminglogo/back-end/Authentication & Authorization.png';
+import iconDbDesign from './assets/images/programminglogo/back-end/Database Design & ORM.png';
+import iconDeploy from './assets/images/programminglogo/back-end/Deployment & Monitoring.png';
+
+import iconCpp from './assets/images/programminglogo/programming/Advanced C++.png';
+import iconAlgo from './assets/images/programminglogo/programming/Algorithms & Data Structures.png';
+import iconDbSql from './assets/images/programminglogo/programming/Databases & SQL.png';
+import iconDebug from './assets/images/programminglogo/programming/Debugging & Profiling.png';
+import iconDatabaseManagement from './assets/images/programminglogo/other/Database Management.png';
+import iconSDLC from './assets/images/programminglogo/other/SDLC.png';
+import iconSystemDesign from './assets/images/programminglogo/other/SystemDesign.png';
 
 const sectionVariants = {
   hidden: { opacity: 0, y: 28 },
@@ -50,7 +81,14 @@ function App() {
       { label: 'TypeScript', category: 'Frontend', level: 74 },
       { label: 'PHP', category: 'Backend', level: 76 },
       { label: 'Node.js', category: 'Backend', level: 68 },
+      { label: 'REST API Design', category: 'Backend', level: 86 },
+      { label: 'Authentication & Authorization', category: 'Backend', level: 82 },
+      { label: 'Database Design & ORM', category: 'Backend', level: 84 },
+      { label: 'Deployment & Monitoring', category: 'Backend', level: 74 },
       { label: 'Advanced C++', category: 'Programming', level: 92 },
+      { label: 'Algorithms & Data Structures', category: 'Programming', level: 88 },
+      { label: 'Debugging & Profiling', category: 'Programming', level: 80 },
+      { label: 'Databases & SQL', category: 'Programming', level: 84 },
       { label: 'Database Management', category: 'Other', level: 82 },
       { label: 'SDLC', category: 'Other', level: 84 },
       { label: 'System Design', category: 'Other', level: 78 },
@@ -64,13 +102,17 @@ function App() {
         title: 'Online Management System for Southdev Home Depot',
         description:
           'A scalable management system designed for inventory control, sales workflows, and streamlined customer service.',
-        tech: ['HTML', 'CSS', 'JavaScript', 'PHP'],
+        tech: ['PHP', 'SQL', 'JavaScript', 'CSS', 'HTML', 'JSON'],
+        liveUrl: 'https://southdev-home-depot.infinityfreeapp.com/',
+        image: southdevImg,
       },
       {
-        title: 'Hotel Web-Based Management System for RBG Tourist Inn Hotel',
+        title: 'GCash POS Transaction Record (Electron Based)',
         description:
-          'A hotel operations platform built for booking management, guest records, and daily reporting.',
-        tech: ['HTML', 'CSS', 'JavaScript', 'PHP'],
+          'A desktop POS application built with Electron for recording and managing GCash transactions, providing a fast and offline-capable transaction logging experience.',
+        tech: ['Electron', 'Node.js', 'JavaScript', 'HTML', 'CSS', 'SQL', 'JSON'],
+        image: gcashDashboard,
+        images: [gcashDashboard, gcashSales, gcashMonthlySales, gcashCustomer],
       },
     ],
     [],
@@ -78,10 +120,42 @@ function App() {
 
   const certifications = useMemo(
     () => [
-      'Software Developer',
-      'CPA - Programming Essentials in C++',
-      'Enterprise Networking, Security, and Automation',
-      'Switching, Routing, and Wireless Essentials',
+      {
+        title: 'CCNAv7 Introduction to Networks',
+        issuer: 'Cisco',
+        pdfUrl: certCCNA,
+        description: 'Covers fundamental networking concepts including IP addressing, routing protocols, network access, and troubleshooting in modern network environments.',
+      },
+      {
+        title: 'DevNet Associate',
+        issuer: 'Cisco',
+        pdfUrl: certDevNet,
+        description: 'Validates skills in software development and design using Cisco platforms, APIs, automation, and infrastructure programmability.',
+      },
+      {
+        title: 'Getting Started with Cisco Packet Tracer',
+        issuer: 'Cisco',
+        pdfUrl: certPacketTracer,
+        description: 'Demonstrates proficiency in using Cisco Packet Tracer to simulate, visualize, and troubleshoot network topologies and configurations.',
+      },
+      {
+        title: 'Network Security',
+        issuer: 'Cisco',
+        pdfUrl: certNetSec,
+        description: 'Covers core network security concepts including firewalls, VPNs, access control, threat mitigation, and secure network infrastructure design.',
+      },
+      {
+        title: 'Programming Essentials in C++',
+        issuer: 'Cisco / NetAcad',
+        pdfUrl: certCPA,
+        description: 'Establishes foundational knowledge of C++ programming including syntax, data types, control flow, functions, and object-oriented principles.',
+      },
+      {
+        title: 'Advanced Programming in C++',
+        issuer: 'Cisco / NetAcad',
+        pdfUrl: certCPP,
+        description: 'Covers advanced C++ topics such as templates, STL, memory management, polymorphism, and design patterns for building robust software systems.',
+      },
     ],
     [],
   );
@@ -89,6 +163,56 @@ function App() {
   const experiences = useMemo(
     () => ['Software Developer', 'Advanced Programming in C++', 'AI Machine Learning'], [],
   );
+
+  function getSkillIcon(label: string) {
+    const normalize = (s: string) => {
+      let t = s.toLowerCase();
+      // normalize common language tokens
+      t = t.replace(/c\+\+/g, 'cpp');
+      t = t.replace(/c#/g, 'csharp');
+      // remove ampersands and other punctuation so filenames with & match
+      t = t.replace(/&/g, '');
+      // remove any remaining non-alphanumeric
+      return t.replace(/[^a-z0-9]/g, '');
+    };
+
+    const map: Record<string, string> = {
+      html: iconHtml,
+      css: iconCss,
+      javascript: iconJs,
+      react: iconReact,
+      typescript: iconTs,
+      nodejs: iconNode,
+      php: iconPhp,
+      restapidesign: iconRest,
+      authenticationauthorization: iconAuth,
+      databasedesignorm: iconDbDesign,
+      deploymentmonitoring: iconDeploy,
+      advancedcpp: iconCpp,
+      algorithmsdatastructures: iconAlgo,
+      databasessql: iconDbSql,
+      debuggingprofiling: iconDebug,
+      databasemanagement: iconDatabaseManagement,
+      sdlc: iconSDLC,
+      systemdesign: iconSystemDesign,
+    };
+
+    const key = normalize(label);
+    const src = map[key];
+    if (!src) {
+      // fallback: show a small generic SVG and warn in console to help debugging
+      // eslint-disable-next-line no-console
+      console.warn(`[getSkillIcon] icon not found for key=", key, "label=", label`);
+      return (
+        <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+          <circle cx="12" cy="12" r="10" stroke="#CBD5E1" strokeWidth={1.5} />
+          <path d="M8 12h8" stroke="#CBD5E1" strokeWidth={1.5} strokeLinecap="round" />
+        </svg>
+      );
+    }
+
+    return <img src={src} alt={label} className="h-4 w-4 object-contain" />;
+  }
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-950 dark:bg-slate-950 dark:text-slate-100">
@@ -121,7 +245,7 @@ function App() {
             </div>
             <div>
               <p className="mb-4 text-sm uppercase tracking-[0.25em] text-slate-500 dark:text-slate-400">
-                Welcome
+                Hello I'm
               </p>
               <h1 className="text-4xl font-semibold tracking-tight text-slate-950 dark:text-white sm:text-5xl">
                 Mark Andrey Perez
@@ -193,7 +317,10 @@ function App() {
                   {skills.filter((skill) => skill.category === group).map((skill) => (
                     <div key={skill.label} className="space-y-2">
                       <div className="flex items-center justify-between text-sm font-medium text-slate-700 dark:text-slate-300">
-                        <span>{skill.label}</span>
+                        <div className="flex items-center gap-2">
+                          {getSkillIcon(skill.label)}
+                          <span>{skill.label}</span>
+                        </div>
                         <span>{skill.level}%</span>
                       </div>
                       <div className="h-2 overflow-hidden rounded-full bg-slate-200 dark:bg-slate-800">
@@ -239,7 +366,7 @@ function App() {
           <SectionHeader number="04" title="Certifications" />
           <div className="grid gap-4 sm:grid-cols-2">
             {certifications.map((cert) => (
-              <CertificationCard key={cert} title={cert} />
+              <CertificationCard key={cert.title} title={cert.title} issuer={cert.issuer} pdfUrl={cert.pdfUrl} description={cert.description} />
             ))}
           </div>
         </motion.section>
