@@ -6,6 +6,7 @@ import ProjectCard from './components/ProjectCard';
 import CertificationCard from './components/CertificationCard';
 import ContactForm from './components/ContactForm';
 import Footer from './components/Footer';
+import LoadingScreen from './components/LoadingScreen';
 import profilePic from './assets/images/profile.png';
 import gcashDashboard from './assets/images/gcashposdashboard.png';
 import gcashSales from './assets/images/gcashposdailysales.png';
@@ -49,6 +50,7 @@ const sectionVariants = {
 };
 
 function App() {
+  const [loading, setLoading] = useState(true);
   const [darkMode, setDarkMode] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
 
@@ -213,6 +215,8 @@ function App() {
 
     return <img src={src} alt={label} className="h-4 w-4 object-contain" />;
   }
+
+  if (loading) return <LoadingScreen onDone={() => setLoading(false)} />;
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-950 dark:bg-slate-950 dark:text-slate-100">
