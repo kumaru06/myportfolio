@@ -163,7 +163,21 @@ function App() {
   );
 
   const experiences = useMemo(
-    () => ['Software Developer', 'Advanced Programming in C++', 'AI Machine Learning'], [],
+    () => [
+      {
+        title: 'Software Developer',
+        description: 'Hands-on experience designing and building full-stack web applications using modern technologies such as HTML, CSS, JavaScript, PHP, React, and TypeScript, with a focus on clean architecture and user-centric design.',
+      },
+      {
+        title: 'Advanced Programming in C++',
+        description: 'In-depth coursework and practical training covering advanced C++ concepts including templates, the Standard Template Library (STL), memory management, object-oriented design, and performance optimization.',
+      },
+      {
+        title: 'AI Machine Learning',
+        description: 'Foundational knowledge and applied experience in artificial intelligence and machine learning, including model training, data preprocessing, and integrating AI-driven tools into modern software development workflows.',
+      },
+    ],
+    [],
   );
 
   function getSkillIcon(label: string) {
@@ -255,10 +269,10 @@ function App() {
                 Mark Andrey Perez
               </h1>
               <p className="mt-3 text-lg font-medium text-slate-700 dark:text-slate-300">
-                AI | Software Developer
+                AI-Augmented | Full-stack Developer
               </p>
               <p className="mt-6 max-w-2xl leading-8 text-slate-600 dark:text-slate-300">
-                Aspiring Full-Stack Software Developer building scalable and user-friendly applications.
+                Aspiring Full-Stack AI-Augmented Developer building scalable and user-friendly applications.
               </p>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                 <a
@@ -289,15 +303,18 @@ function App() {
         >
           <SectionHeader number="01" title="About" />
           <div className="rounded-3xl border border-slate-200 bg-white/90 p-8 shadow-soft backdrop-blur-xl dark:border-slate-800 dark:bg-slate-900/80">
-            <div className="space-y-5 text-slate-700 dark:text-slate-300">
+            <div className="space-y-5 text-justify text-slate-700 dark:text-slate-300">
               <p>
-                I aspire to become a Full-Stack Software Developer possessing a solid background in front-end as well as back-end software development. My background is building user-friendly and dynamic web applications with modern web technologies like HTML, CSS, JavaScript, PHP, React, Advance C++, TypeScript.js, and frameworks as well as server-side applications and database management. My projects have involved coming up with systems such as the management of inventory systems, hotel booking systems and mobile phone applications where my knowledge in software development principles, system design as well as problem solving skills came in.
+                I aspire to become an AI-Augmented Full-Stack Software Developer, combining strong foundations in both front-end and back-end development with the power of modern artificial intelligence tools and workflows. I specialize in building user-friendly, dynamic, and scalable web applications using technologies such as HTML, CSS, JavaScript, PHP, React, TypeScript, and C++, alongside frameworks and server-side architectures with integrated database management.
               </p>
               <p>
-                I love to build effective, scalable and responsive applications that enhance customer experience and help in streamlining business operations. I constantly improve my tech skills by researching on new tools, frameworks and best practices in software development. Having a good knowledge of the Software Development Life Cycle (SDLC) I can work on the projects related to planning and design up to implementation and maintenance.
+                My experience includes developing systems like inventory management platforms, hotel booking systems, and mobile applications, where I applied software engineering principles, system design, and problem-solving skills to deliver efficient and reliable solutions. By leveraging AI-assisted development tools, I enhance productivity, code quality, and innovation throughout the development process.
               </p>
               <p>
-                I also can be characterized as a detail oriented, flexible and dedicated learner and this enables me to cope up with the challenges and play a part in teamwork based or individual development projects. I would like to develop professionally and create new innovative solutions that will have a significant impact.
+                I am passionate about creating responsive, high-performance applications that improve user experience and streamline business operations. I continuously refine my skills by exploring emerging technologies, AI integrations, and best practices in software development. With a solid understanding of the Software Development Life Cycle (SDLC), I am capable of contributing across all phases—from planning and design to implementation, testing, and maintenance.
+              </p>
+              <p>
+                Detail-oriented, adaptable, and driven to learn, I thrive in both collaborative and independent environments. My goal is to grow professionally while building intelligent, impactful solutions that push the boundaries of modern software development.
               </p>
             </div>
           </div>
@@ -388,13 +405,12 @@ function App() {
           <div className="grid gap-4 sm:grid-cols-3">
             {experiences.map((item) => (
               <div
-                key={item}
+                key={item.title}
                 className="rounded-3xl border border-slate-200 bg-white/90 p-6 text-slate-700 shadow-soft backdrop-blur-xl dark:border-slate-800 dark:bg-slate-900/80 dark:text-slate-200"
               >
-                <h3 className="text-lg font-semibold">{item}</h3>
-                <p className="mt-3 text-sm leading-7 text-slate-600 dark:text-slate-300">
-                  Practical experience and coursework demonstrating a strong foundation in software development,
-                  advanced programming, and AI technologies.
+                <h3 className="text-lg font-semibold">{item.title}</h3>
+                <p className="mt-3 text-sm leading-7 text-justify text-slate-600 dark:text-slate-300">
+                  {item.description}
                 </p>
               </div>
             ))}
