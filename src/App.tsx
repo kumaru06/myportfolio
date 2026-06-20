@@ -2,17 +2,17 @@ import { useEffect, useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
 import Navbar from './components/Navbar';
 import SectionHeader from './components/SectionHeader';
-import ProjectCard from './components/ProjectCard';
+import ProjectsCarousel from './components/ProjectsCarousel';
 import CertificationCard from './components/CertificationCard';
 import ContactForm from './components/ContactForm';
 import Footer from './components/Footer';
-import LoadingScreen from './components/LoadingScreen';
 import profilePic from './assets/images/profile.png';
 import gcashDashboard from './assets/images/gcashposdashboard.png';
 import gcashSales from './assets/images/gcashposdailysales.png';
 import gcashMonthlySales from './assets/images/gcashposmonthlysales.png';
 import gcashCustomer from './assets/images/customertransactions.png';
 import southdevImg from './assets/southdev.png';
+import amaOjtImg from './assets/ama-ojtportal.png';
 import certCCNA from './assets/images/certificationspdf/CCNAv7 Introduction to Networks.pdf';
 import certDevNet from './assets/images/certificationspdf/DevNet Associate.pdf';
 import certPacketTracer from './assets/images/certificationspdf/Getting Started with Cisco Packet Tracer.pdf';
@@ -50,7 +50,6 @@ const sectionVariants = {
 };
 
 function App() {
-  const [loading, setLoading] = useState(true);
   const [darkMode, setDarkMode] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
 
@@ -105,7 +104,7 @@ function App() {
         description:
           'A scalable management system designed for inventory control, sales workflows, and streamlined customer service.',
         tech: ['PHP', 'SQL', 'JavaScript', 'CSS', 'HTML', 'JSON'],
-        liveUrl: 'https://southdev-home-depot.infinityfreeapp.com/',
+        liveUrl: 'https://southdevhomedepotdavao.com',
         image: southdevImg,
       },
       {
@@ -115,6 +114,14 @@ function App() {
         tech: ['Electron', 'Node.js', 'JavaScript', 'HTML', 'CSS', 'SQL', 'JSON'],
         image: gcashDashboard,
         images: [gcashDashboard, gcashSales, gcashMonthlySales, gcashCustomer],
+      },
+      {
+        title: 'AMA Practicum Management System',
+        description:
+          'An OJT management platform for AMA Computer College that lets students, coordinators, and industry partners track practicum journeys from deployment through completion.',
+        tech: ['PHP', 'SQL', 'JavaScript', 'CSS', 'HTML', 'JSON'],
+        liveUrl: 'https://ama-ojtportal.com',
+        image: amaOjtImg,
       },
     ],
     [],
@@ -229,8 +236,6 @@ function App() {
 
     return <img src={src} alt={label} className="h-4 w-4 object-contain" />;
   }
-
-  if (loading) return <LoadingScreen onDone={() => setLoading(false)} />;
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-950 dark:bg-slate-950 dark:text-slate-100">
@@ -368,11 +373,7 @@ function App() {
           id="projects"
         >
           <SectionHeader number="03" title="Projects" />
-          <div className="grid gap-6 lg:grid-cols-2">
-            {projects.map((project) => (
-              <ProjectCard key={project.title} project={project} />
-            ))}
-          </div>
+          <ProjectsCarousel projects={projects} />
         </motion.section>
 
         <motion.section
