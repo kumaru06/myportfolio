@@ -226,7 +226,7 @@ function App() {
         {/* ── HERO ── */}
         <section className="relative">
           <motion.div
-            className="glass-card gradient-border overflow-hidden p-5 sm:p-8 md:p-12 lg:p-14"
+            className="glass-card gradient-border overflow-x-hidden overflow-y-visible p-5 sm:p-8 md:p-12 lg:p-14"
             initial="hidden"
             animate="visible"
             variants={heroStagger}
@@ -235,12 +235,15 @@ function App() {
 
             <div className="relative grid gap-8 sm:gap-10 lg:grid-cols-[300px_1fr] lg:gap-16">
               {/* Profile */}
-              <motion.div variants={heroItem} className="flex w-full max-w-full flex-col items-center overflow-hidden lg:items-center">
-                <div className="relative animate-float overflow-hidden">
-                  <div className="absolute -inset-2 rounded-[2rem] bg-gradient-to-br from-brand-500 via-accent-500 to-pink-500 opacity-60 blur-xl sm:-inset-3" />
-                  <div className="relative h-56 w-48 overflow-hidden rounded-[1.75rem] ring-2 ring-white/20 shadow-2xl dark:ring-white/10 sm:h-64 sm:w-56 md:h-72 md:w-60">
-                    <img src={profilePic} alt="Mark Andrey Perez" className="h-full w-full object-cover" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/30 to-transparent" />
+              <motion.div variants={heroItem} className="flex w-full max-w-full flex-col items-center overflow-x-hidden overflow-y-visible lg:items-center">
+                <div className="relative animate-float pt-3">
+                  <div className="relative h-56 w-48 overflow-hidden rounded-[1.75rem] shadow-[0_20px_50px_-12px_rgba(51,150,255,0.35)] ring-2 ring-white/20 dark:ring-white/10 sm:h-64 sm:w-56 md:h-72 md:w-60">
+                    <img
+                      src={profilePic}
+                      alt="Mark Andrey Perez"
+                      className="h-full w-full rounded-[1.75rem] object-cover"
+                    />
+                    <div className="pointer-events-none absolute inset-0 rounded-[1.75rem] bg-gradient-to-t from-slate-950/30 to-transparent" />
                   </div>
                 </div>
                 <div className="mt-5 flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-4 py-1.5">
