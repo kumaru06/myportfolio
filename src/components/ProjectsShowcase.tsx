@@ -72,9 +72,10 @@ function BrowserMockup({
 
   return (
     <div className="relative w-full max-w-full overflow-hidden">
-      <div className="absolute -inset-2 rounded-[2rem] bg-gradient-to-br from-brand-500/20 via-accent-500/15 to-pink-500/10 blur-2xl sm:-inset-4" />
-
-      <div className="relative overflow-hidden rounded-2xl border border-slate-200/80 bg-slate-900 shadow-2xl dark:border-white/10">
+      <div
+        data-debug="browser-frame"
+        className="relative overflow-hidden rounded-2xl border border-slate-200/80 bg-slate-900 dark:border-white/10"
+      >
         {/* Window chrome */}
         <div className="flex items-center gap-3 border-b border-white/10 bg-slate-800/90 px-4 py-3">
           <div className="flex gap-1.5">
@@ -201,6 +202,36 @@ export default function ProjectsShowcase({ projects }: ProjectsShowcaseProps) {
     return title.split(' ').slice(0, 3).join(' ');
   };
 
+  // #region agent log
+  useEffect(() => {
+    const logShadows = () => {
+      const showcase = document.querySelector('[data-debug="showcase-card"]') as HTMLElement | null;
+      const browser = document.querySelector('[data-debug="browser-frame"]') as HTMLElement | null;
+      const activeTab = document.querySelector('[data-debug="active-tab"]') as HTMLElement | null;
+      fetch('http://127.0.0.1:7476/ingest/2ba81f30-c6f3-4d9c-8b90-916e6e2576e2', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-Debug-Session-Id': '690937' },
+        body: JSON.stringify({
+          sessionId: '690937',
+          runId: 'post-fix',
+          timestamp: Date.now(),
+          location: 'ProjectsShowcase.tsx:shadow-monitor',
+          message: 'project section shadow sample',
+          hypothesisId: 'A,B,C,D',
+          data: {
+            showcaseShadow: showcase ? getComputedStyle(showcase).boxShadow : null,
+            browserShadow: browser ? getComputedStyle(browser).boxShadow : null,
+            activeTabShadow: activeTab ? getComputedStyle(activeTab).boxShadow : null,
+          },
+        }),
+      }).catch(() => {});
+    };
+    logShadows();
+    const id = setInterval(logShadows, 1000);
+    return () => clearInterval(id);
+  }, [active]);
+  // #endregion
+
   return (
     <div
       className="relative w-full max-w-full overflow-hidden"
@@ -215,9 +246,10 @@ export default function ProjectsShowcase({ projects }: ProjectsShowcaseProps) {
               key={p.title}
               type="button"
               onClick={() => goTo(i)}
+              data-debug={i === active ? 'active-tab' : undefined}
               className={`group relative flex shrink-0 items-center gap-2.5 rounded-2xl border px-4 py-3 text-left transition-all duration-300 ${
                 i === active
-                  ? 'border-brand-500/40 bg-brand-500/10 shadow-glow dark:border-brand-500/30 dark:bg-brand-500/15'
+                  ? 'border-brand-500/40 bg-brand-500/10 dark:border-brand-500/30 dark:bg-brand-500/15'
                   : 'border-slate-200/80 bg-white/60 hover:border-slate-300 dark:border-white/8 dark:bg-slate-900/50 dark:hover:border-white/15'
               }`}
             >
@@ -270,7 +302,7 @@ export default function ProjectsShowcase({ projects }: ProjectsShowcaseProps) {
       </div>
 
       {/* Main showcase card */}
-      <div className="glass-card overflow-hidden">
+      <div data-debug="showcase-card" className="glass-card projects-showcase-flat overflow-hidden">
         <AnimatePresence mode="wait">
           <motion.div
             key={active}
