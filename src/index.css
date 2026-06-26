@@ -62,7 +62,8 @@ html.dark body {
   }
 
   .glass-card {
-    @apply rounded-3xl border backdrop-blur-xl;
+    @apply rounded border backdrop-blur-xl;
+    border-radius: 5px;
     background: var(--surface);
     border-color: var(--surface-border);
     box-shadow: 0 4px 24px -4px rgba(15, 23, 42, 0.06), inset 0 1px 0 0 rgba(255, 255, 255, 0.6);
@@ -83,7 +84,7 @@ html.dark body {
   .gradient-border {
     position: relative;
     background: var(--surface);
-    border-radius: 1.5rem;
+    border-radius: 5px;
   }
 
   .gradient-border::before {
@@ -100,7 +101,7 @@ html.dark body {
   }
 
   .btn-primary {
-    @apply relative inline-flex items-center justify-center overflow-hidden rounded-full px-6 py-3 text-sm font-semibold text-white transition-all duration-300;
+    @apply relative inline-flex items-center justify-center overflow-hidden rounded px-6 py-3 text-sm font-semibold text-white transition-all duration-300;
     background: linear-gradient(135deg, #1a75f5 0%, #7c3aed 100%);
     box-shadow: 0 4px 20px -4px rgba(26, 117, 245, 0.5);
   }
@@ -111,7 +112,7 @@ html.dark body {
   }
 
   .btn-secondary {
-    @apply inline-flex items-center justify-center rounded-full border px-6 py-3 text-sm font-semibold transition-all duration-300;
+    @apply inline-flex items-center justify-center rounded border px-6 py-3 text-sm font-semibold transition-all duration-300;
     border-color: var(--surface-border);
     background: var(--surface);
   }
@@ -152,7 +153,7 @@ html.dark body {
 
 ::-webkit-scrollbar-thumb {
   background: linear-gradient(180deg, #3396ff, #8b5cf6);
-  border-radius: 999px;
+  border-radius: 5px;
 }
 
 ::selection {

@@ -6,7 +6,7 @@ export default function Footer() {
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col items-center justify-between gap-6 sm:flex-row">
           <div className="flex items-center gap-3">
-            <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-brand-500 to-accent-600 font-display text-xs font-extrabold text-white">
+            <span className="flex h-10 w-10 items-center justify-center rounded bg-gradient-to-br from-brand-500 to-accent-600 font-display text-xs font-extrabold text-white">
               M
             </span>
             <div>
@@ -25,7 +25,7 @@ export default function Footer() {
 
           <a
             href="#about"
-            className="group flex items-center gap-2 rounded-full border border-slate-200/80 px-4 py-2 text-xs font-semibold text-slate-600 transition hover:border-brand-400 hover:text-brand-600 dark:border-white/10 dark:text-slate-400 dark:hover:border-brand-500/40 dark:hover:text-brand-400"
+            className="group flex items-center gap-2 rounded border border-slate-200/80 px-4 py-2 text-xs font-semibold text-slate-600 transition hover:border-brand-400 hover:text-brand-600 dark:border-white/10 dark:text-slate-400 dark:hover:border-brand-500/40 dark:hover:text-brand-400"
           >
             Back to top
             <svg

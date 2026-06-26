@@ -16,7 +16,7 @@ export default function SectionHeader({ number, title, subtitle }: SectionHeader
       transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
     >
       <div className="flex items-center gap-4">
-        <span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br from-brand-500/20 to-accent-500/20 font-display text-sm font-bold text-brand-600 ring-1 ring-brand-500/20 dark:text-brand-400 dark:ring-brand-500/30">
+        <span className="flex h-10 w-10 items-center justify-center rounded bg-gradient-to-br from-brand-500/20 to-accent-500/20 font-display text-sm font-bold text-brand-600 ring-1 ring-brand-500/20 dark:text-brand-400 dark:ring-brand-500/30">
           {number}
         </span>
         <div className="h-px flex-1 bg-gradient-to-r from-brand-500/40 via-accent-500/20 to-transparent" />

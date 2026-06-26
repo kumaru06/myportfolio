@@ -4,6 +4,17 @@ export default {
   darkMode: 'class',
   content: ['./index.html', './src/**/*.{ts,tsx}'],
   theme: {
+    borderRadius: {
+      none: '0',
+      sm: '5px',
+      DEFAULT: '5px',
+      md: '5px',
+      lg: '5px',
+      xl: '5px',
+      '2xl': '5px',
+      '3xl': '5px',
+      full: '9999px',
+    },
     extend: {
       fontFamily: {
         display: ['Syne', 'ui-sans-serif', 'system-ui', 'sans-serif'],

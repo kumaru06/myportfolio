@@ -85,7 +85,7 @@ export default function Navbar({ darkMode, setDarkMode }: NavbarProps) {
           href="#about"
           className="group flex min-w-0 items-center gap-2 font-display text-lg font-bold tracking-widest"
         >
-          <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-brand-500 to-accent-600 text-xs font-extrabold text-white shadow-glow transition-transform group-hover:scale-105 sm:h-9 sm:w-9">
+          <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded bg-gradient-to-br from-brand-500 to-accent-600 text-xs font-extrabold text-white shadow-glow transition-transform group-hover:scale-105 sm:h-9 sm:w-9">
             M
           </span>
           <span className="hidden text-slate-800 dark:text-white sm:inline">MAP</span>
@@ -98,7 +98,7 @@ export default function Navbar({ darkMode, setDarkMode }: NavbarProps) {
               <a
                 key={link.label}
                 href={link.href}
-                className={`relative rounded-full px-4 py-2 text-sm font-medium transition-all duration-300 ${
+                className={`relative rounded px-4 py-2 text-sm font-medium transition-all duration-300 ${
                   isActive
                     ? 'text-brand-600 dark:text-brand-400'
                     : 'text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white'
@@ -108,7 +108,7 @@ export default function Navbar({ darkMode, setDarkMode }: NavbarProps) {
                 {isActive && (
                   <motion.span
                     layoutId="nav-indicator"
-                    className="absolute inset-0 -z-10 rounded-full bg-brand-500/10 dark:bg-brand-500/15"
+                    className="absolute inset-0 -z-10 rounded bg-brand-500/10 dark:bg-brand-500/15"
                     transition={{ type: 'spring', stiffness: 380, damping: 30 }}
                   />
                 )}
@@ -122,7 +122,7 @@ export default function Navbar({ darkMode, setDarkMode }: NavbarProps) {
             type="button"
             onClick={() => setDarkMode(!darkMode)}
             aria-label={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
-            className="group flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200/80 bg-brand-500/10 ring-1 ring-brand-500/20 transition-all hover:border-brand-300 hover:bg-brand-500/15 hover:shadow-glow active:scale-95 dark:border-white/10 dark:bg-brand-500/15 dark:ring-brand-500/30 dark:hover:border-brand-500/40 sm:h-10 sm:w-10"
+            className="group flex h-9 w-9 items-center justify-center rounded border border-slate-200/80 bg-brand-500/10 ring-1 ring-brand-500/20 transition-all hover:border-brand-300 hover:bg-brand-500/15 hover:shadow-glow active:scale-95 dark:border-white/10 dark:bg-brand-500/15 dark:ring-brand-500/30 dark:hover:border-brand-500/40 sm:h-10 sm:w-10"
           >
             <motion.span
               key={darkMode ? 'dark' : 'light'}
@@ -139,7 +139,7 @@ export default function Navbar({ darkMode, setDarkMode }: NavbarProps) {
             type="button"
             onClick={() => setMenuOpen((prev) => !prev)}
             aria-label="Toggle menu"
-            className="flex h-9 w-9 flex-col items-center justify-center gap-1.5 rounded-xl border border-slate-200/80 bg-white/80 backdrop-blur-sm transition hover:border-brand-300 active:scale-95 dark:border-white/10 dark:bg-slate-900/80 sm:h-10 sm:w-10 md:hidden"
+            className="flex h-9 w-9 flex-col items-center justify-center gap-1.5 rounded border border-slate-200/80 bg-white/80 backdrop-blur-sm transition hover:border-brand-300 active:scale-95 dark:border-white/10 dark:bg-slate-900/80 sm:h-10 sm:w-10 md:hidden"
           >
             <span
               className={`block h-0.5 w-5 rounded-full bg-slate-700 transition-all duration-300 dark:bg-slate-200 ${menuOpen ? 'translate-y-2 rotate-45' : ''}`}
@@ -175,7 +175,7 @@ export default function Navbar({ darkMode, setDarkMode }: NavbarProps) {
                   <a
                     href={link.href}
                     onClick={closeMenu}
-                    className="block rounded-xl px-3 py-3 text-sm font-medium text-slate-700 transition hover:bg-brand-50 hover:text-brand-600 dark:text-slate-300 dark:hover:bg-brand-500/10 dark:hover:text-brand-400"
+                    className="block rounded px-3 py-3 text-sm font-medium text-slate-700 transition hover:bg-brand-50 hover:text-brand-600 dark:text-slate-300 dark:hover:bg-brand-500/10 dark:hover:text-brand-400"
                   >
                     {link.label}
                   </a>

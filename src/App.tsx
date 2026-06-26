@@ -237,16 +237,16 @@ function App() {
               {/* Profile */}
               <motion.div variants={heroItem} className="flex w-full max-w-full flex-col items-center overflow-x-hidden overflow-y-visible lg:items-center">
                 <div className="relative animate-float pt-3">
-                  <div className="relative h-56 w-48 overflow-hidden rounded-[1.75rem] shadow-[0_20px_50px_-12px_rgba(51,150,255,0.35)] ring-2 ring-white/20 dark:ring-white/10 sm:h-64 sm:w-56 md:h-72 md:w-60">
+                  <div className="relative h-56 w-48 overflow-hidden rounded shadow-[0_20px_50px_-12px_rgba(51,150,255,0.35)] ring-2 ring-white/20 dark:ring-white/10 sm:h-64 sm:w-56 md:h-72 md:w-60">
                     <img
                       src={profilePic}
                       alt="Mark Andrey Perez"
-                      className="h-full w-full rounded-[1.75rem] object-cover"
+                      className="h-full w-full rounded object-cover"
                     />
-                    <div className="pointer-events-none absolute inset-0 rounded-[1.75rem] bg-gradient-to-t from-slate-950/30 to-transparent" />
+                    <div className="pointer-events-none absolute inset-0 rounded bg-gradient-to-t from-slate-950/30 to-transparent" />
                   </div>
                 </div>
-                <div className="mt-5 flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-4 py-1.5">
+                <div className="mt-5 flex items-center gap-2 rounded border border-emerald-500/30 bg-emerald-500/10 px-4 py-1.5">
                   <span className="relative flex h-2 w-2">
                     <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
                     <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
@@ -258,7 +258,7 @@ function App() {
                   target="_blank"
                   rel="noopener noreferrer"
                   download="Mark-Andrey-Perez-Resume.pdf"
-                  className="mt-4 inline-flex w-full max-w-xs items-center justify-center gap-2 rounded-2xl border border-slate-200/80 bg-white/70 px-5 py-3 text-sm font-semibold text-slate-700 transition-all duration-300 hover:-translate-y-0.5 hover:border-brand-400/50 hover:text-brand-600 hover:shadow-glow active:scale-[0.98] dark:border-white/10 dark:bg-slate-800/60 dark:text-slate-200 dark:hover:border-brand-500/40 dark:hover:text-brand-400 sm:max-w-none"
+                  className="mt-4 inline-flex w-full max-w-xs items-center justify-center gap-2 rounded border border-slate-200/80 bg-white/70 px-5 py-3 text-sm font-semibold text-slate-700 transition-all duration-300 hover:-translate-y-0.5 hover:border-brand-400/50 hover:text-brand-600 hover:shadow-glow active:scale-[0.98] dark:border-white/10 dark:bg-slate-800/60 dark:text-slate-200 dark:hover:border-brand-500/40 dark:hover:text-brand-400 sm:max-w-none"
                 >
                   <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -358,7 +358,7 @@ function App() {
                 {['React & TypeScript', 'PHP & Node.js', 'AI-Augmented Dev', 'System Design'].map((tag) => (
                   <div
                     key={tag}
-                    className="flex items-center gap-3 rounded-2xl border border-slate-200/60 bg-white/50 px-4 py-3 dark:border-white/8 dark:bg-slate-800/40"
+                    className="flex items-center gap-3 rounded border border-slate-200/60 bg-white/50 px-4 py-3 dark:border-white/8 dark:bg-slate-800/40"
                   >
                     <span className="h-2 w-2 rounded-full bg-gradient-to-r from-brand-500 to-accent-500" />
                     <span className="text-sm font-semibold text-slate-700 dark:text-slate-300">{tag}</span>
@@ -394,7 +394,7 @@ function App() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: gi * 0.1 }}
               >
-                <div className={`mb-6 inline-flex items-center gap-2 rounded-full bg-gradient-to-r ${skillGroupColors[group]} px-4 py-1.5`}>
+                <div className={`mb-6 inline-flex items-center gap-2 rounded bg-gradient-to-r ${skillGroupColors[group]} px-4 py-1.5`}>
                   <span className="font-display text-sm font-bold text-slate-800 dark:text-white">{group}</span>
                 </div>
                 <div className="space-y-5">
@@ -527,9 +527,9 @@ function App() {
                       key={link.label}
                       href={link.href}
                       {...(link.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-                      className="group flex items-center gap-4 rounded-2xl border border-slate-200/60 bg-white/50 p-4 transition-all duration-300 hover:-translate-y-0.5 hover:border-brand-400/50 hover:shadow-glow dark:border-white/8 dark:bg-slate-800/40 dark:hover:border-brand-500/30"
+                      className="group flex items-center gap-4 rounded border border-slate-200/60 bg-white/50 p-4 transition-all duration-300 hover:-translate-y-0.5 hover:border-brand-400/50 hover:shadow-glow dark:border-white/8 dark:bg-slate-800/40 dark:hover:border-brand-500/30"
                     >
-                      <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-brand-500/15 to-accent-500/15 ring-1 ring-brand-500/20 transition group-hover:from-brand-500/25 group-hover:to-accent-500/25">
+                      <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded bg-gradient-to-br from-brand-500/15 to-accent-500/15 ring-1 ring-brand-500/20 transition group-hover:from-brand-500/25 group-hover:to-accent-500/25">
                         <img src={link.icon} alt={link.label} className="h-5 w-5" />
                       </div>
                       <div>

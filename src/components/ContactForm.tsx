@@ -50,7 +50,7 @@ export default function ContactForm() {
   };
 
   const inputClass =
-    'w-full rounded-2xl border border-slate-200/80 bg-white/60 px-4 py-3.5 text-slate-900 outline-none transition-all duration-300 placeholder:text-slate-400 focus:border-brand-500 focus:bg-white focus:ring-4 focus:ring-brand-500/10 dark:border-white/10 dark:bg-slate-900/60 dark:text-slate-100 dark:focus:border-brand-400 dark:focus:bg-slate-900 dark:focus:ring-brand-500/20';
+    'w-full rounded border border-slate-200/80 bg-white/60 px-4 py-3.5 text-slate-900 outline-none transition-all duration-300 placeholder:text-slate-400 focus:border-brand-500 focus:bg-white focus:ring-4 focus:ring-brand-500/10 dark:border-white/10 dark:bg-slate-900/60 dark:text-slate-100 dark:focus:border-brand-400 dark:focus:bg-slate-900 dark:focus:ring-brand-500/20';
 
   return (
     <motion.form
@@ -113,7 +113,7 @@ export default function ContactForm() {
           <motion.div
             initial={{ opacity: 0, y: -8 }}
             animate={{ opacity: 1, y: 0 }}
-            className={`rounded-2xl p-4 text-sm font-medium ${
+            className={`rounded p-4 text-sm font-medium ${
               status === 'success'
                 ? 'border border-emerald-300/60 bg-emerald-50 text-emerald-800 dark:border-emerald-700/40 dark:bg-emerald-900/20 dark:text-emerald-200'
                 : 'border border-red-300/60 bg-red-50 text-red-800 dark:border-red-700/40 dark:bg-red-900/20 dark:text-red-200'
