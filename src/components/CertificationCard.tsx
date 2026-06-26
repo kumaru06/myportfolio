@@ -1,5 +1,4 @@
 import { motion } from 'framer-motion';
-import { useRef } from 'react';
 
 interface CertificationCardProps {
   title: string;
@@ -9,40 +8,8 @@ interface CertificationCardProps {
 }
 
 export default function CertificationCard({ title, issuer, pdfUrl, description }: CertificationCardProps) {
-  const cardRef = useRef<HTMLDivElement>(null);
-
-  const logTapState = (source: string) => {
-    const card = cardRef.current;
-    const glow = card?.querySelector('[data-debug="cert-glow"]') as HTMLElement | null;
-    if (!card) return;
-    const cardStyle = getComputedStyle(card);
-    fetch('http://127.0.0.1:7476/ingest/2ba81f30-c6f3-4d9c-8b90-916e6e2576e2', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'X-Debug-Session-Id': '690937' },
-      body: JSON.stringify({
-        sessionId: '690937',
-        runId: 'post-fix',
-        timestamp: Date.now(),
-        location: 'CertificationCard.tsx:tap',
-        message: 'cert card tap state',
-        hypothesisId: 'A,B',
-        data: {
-          source,
-          glowExists: Boolean(glow),
-          glowOpacity: glow ? getComputedStyle(glow).opacity : null,
-          cardBoxShadow: cardStyle.boxShadow,
-          cardTransform: cardStyle.transform,
-        },
-      }),
-    }).catch(() => {});
-  };
-
   return (
     <motion.div
-      ref={cardRef}
-      data-debug="cert-card"
-      onTouchStart={() => logTapState('touchstart')}
-      onClick={() => logTapState('click')}
       className="group relative flex flex-col overflow-hidden rounded-3xl border border-slate-200/80 bg-white/70 p-6 backdrop-blur-xl transition-all duration-500 [-webkit-tap-highlight-color:transparent] [@media(hover:hover)]:hover:-translate-y-1 [@media(hover:hover)]:hover:border-brand-300/50 [@media(hover:hover)]:hover:shadow-glow dark:border-white/8 dark:bg-slate-900/60 dark:[@media(hover:hover)]:hover:border-brand-500/30"
       whileHover={{ transition: { duration: 0.3 } }}
     >
