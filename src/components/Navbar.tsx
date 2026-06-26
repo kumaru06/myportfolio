@@ -15,9 +15,9 @@ const links = [
   { label: 'Contact', href: '#contact' },
 ];
 
-function MoonIcon() {
+function MoonIcon({ className = 'h-5 w-5' }: { className?: string }) {
   return (
-    <svg className="h-5 w-5 text-brand-600 dark:text-brand-400" viewBox="0 0 24 24" fill="none" aria-hidden>
+    <svg className={`${className} text-brand-600 dark:text-brand-400`} viewBox="0 0 24 24" fill="none" aria-hidden>
       <path
         d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5 7 7 0 1 0 20.5 14.5Z"
         stroke="currentColor"
@@ -29,9 +29,9 @@ function MoonIcon() {
   );
 }
 
-function SunIcon() {
+function SunIcon({ className = 'h-5 w-5' }: { className?: string }) {
   return (
-    <svg className="h-5 w-5 text-brand-600 dark:text-brand-400" viewBox="0 0 24 24" fill="none" aria-hidden>
+    <svg className={`${className} text-brand-600 dark:text-brand-400`} viewBox="0 0 24 24" fill="none" aria-hidden>
       <circle cx="12" cy="12" r="4" stroke="currentColor" strokeWidth="1.5" />
       <path
         d="M12 3v2M12 19v2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M3 12h2M19 12h2M5.6 18.4l1.4-1.4M17 7l1.4-1.4"
@@ -80,12 +80,12 @@ export default function Navbar({ darkMode, setDarkMode }: NavbarProps) {
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
     >
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
+      <div className="mx-auto flex max-w-6xl items-center justify-between px-3 py-3 sm:px-6 sm:py-4 lg:px-8">
         <a
           href="#about"
-          className="group flex items-center gap-2 font-display text-lg font-bold tracking-widest"
+          className="group flex min-w-0 items-center gap-2 font-display text-lg font-bold tracking-widest"
         >
-          <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-brand-500 to-accent-600 text-xs font-extrabold text-white shadow-glow transition-transform group-hover:scale-105">
+          <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-brand-500 to-accent-600 text-xs font-extrabold text-white shadow-glow transition-transform group-hover:scale-105 sm:h-9 sm:w-9">
             M
           </span>
           <span className="hidden text-slate-800 dark:text-white sm:inline">MAP</span>
@@ -117,12 +117,12 @@ export default function Navbar({ darkMode, setDarkMode }: NavbarProps) {
           })}
         </nav>
 
-        <div className="flex items-center gap-2">
+        <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">
           <button
             type="button"
             onClick={() => setDarkMode(!darkMode)}
             aria-label={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
-            className="group flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200/80 bg-brand-500/10 ring-1 ring-brand-500/20 transition-all hover:border-brand-300 hover:bg-brand-500/15 hover:shadow-glow dark:border-white/10 dark:bg-brand-500/15 dark:ring-brand-500/30 dark:hover:border-brand-500/40"
+            className="group flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200/80 bg-brand-500/10 ring-1 ring-brand-500/20 transition-all hover:border-brand-300 hover:bg-brand-500/15 hover:shadow-glow active:scale-95 dark:border-white/10 dark:bg-brand-500/15 dark:ring-brand-500/30 dark:hover:border-brand-500/40 sm:h-10 sm:w-10"
           >
             <motion.span
               key={darkMode ? 'dark' : 'light'}
@@ -131,7 +131,7 @@ export default function Navbar({ darkMode, setDarkMode }: NavbarProps) {
               transition={{ duration: 0.3 }}
               className="flex items-center justify-center"
             >
-              {darkMode ? <SunIcon /> : <MoonIcon />}
+              {darkMode ? <SunIcon className="h-4 w-4 sm:h-5 sm:w-5" /> : <MoonIcon className="h-4 w-4 sm:h-5 sm:w-5" />}
             </motion.span>
           </button>
 
@@ -139,7 +139,7 @@ export default function Navbar({ darkMode, setDarkMode }: NavbarProps) {
             type="button"
             onClick={() => setMenuOpen((prev) => !prev)}
             aria-label="Toggle menu"
-            className="flex h-10 w-10 flex-col items-center justify-center gap-1.5 rounded-full border border-slate-200/80 bg-white/80 backdrop-blur-sm transition hover:border-brand-300 dark:border-white/10 dark:bg-slate-900/80 md:hidden"
+            className="flex h-9 w-9 flex-col items-center justify-center gap-1.5 rounded-xl border border-slate-200/80 bg-white/80 backdrop-blur-sm transition hover:border-brand-300 active:scale-95 dark:border-white/10 dark:bg-slate-900/80 sm:h-10 sm:w-10 md:hidden"
           >
             <span
               className={`block h-0.5 w-5 rounded-full bg-slate-700 transition-all duration-300 dark:bg-slate-200 ${menuOpen ? 'translate-y-2 rotate-45' : ''}`}

@@ -222,23 +222,23 @@ function App() {
 
       <Navbar darkMode={darkMode} setDarkMode={setDarkMode} />
 
-      <main className="relative mx-auto max-w-6xl px-4 pb-20 pt-28 sm:px-6 lg:px-8">
+      <main className="relative mx-auto max-w-6xl px-3 pb-16 pt-24 sm:px-6 sm:pb-20 sm:pt-28 lg:px-8">
         {/* ── HERO ── */}
         <section className="relative">
           <motion.div
-            className="glass-card gradient-border overflow-hidden p-8 sm:p-12 lg:p-14"
+            className="glass-card gradient-border overflow-hidden p-5 sm:p-8 md:p-12 lg:p-14"
             initial="hidden"
             animate="visible"
             variants={heroStagger}
           >
             <div className="absolute inset-0 bg-hero-gradient opacity-60" />
 
-            <div className="relative grid gap-12 lg:grid-cols-[300px_1fr] lg:gap-16">
+            <div className="relative grid gap-8 sm:gap-10 lg:grid-cols-[300px_1fr] lg:gap-16">
               {/* Profile */}
-              <motion.div variants={heroItem} className="flex flex-col items-center">
+              <motion.div variants={heroItem} className="flex w-full flex-col items-center lg:items-center">
                 <div className="relative animate-float">
                   <div className="absolute -inset-3 rounded-[2rem] bg-gradient-to-br from-brand-500 via-accent-500 to-pink-500 opacity-60 blur-xl" />
-                  <div className="relative h-72 w-60 overflow-hidden rounded-[1.75rem] ring-2 ring-white/20 shadow-2xl dark:ring-white/10">
+                  <div className="relative h-56 w-48 overflow-hidden rounded-[1.75rem] ring-2 ring-white/20 shadow-2xl dark:ring-white/10 sm:h-64 sm:w-56 md:h-72 md:w-60">
                     <img src={profilePic} alt="Mark Andrey Perez" className="h-full w-full object-cover" />
                     <div className="absolute inset-0 bg-gradient-to-t from-slate-950/30 to-transparent" />
                   </div>
@@ -255,7 +255,7 @@ function App() {
                   target="_blank"
                   rel="noopener noreferrer"
                   download="Mark-Andrey-Perez-Resume.pdf"
-                  className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-2xl border border-slate-200/80 bg-white/70 px-5 py-3 text-sm font-semibold text-slate-700 transition-all duration-300 hover:-translate-y-0.5 hover:border-brand-400/50 hover:text-brand-600 hover:shadow-glow dark:border-white/10 dark:bg-slate-800/60 dark:text-slate-200 dark:hover:border-brand-500/40 dark:hover:text-brand-400"
+                  className="mt-4 inline-flex w-full max-w-xs items-center justify-center gap-2 rounded-2xl border border-slate-200/80 bg-white/70 px-5 py-3 text-sm font-semibold text-slate-700 transition-all duration-300 hover:-translate-y-0.5 hover:border-brand-400/50 hover:text-brand-600 hover:shadow-glow active:scale-[0.98] dark:border-white/10 dark:bg-slate-800/60 dark:text-slate-200 dark:hover:border-brand-500/40 dark:hover:text-brand-400 sm:max-w-none"
                 >
                   <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -265,54 +265,54 @@ function App() {
               </motion.div>
 
               {/* Intro */}
-              <div className="flex flex-col justify-center">
-                <motion.p variants={heroItem} className="section-label mb-4">
+              <div className="flex flex-col justify-center text-center sm:text-left">
+                <motion.p variants={heroItem} className="section-label mb-3 sm:mb-4">
                   Hello, I'm
                 </motion.p>
                 <motion.h1
                   variants={heroItem}
-                  className="font-display text-5xl font-extrabold leading-[1.05] tracking-tight sm:text-6xl lg:text-7xl"
+                  className="font-display text-4xl font-extrabold leading-[1.08] tracking-tight sm:text-5xl md:text-6xl lg:text-7xl"
                 >
-                  Mark Andrey{' '}
-                  <span className="inline-flex items-center gap-2 sm:gap-2.5">
+                  <span className="block sm:inline">Mark Andrey</span>
+                  <span className="mt-0.5 inline-flex items-center gap-1.5 whitespace-nowrap sm:mt-0 sm:gap-2 sm:pl-2 md:gap-2.5">
                     <span className="text-gradient leading-none">Perez</span>
                     <img
                       src={verifiedLogo}
                       alt="Verified"
-                      className="h-[0.48em] w-[0.48em] min-h-5 min-w-5 max-h-8 max-w-8 shrink-0 translate-y-[0.06em] object-contain"
+                      className="h-[0.5em] w-[0.5em] min-h-[18px] min-w-[18px] max-h-6 max-w-6 shrink-0 translate-y-[0.05em] object-contain sm:max-h-7 sm:max-w-7 sm:translate-y-[0.06em] lg:max-h-8 lg:max-w-8"
                     />
                   </span>
                 </motion.h1>
                 <motion.p
                   variants={heroItem}
-                  className="mt-4 text-xl font-medium text-slate-600 dark:text-slate-300 sm:text-2xl"
+                  className="mt-3 text-lg font-medium text-slate-600 dark:text-slate-300 sm:mt-4 sm:text-xl md:text-2xl"
                 >
-                  AI-Augmented{' '}
-                  <span className="text-slate-400 dark:text-slate-500">|</span>{' '}
-                  Full-stack Developer
+                  <span className="block sm:inline">AI-Augmented</span>{' '}
+                  <span className="hidden text-slate-400 sm:inline dark:text-slate-500">|</span>{' '}
+                  <span className="block sm:inline">Full-stack Developer</span>
                 </motion.p>
                 <motion.p
                   variants={heroItem}
-                  className="mt-6 max-w-xl text-base leading-8 text-slate-600 dark:text-slate-400"
+                  className="mx-auto mt-4 max-w-xl text-sm leading-7 text-slate-600 dark:text-slate-400 sm:mx-0 sm:mt-6 sm:text-base sm:leading-8"
                 >
                   Aspiring Full-Stack AI-Augmented Developer building scalable, intelligent, and user-friendly applications that make a real impact.
                 </motion.p>
 
-                <motion.div variants={heroItem} className="mt-8 flex flex-col gap-3 sm:flex-row">
-                  <a href="#projects" className="btn-primary">
+                <motion.div variants={heroItem} className="mt-6 flex flex-col gap-3 sm:mt-8 sm:flex-row">
+                  <a href="#projects" className="btn-primary w-full justify-center sm:w-auto">
                     View Projects
                   </a>
-                  <a href="#contact" className="btn-secondary text-slate-800 dark:text-slate-100">
+                  <a href="#contact" className="btn-secondary w-full justify-center text-slate-800 dark:text-slate-100 sm:w-auto">
                     Contact Me
                   </a>
                 </motion.div>
 
                 {/* Stats */}
-                <motion.div variants={heroItem} className="mt-10 grid grid-cols-3 gap-4 border-t border-slate-200/60 pt-8 dark:border-white/8">
+                <motion.div variants={heroItem} className="mt-8 grid grid-cols-3 gap-2 border-t border-slate-200/60 pt-6 sm:mt-10 sm:gap-4 sm:pt-8 dark:border-white/8">
                   {stats.map((stat) => (
-                    <div key={stat.label}>
-                      <p className="font-display text-3xl font-bold text-gradient">{stat.value}</p>
-                      <p className="mt-1 text-xs font-medium uppercase tracking-wider text-slate-500 dark:text-slate-400">
+                    <div key={stat.label} className="min-w-0">
+                      <p className="font-display text-2xl font-bold text-gradient sm:text-3xl">{stat.value}</p>
+                      <p className="mt-0.5 text-[10px] font-medium uppercase leading-tight tracking-wide text-slate-500 dark:text-slate-400 sm:mt-1 sm:text-xs sm:tracking-wider">
                         {stat.label}
                       </p>
                     </div>
