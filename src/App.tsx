@@ -209,7 +209,7 @@ function App() {
   ];
 
   return (
-    <div className="min-h-screen font-sans text-slate-950 dark:text-slate-100">
+    <div className="min-h-screen w-full max-w-[100vw] overflow-x-hidden font-sans text-slate-950 dark:text-slate-100">
       <BackgroundEffects />
 
       {/* Scroll progress */}
@@ -222,7 +222,7 @@ function App() {
 
       <Navbar darkMode={darkMode} setDarkMode={setDarkMode} />
 
-      <main className="relative mx-auto max-w-6xl px-3 pb-16 pt-24 sm:px-6 sm:pb-20 sm:pt-28 lg:px-8">
+      <main className="relative mx-auto w-full max-w-6xl overflow-x-hidden px-3 pb-16 pt-24 sm:px-6 sm:pb-20 sm:pt-28 lg:px-8">
         {/* ── HERO ── */}
         <section className="relative">
           <motion.div
@@ -235,9 +235,9 @@ function App() {
 
             <div className="relative grid gap-8 sm:gap-10 lg:grid-cols-[300px_1fr] lg:gap-16">
               {/* Profile */}
-              <motion.div variants={heroItem} className="flex w-full flex-col items-center lg:items-center">
-                <div className="relative animate-float">
-                  <div className="absolute -inset-3 rounded-[2rem] bg-gradient-to-br from-brand-500 via-accent-500 to-pink-500 opacity-60 blur-xl" />
+              <motion.div variants={heroItem} className="flex w-full max-w-full flex-col items-center overflow-hidden lg:items-center">
+                <div className="relative animate-float overflow-hidden">
+                  <div className="absolute -inset-2 rounded-[2rem] bg-gradient-to-br from-brand-500 via-accent-500 to-pink-500 opacity-60 blur-xl sm:-inset-3" />
                   <div className="relative h-56 w-48 overflow-hidden rounded-[1.75rem] ring-2 ring-white/20 shadow-2xl dark:ring-white/10 sm:h-64 sm:w-56 md:h-72 md:w-60">
                     <img src={profilePic} alt="Mark Andrey Perez" className="h-full w-full object-cover" />
                     <div className="absolute inset-0 bg-gradient-to-t from-slate-950/30 to-transparent" />
@@ -265,7 +265,7 @@ function App() {
               </motion.div>
 
               {/* Intro */}
-              <div className="flex flex-col justify-center text-center sm:text-left">
+              <div className="flex min-w-0 flex-col justify-center overflow-hidden text-center sm:text-left">
                 <motion.p variants={heroItem} className="section-label mb-3 sm:mb-4">
                   Hello, I'm
                 </motion.p>
@@ -338,7 +338,7 @@ function App() {
             title="About Me"
             subtitle="Passionate about building intelligent software that solves real problems."
           />
-          <div className="glass-card p-8 sm:p-10">
+          <div className="glass-card w-full overflow-hidden p-6 sm:p-8 md:p-10">
             <div className="grid gap-8 lg:grid-cols-[1fr_280px]">
               <div className="space-y-5 text-justify leading-8 text-slate-600 dark:text-slate-400">
                 <p>
@@ -480,7 +480,7 @@ function App() {
                   transition={{ duration: 0.6, delay: i * 0.1 }}
                 >
                   <div className="absolute left-4 top-6 hidden h-4 w-4 rounded-full border-2 border-brand-500 bg-white shadow-glow sm:block dark:bg-slate-950" />
-                  <div className="glass-card p-6 sm:p-7">
+                  <div className="glass-card w-full overflow-hidden p-6 sm:p-7">
                     <h3 className="font-display text-xl font-bold text-slate-950 dark:text-white">{item.title}</h3>
                     <p className="mt-3 text-sm leading-7 text-justify text-slate-600 dark:text-slate-400">
                       {item.description}
@@ -508,7 +508,7 @@ function App() {
             subtitle="Have a project in mind? Let's talk."
           />
           <div className="grid gap-8 lg:grid-cols-[1fr_380px]">
-            <div className="glass-card p-8 sm:p-10">
+            <div className="glass-card w-full overflow-hidden p-6 sm:p-8 md:p-10">
               <h3 className="font-display text-2xl font-bold text-slate-950 dark:text-white">
                 Let's build something{' '}
                 <span className="text-gradient">effective</span> together.

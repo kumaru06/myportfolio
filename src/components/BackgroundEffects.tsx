@@ -2,23 +2,23 @@ import { motion } from 'framer-motion';
 
 export default function BackgroundEffects() {
   return (
-    <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden" aria-hidden>
+    <div className="pointer-events-none fixed inset-0 -z-10 w-full overflow-hidden" aria-hidden>
       <div className="absolute inset-0 bg-mesh-light dark:bg-mesh-dark" />
       <div className="noise-overlay absolute inset-0 opacity-50" />
 
       <motion.div
-        className="absolute -left-32 top-20 h-[480px] w-[480px] rounded-full bg-brand-400/20 blur-[100px] dark:bg-brand-500/15"
-        animate={{ x: [0, 40, 0], y: [0, 30, 0] }}
+        className="absolute -left-16 top-20 h-64 w-64 rounded-full bg-brand-400/20 blur-[80px] sm:-left-32 sm:h-[480px] sm:w-[480px] sm:blur-[100px] dark:bg-brand-500/15"
+        animate={{ x: [0, 20, 0], y: [0, 15, 0] }}
         transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut' }}
       />
       <motion.div
-        className="absolute -right-24 top-1/3 h-[400px] w-[400px] rounded-full bg-accent-500/20 blur-[100px] dark:bg-accent-500/15"
-        animate={{ x: [0, -30, 0], y: [0, -40, 0] }}
+        className="absolute -right-12 top-1/3 h-56 w-56 rounded-full bg-accent-500/20 blur-[80px] sm:-right-24 sm:h-[400px] sm:w-[400px] sm:blur-[100px] dark:bg-accent-500/15"
+        animate={{ x: [0, -15, 0], y: [0, -20, 0] }}
         transition={{ duration: 14, repeat: Infinity, ease: 'easeInOut' }}
       />
       <motion.div
-        className="absolute bottom-0 left-1/3 h-[350px] w-[350px] rounded-full bg-pink-400/15 blur-[90px] dark:bg-pink-500/10"
-        animate={{ x: [0, 25, 0], y: [0, -20, 0] }}
+        className="absolute bottom-0 left-1/4 h-48 w-48 rounded-full bg-pink-400/15 blur-[70px] sm:left-1/3 sm:h-[350px] sm:w-[350px] sm:blur-[90px] dark:bg-pink-500/10"
+        animate={{ x: [0, 12, 0], y: [0, -10, 0] }}
         transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
       />
 

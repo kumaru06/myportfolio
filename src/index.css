@@ -16,6 +16,8 @@
 
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
+  max-width: 100%;
 }
 
 html.dark {
@@ -30,8 +32,12 @@ html.dark {
 
 body {
   min-height: 100vh;
+  width: 100%;
+  max-width: 100%;
   background: #f4f7fb;
   overflow-x: hidden;
+  overscroll-behavior-x: none;
+  touch-action: pan-y;
 }
 
 html.dark body {
@@ -44,6 +50,9 @@ html.dark body {
 
 #root {
   min-height: 100vh;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 @layer utilities {
@@ -106,7 +115,7 @@ html.dark body {
   }
 
   .section-label {
-    @apply font-display text-xs font-semibold uppercase tracking-[0.35em] text-brand-500 dark:text-brand-400;
+    @apply font-display text-xs font-semibold uppercase tracking-[0.2em] text-brand-500 sm:tracking-[0.35em] dark:text-brand-400;
   }
 
   .noise-overlay {

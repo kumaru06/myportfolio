@@ -71,8 +71,8 @@ function BrowserMockup({
     : 'localhost:3000';
 
   return (
-    <div className="relative w-full">
-      <div className="absolute -inset-4 rounded-[2rem] bg-gradient-to-br from-brand-500/20 via-accent-500/15 to-pink-500/10 blur-2xl" />
+    <div className="relative w-full max-w-full overflow-hidden">
+      <div className="absolute -inset-2 rounded-[2rem] bg-gradient-to-br from-brand-500/20 via-accent-500/15 to-pink-500/10 blur-2xl sm:-inset-4" />
 
       <div className="relative overflow-hidden rounded-2xl border border-slate-200/80 bg-slate-900 shadow-2xl dark:border-white/10">
         {/* Window chrome */}
@@ -203,13 +203,13 @@ export default function ProjectsShowcase({ projects }: ProjectsShowcaseProps) {
 
   return (
     <div
-      className="relative"
+      className="relative w-full max-w-full overflow-hidden"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
       {/* Project tabs */}
-      <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-none">
+      <div className="mb-6 flex w-full max-w-full flex-col gap-4 overflow-hidden sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex w-full max-w-full gap-2 overflow-x-auto pb-1 scrollbar-none">
           {projects.map((p, i) => (
             <button
               key={p.title}

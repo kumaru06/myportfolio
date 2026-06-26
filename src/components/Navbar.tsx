@@ -71,7 +71,7 @@ export default function Navbar({ darkMode, setDarkMode }: NavbarProps) {
 
   return (
     <motion.header
-      className={`fixed inset-x-0 top-0 z-40 transition-all duration-500 ${
+      className={`fixed inset-x-0 top-0 z-40 w-full max-w-[100vw] overflow-hidden transition-all duration-500 ${
         scrolled
           ? 'border-b border-slate-200/60 bg-white/70 shadow-sm backdrop-blur-2xl dark:border-white/5 dark:bg-slate-950/70'
           : 'bg-transparent'
