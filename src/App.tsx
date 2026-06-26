@@ -203,9 +203,9 @@ function App() {
 
   const socialLinks = [
     { href: 'mailto:markandreyperez@gmail.com', icon: emailIcon, label: 'Email', display: 'markandreyperez@gmail.com', external: false },
-    { href: 'https://github.com/kumaru06', icon: githubIcon, label: 'GitHub', display: 'Kuramu Doreyan', external: true },
+    { href: 'https://github.com/kumaru06', icon: githubIcon, label: 'GitHub', display: 'Mark Perez', external: true },
     { href: 'https://www.linkedin.com/in/mark-perez-5a5346404/', icon: linkedinIcon, label: 'LinkedIn', display: 'Mark Perez', external: true },
-    { href: 'https://web.facebook.com/errantknight01/', icon: facebookIcon, label: 'Facebook', display: 'Setsuna Kram', external: true },
+    { href: 'https://web.facebook.com/errantknight01/', icon: facebookIcon, label: 'Facebook', display: 'Mark Andrey Perez', external: true },
   ];
 
   return (
