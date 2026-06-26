@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { useRef } from 'react';
 
 interface CertificationCardProps {
   title: string;
@@ -8,13 +9,43 @@ interface CertificationCardProps {
 }
 
 export default function CertificationCard({ title, issuer, pdfUrl, description }: CertificationCardProps) {
+  const cardRef = useRef<HTMLDivElement>(null);
+
+  const logTapState = (source: string) => {
+    const card = cardRef.current;
+    const glow = card?.querySelector('[data-debug="cert-glow"]') as HTMLElement | null;
+    if (!card) return;
+    const cardStyle = getComputedStyle(card);
+    fetch('http://127.0.0.1:7476/ingest/2ba81f30-c6f3-4d9c-8b90-916e6e2576e2', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-Debug-Session-Id': '690937' },
+      body: JSON.stringify({
+        sessionId: '690937',
+        runId: 'post-fix',
+        timestamp: Date.now(),
+        location: 'CertificationCard.tsx:tap',
+        message: 'cert card tap state',
+        hypothesisId: 'A,B',
+        data: {
+          source,
+          glowExists: Boolean(glow),
+          glowOpacity: glow ? getComputedStyle(glow).opacity : null,
+          cardBoxShadow: cardStyle.boxShadow,
+          cardTransform: cardStyle.transform,
+        },
+      }),
+    }).catch(() => {});
+  };
+
   return (
     <motion.div
-      className="group relative flex flex-col overflow-hidden rounded-3xl border border-slate-200/80 bg-white/70 p-6 backdrop-blur-xl transition-all duration-500 hover:-translate-y-1 hover:border-brand-300/50 hover:shadow-glow dark:border-white/8 dark:bg-slate-900/60 dark:hover:border-brand-500/30"
+      ref={cardRef}
+      data-debug="cert-card"
+      onTouchStart={() => logTapState('touchstart')}
+      onClick={() => logTapState('click')}
+      className="group relative flex flex-col overflow-hidden rounded-3xl border border-slate-200/80 bg-white/70 p-6 backdrop-blur-xl transition-all duration-500 [-webkit-tap-highlight-color:transparent] [@media(hover:hover)]:hover:-translate-y-1 [@media(hover:hover)]:hover:border-brand-300/50 [@media(hover:hover)]:hover:shadow-glow dark:border-white/8 dark:bg-slate-900/60 dark:[@media(hover:hover)]:hover:border-brand-500/30"
       whileHover={{ transition: { duration: 0.3 } }}
     >
-      <div className="absolute -right-8 -top-8 h-32 w-32 rounded-full bg-gradient-to-br from-brand-500/10 to-accent-500/10 blur-2xl transition-opacity group-hover:opacity-100 opacity-0" />
-
       <div className="relative flex-1">
         <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-brand-500/15 to-accent-500/15 ring-1 ring-brand-500/20">
           <svg className="h-6 w-6 text-brand-600 dark:text-brand-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
@@ -40,7 +71,7 @@ export default function CertificationCard({ title, issuer, pdfUrl, description }
             href={pdfUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 rounded-full border border-slate-200/80 bg-white/80 px-4 py-2 text-xs font-semibold text-slate-700 transition hover:border-brand-400 hover:text-brand-600 dark:border-white/10 dark:bg-slate-800/80 dark:text-slate-300 dark:hover:border-brand-500/40 dark:hover:text-brand-400"
+            className="inline-flex items-center gap-1.5 rounded-full border border-slate-200/80 bg-white/80 px-4 py-2 text-xs font-semibold text-slate-700 outline-none transition hover:border-brand-400 hover:text-brand-600 focus-visible:ring-2 focus-visible:ring-brand-500/40 dark:border-white/10 dark:bg-slate-800/80 dark:text-slate-300 dark:hover:border-brand-500/40 dark:hover:text-brand-400"
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -51,7 +82,7 @@ export default function CertificationCard({ title, issuer, pdfUrl, description }
           <a
             href={pdfUrl}
             download
-            className="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-brand-600 to-accent-600 px-4 py-2 text-xs font-semibold text-white shadow-md transition hover:shadow-glow"
+            className="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-brand-600 to-accent-600 px-4 py-2 text-xs font-semibold text-white shadow-md outline-none transition [@media(hover:hover)]:hover:shadow-glow focus-visible:ring-2 focus-visible:ring-brand-500/40"
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
