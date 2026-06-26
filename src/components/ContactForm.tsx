@@ -1,9 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, type FormEvent } from 'react';
+import { motion } from 'framer-motion';
 import emailjs from '@emailjs/browser';
-import emailIcon from './assets/images/logo/picture/email.png';
-import githubIcon from './assets/images/logo/picture/github.png';
-import linkedinIcon from './assets/images/logo/picture/linkedin.png';
-import facebookIcon from './assets/images/logo/picture/facebook.png';
 
 export default function ContactForm() {
   const [formState, setFormState] = useState({ name: '', email: '', message: '' });
@@ -12,13 +9,12 @@ export default function ContactForm() {
   const [message, setMessage] = useState('');
 
   useEffect(() => {
-    // Initialize EmailJS with your public key
     emailjs.init('CpsxAG905nKwjQQjO');
   }, []);
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    
+
     if (!formState.name || !formState.email || !formState.message) {
       setStatus('error');
       setMessage('Please fill in all fields');
@@ -40,7 +36,6 @@ export default function ContactForm() {
       setMessage('Message sent successfully! I will get back to you soon.');
       setFormState({ name: '', email: '', message: '' });
 
-      // Clear success message after 5 seconds
       setTimeout(() => {
         setStatus('idle');
         setMessage('');
@@ -54,69 +49,94 @@ export default function ContactForm() {
     }
   };
 
+  const inputClass =
+    'w-full rounded-2xl border border-slate-200/80 bg-white/60 px-4 py-3.5 text-slate-900 outline-none transition-all duration-300 placeholder:text-slate-400 focus:border-brand-500 focus:bg-white focus:ring-4 focus:ring-brand-500/10 dark:border-white/10 dark:bg-slate-900/60 dark:text-slate-100 dark:focus:border-brand-400 dark:focus:bg-slate-900 dark:focus:ring-brand-500/20';
+
   return (
-    <form onSubmit={handleSubmit} className="rounded-3xl border border-slate-200 bg-white/90 p-8 shadow-soft backdrop-blur-xl dark:border-slate-800 dark:bg-slate-900/80">
+    <motion.form
+      onSubmit={handleSubmit}
+      className="glass-card p-8"
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.6 }}
+    >
+      <div className="mb-6">
+        <h3 className="font-display text-xl font-bold text-slate-950 dark:text-white">Send a message</h3>
+        <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">I'll respond within 24 hours.</p>
+      </div>
+
       <div className="space-y-5">
         <div>
-          <label className="mb-2 block text-sm font-semibold text-slate-800 dark:text-slate-200" htmlFor="name">
+          <label className="mb-2 block text-sm font-semibold text-slate-700 dark:text-slate-300" htmlFor="name">
             Name
           </label>
           <input
             id="name"
             value={formState.name}
             onChange={(event) => setFormState({ ...formState, name: event.target.value })}
-            className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-900 outline-none transition focus:border-blue-600 focus:ring-2 focus:ring-blue-100 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100 dark:focus:border-blue-500 dark:focus:ring-blue-500/20"
+            className={inputClass}
             placeholder="Your name"
             type="text"
             disabled={loading}
           />
         </div>
         <div>
-          <label className="mb-2 block text-sm font-semibold text-slate-800 dark:text-slate-200" htmlFor="email">
+          <label className="mb-2 block text-sm font-semibold text-slate-700 dark:text-slate-300" htmlFor="email">
             Email
           </label>
           <input
             id="email"
             value={formState.email}
             onChange={(event) => setFormState({ ...formState, email: event.target.value })}
-            className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-900 outline-none transition focus:border-blue-600 focus:ring-2 focus:ring-blue-100 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100 dark:focus:border-blue-500 dark:focus:ring-blue-500/20"
-            placeholder="Your email"
+            className={inputClass}
+            placeholder="you@email.com"
             type="email"
             disabled={loading}
           />
         </div>
         <div>
-          <label className="mb-2 block text-sm font-semibold text-slate-800 dark:text-slate-200" htmlFor="message">
+          <label className="mb-2 block text-sm font-semibold text-slate-700 dark:text-slate-300" htmlFor="message">
             Message
           </label>
           <textarea
             id="message"
             value={formState.message}
             onChange={(event) => setFormState({ ...formState, message: event.target.value })}
-            className="h-36 w-full resize-none rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-900 outline-none transition focus:border-blue-600 focus:ring-2 focus:ring-blue-100 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100 dark:focus:border-blue-500 dark:focus:ring-blue-500/20"
-            placeholder="Send a quick note"
+            className={`${inputClass} h-36 resize-none`}
+            placeholder="Tell me about your project..."
             disabled={loading}
           />
         </div>
+
         {message && (
-          <div
+          <motion.div
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
             className={`rounded-2xl p-4 text-sm font-medium ${
               status === 'success'
-                ? 'border border-green-300 bg-green-50 text-green-800 dark:border-green-700 dark:bg-green-900/30 dark:text-green-200'
-                : 'border border-red-300 bg-red-50 text-red-800 dark:border-red-700 dark:bg-red-900/30 dark:text-red-200'
+                ? 'border border-emerald-300/60 bg-emerald-50 text-emerald-800 dark:border-emerald-700/40 dark:bg-emerald-900/20 dark:text-emerald-200'
+                : 'border border-red-300/60 bg-red-50 text-red-800 dark:border-red-700/40 dark:bg-red-900/20 dark:text-red-200'
             }`}
           >
             {message}
-          </div>
+          </motion.div>
         )}
-        <button
-          type="submit"
-          disabled={loading}
-          className="inline-flex w-full items-center justify-center rounded-full bg-slate-950 px-6 py-3 text-sm font-semibold text-white transition hover:bg-slate-800 disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          {loading ? 'Sending...' : 'Send Message'}
+
+        <button type="submit" disabled={loading} className="btn-primary w-full disabled:cursor-not-allowed disabled:opacity-50">
+          {loading ? (
+            <span className="flex items-center gap-2">
+              <svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+              </svg>
+              Sending...
+            </span>
+          ) : (
+            'Send Message →'
+          )}
         </button>
       </div>
-    </form>
+    </motion.form>
   );
 }

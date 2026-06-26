@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 interface NavbarProps {
   darkMode: boolean;
@@ -15,61 +15,145 @@ const links = [
   { label: 'Contact', href: '#contact' },
 ];
 
+function MoonIcon() {
+  return (
+    <svg className="h-5 w-5 text-brand-600 dark:text-brand-400" viewBox="0 0 24 24" fill="none" aria-hidden>
+      <path
+        d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5 7 7 0 1 0 20.5 14.5Z"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function SunIcon() {
+  return (
+    <svg className="h-5 w-5 text-brand-600 dark:text-brand-400" viewBox="0 0 24 24" fill="none" aria-hidden>
+      <circle cx="12" cy="12" r="4" stroke="currentColor" strokeWidth="1.5" />
+      <path
+        d="M12 3v2M12 19v2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M3 12h2M19 12h2M5.6 18.4l1.4-1.4M17 7l1.4-1.4"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
 export default function Navbar({ darkMode, setDarkMode }: NavbarProps) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [activeSection, setActiveSection] = useState('');
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+
+      const sections = links.map((l) => l.href.slice(1));
+      for (let i = sections.length - 1; i >= 0; i--) {
+        const el = document.getElementById(sections[i]);
+        if (el && el.getBoundingClientRect().top <= 120) {
+          setActiveSection(sections[i]);
+          break;
+        }
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    handleScroll();
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const closeMenu = () => setMenuOpen(false);
 
   return (
     <motion.header
-      className="fixed inset-x-0 top-0 z-40 border-b border-slate-200/70 bg-white/80 backdrop-blur-xl dark:border-slate-800/80 dark:bg-slate-950/80"
+      className={`fixed inset-x-0 top-0 z-40 transition-all duration-500 ${
+        scrolled
+          ? 'border-b border-slate-200/60 bg-white/70 shadow-sm backdrop-blur-2xl dark:border-white/5 dark:bg-slate-950/70'
+          : 'bg-transparent'
+      }`}
       initial={{ y: -40, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.5 }}
+      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
     >
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
-        <a href="#about" className="text-xl font-bold tracking-widest text-slate-800 dark:text-white">
-          M A P
+        <a
+          href="#about"
+          className="group flex items-center gap-2 font-display text-lg font-bold tracking-widest"
+        >
+          <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-brand-500 to-accent-600 text-xs font-extrabold text-white shadow-glow transition-transform group-hover:scale-105">
+            M
+          </span>
+          <span className="hidden text-slate-800 dark:text-white sm:inline">MAP</span>
         </a>
 
-        {/* Desktop nav */}
-        <nav className="hidden items-center gap-6 md:flex">
-          {links.map((link) => (
-            <a
-              key={link.label}
-              href={link.href}
-              className="text-sm text-slate-600 transition hover:text-slate-900 dark:text-slate-300 dark:hover:text-white"
-            >
-              {link.label}
-            </a>
-          ))}
+        <nav className="hidden items-center gap-1 md:flex">
+          {links.map((link) => {
+            const isActive = activeSection === link.href.slice(1);
+            return (
+              <a
+                key={link.label}
+                href={link.href}
+                className={`relative rounded-full px-4 py-2 text-sm font-medium transition-all duration-300 ${
+                  isActive
+                    ? 'text-brand-600 dark:text-brand-400'
+                    : 'text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white'
+                }`}
+              >
+                {link.label}
+                {isActive && (
+                  <motion.span
+                    layoutId="nav-indicator"
+                    className="absolute inset-0 -z-10 rounded-full bg-brand-500/10 dark:bg-brand-500/15"
+                    transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+                  />
+                )}
+              </a>
+            );
+          })}
         </nav>
 
-        {/* Right side controls */}
         <div className="flex items-center gap-2">
           <button
             type="button"
             onClick={() => setDarkMode(!darkMode)}
-            className="rounded-full border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 transition hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200"
+            aria-label={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
+            className="group flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200/80 bg-brand-500/10 ring-1 ring-brand-500/20 transition-all hover:border-brand-300 hover:bg-brand-500/15 hover:shadow-glow dark:border-white/10 dark:bg-brand-500/15 dark:ring-brand-500/30 dark:hover:border-brand-500/40"
           >
-            {darkMode ? 'Light' : 'Dark'}
+            <motion.span
+              key={darkMode ? 'dark' : 'light'}
+              initial={{ rotate: -90, opacity: 0, scale: 0.8 }}
+              animate={{ rotate: 0, opacity: 1, scale: 1 }}
+              transition={{ duration: 0.3 }}
+              className="flex items-center justify-center"
+            >
+              {darkMode ? <SunIcon /> : <MoonIcon />}
+            </motion.span>
           </button>
 
-          {/* Hamburger — mobile only */}
           <button
             type="button"
             onClick={() => setMenuOpen((prev) => !prev)}
             aria-label="Toggle menu"
-            className="flex h-9 w-9 flex-col items-center justify-center gap-1.5 rounded-full border border-slate-200 bg-white transition hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900 md:hidden"
+            className="flex h-10 w-10 flex-col items-center justify-center gap-1.5 rounded-full border border-slate-200/80 bg-white/80 backdrop-blur-sm transition hover:border-brand-300 dark:border-white/10 dark:bg-slate-900/80 md:hidden"
           >
-            <span className={`block h-0.5 w-5 rounded bg-slate-700 transition-all duration-300 dark:bg-slate-200 ${menuOpen ? 'translate-y-2 rotate-45' : ''}`} />
-            <span className={`block h-0.5 w-5 rounded bg-slate-700 transition-all duration-300 dark:bg-slate-200 ${menuOpen ? 'opacity-0' : ''}`} />
-            <span className={`block h-0.5 w-5 rounded bg-slate-700 transition-all duration-300 dark:bg-slate-200 ${menuOpen ? '-translate-y-2 -rotate-45' : ''}`} />
+            <span
+              className={`block h-0.5 w-5 rounded-full bg-slate-700 transition-all duration-300 dark:bg-slate-200 ${menuOpen ? 'translate-y-2 rotate-45' : ''}`}
+            />
+            <span
+              className={`block h-0.5 w-5 rounded-full bg-slate-700 transition-all duration-300 dark:bg-slate-200 ${menuOpen ? 'opacity-0' : ''}`}
+            />
+            <span
+              className={`block h-0.5 w-5 rounded-full bg-slate-700 transition-all duration-300 dark:bg-slate-200 ${menuOpen ? '-translate-y-2 -rotate-45' : ''}`}
+            />
           </button>
         </div>
       </div>
 
-      {/* Mobile drawer */}
       <AnimatePresence>
         {menuOpen && (
           <motion.nav
@@ -77,20 +161,25 @@ export default function Navbar({ darkMode, setDarkMode }: NavbarProps) {
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.25, ease: 'easeInOut' }}
-            className="overflow-hidden border-t border-slate-200/70 bg-white/95 backdrop-blur-xl dark:border-slate-800/80 dark:bg-slate-950/95 md:hidden"
+            transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+            className="overflow-hidden border-t border-slate-200/60 bg-white/90 backdrop-blur-2xl dark:border-white/5 dark:bg-slate-950/90 md:hidden"
           >
-            <ul className="flex flex-col px-4 py-2">
-              {links.map((link) => (
-                <li key={link.label}>
+            <ul className="flex flex-col px-4 py-3">
+              {links.map((link, i) => (
+                <motion.li
+                  key={link.label}
+                  initial={{ x: -20, opacity: 0 }}
+                  animate={{ x: 0, opacity: 1 }}
+                  transition={{ delay: i * 0.05 }}
+                >
                   <a
                     href={link.href}
                     onClick={closeMenu}
-                    className="block py-3 text-sm font-medium text-slate-700 transition hover:text-blue-600 dark:text-slate-300 dark:hover:text-blue-400"
+                    className="block rounded-xl px-3 py-3 text-sm font-medium text-slate-700 transition hover:bg-brand-50 hover:text-brand-600 dark:text-slate-300 dark:hover:bg-brand-500/10 dark:hover:text-brand-400"
                   >
                     {link.label}
                   </a>
-                </li>
+                </motion.li>
               ))}
             </ul>
           </motion.nav>
