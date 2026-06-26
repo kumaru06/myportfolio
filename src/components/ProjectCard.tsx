@@ -36,10 +36,9 @@ interface Project {
 
 interface ProjectCardProps {
   project: Project;
-  inCarousel?: boolean;
 }
 
-export default function ProjectCard({ project, inCarousel = false }: ProjectCardProps) {
+export default function ProjectCard({ project }: ProjectCardProps) {
   const slides = project.images && project.images.length > 1 ? project.images : project.image ? [project.image] : [];
   const [current, setCurrent] = useState(0);
   const [direction, setDirection] = useState(1);
@@ -66,8 +65,8 @@ export default function ProjectCard({ project, inCarousel = false }: ProjectCard
 
   return (
     <motion.article
-      className={`group relative flex flex-col overflow-hidden rounded-2xl sm:rounded-3xl border border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900${inCarousel ? '' : ' shadow-soft'}`}
-      whileHover={inCarousel ? undefined : { y: -6, transition: { duration: 0.3, ease: 'easeOut' } }}
+      className="group relative flex flex-col overflow-hidden rounded-2xl sm:rounded-3xl border border-slate-200 bg-white shadow-soft dark:border-slate-800 dark:bg-slate-900"
+      whileHover={{ y: -6, transition: { duration: 0.3, ease: 'easeOut' } }}
     >
       {/* Image / Carousel area */}
       <div className="relative h-48 sm:h-56 w-full overflow-hidden bg-slate-100 dark:bg-slate-800">
