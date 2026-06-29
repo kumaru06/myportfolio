@@ -1,5 +1,4 @@
 import { useState, useEffect, type FormEvent } from 'react';
-import { motion } from 'framer-motion';
 import emailjs from '@emailjs/browser';
 
 export default function ContactForm() {
@@ -50,25 +49,18 @@ export default function ContactForm() {
   };
 
   const inputClass =
-    'w-full rounded border border-slate-200/80 bg-white/60 px-4 py-3.5 text-slate-900 outline-none transition-all duration-300 placeholder:text-slate-400 focus:border-brand-500 focus:bg-white focus:ring-4 focus:ring-brand-500/10 dark:border-white/10 dark:bg-slate-900/60 dark:text-slate-100 dark:focus:border-brand-400 dark:focus:bg-slate-900 dark:focus:ring-brand-500/20';
+    'w-full rounded border border-neutral-200 bg-white px-4 py-3.5 text-black outline-none transition-colors duration-200 placeholder:text-neutral-400 focus:border-black focus:ring-1 focus:ring-black/10';
 
   return (
-    <motion.form
-      onSubmit={handleSubmit}
-      className="glass-card p-8"
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.6 }}
-    >
+    <form onSubmit={handleSubmit} className="card p-8">
       <div className="mb-6">
-        <h3 className="font-display text-xl font-bold text-slate-950 dark:text-white">Send a message</h3>
-        <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">I'll respond within 24 hours.</p>
+        <h3 className="font-display text-xl font-bold text-black">Send a message</h3>
+        <p className="mt-1 text-sm text-neutral-500">I'll respond within 24 hours.</p>
       </div>
 
       <div className="space-y-5">
         <div>
-          <label className="mb-2 block text-sm font-semibold text-slate-700 dark:text-slate-300" htmlFor="name">
+          <label className="mb-2 block text-sm font-semibold text-black" htmlFor="name">
             Name
           </label>
           <input
@@ -82,7 +74,7 @@ export default function ContactForm() {
           />
         </div>
         <div>
-          <label className="mb-2 block text-sm font-semibold text-slate-700 dark:text-slate-300" htmlFor="email">
+          <label className="mb-2 block text-sm font-semibold text-black" htmlFor="email">
             Email
           </label>
           <input
@@ -96,7 +88,7 @@ export default function ContactForm() {
           />
         </div>
         <div>
-          <label className="mb-2 block text-sm font-semibold text-slate-700 dark:text-slate-300" htmlFor="message">
+          <label className="mb-2 block text-sm font-semibold text-black" htmlFor="message">
             Message
           </label>
           <textarea
@@ -110,17 +102,15 @@ export default function ContactForm() {
         </div>
 
         {message && (
-          <motion.div
-            initial={{ opacity: 0, y: -8 }}
-            animate={{ opacity: 1, y: 0 }}
+          <div
             className={`rounded p-4 text-sm font-medium ${
               status === 'success'
-                ? 'border border-emerald-300/60 bg-emerald-50 text-emerald-800 dark:border-emerald-700/40 dark:bg-emerald-900/20 dark:text-emerald-200'
-                : 'border border-red-300/60 bg-red-50 text-red-800 dark:border-red-700/40 dark:bg-red-900/20 dark:text-red-200'
+                ? 'border border-neutral-300 bg-neutral-50 text-black'
+                : 'border border-neutral-400 bg-neutral-100 text-black'
             }`}
           >
             {message}
-          </motion.div>
+          </div>
         )}
 
         <button type="submit" disabled={loading} className="btn-primary w-full disabled:cursor-not-allowed disabled:opacity-50">
@@ -137,6 +127,6 @@ export default function ContactForm() {
           )}
         </button>
       </div>
-    </motion.form>
+    </form>
   );
 }

@@ -1,12 +1,10 @@
-import { useEffect, useMemo, useState } from 'react';
-import { motion } from 'framer-motion';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import Navbar from './components/Navbar';
 import SectionHeader from './components/SectionHeader';
 import ProjectsShowcase from './components/ProjectsShowcase';
 import CertificationCard from './components/CertificationCard';
 import ContactForm from './components/ContactForm';
 import Footer from './components/Footer';
-import BackgroundEffects from './components/BackgroundEffects';
 import SkillBar from './components/SkillBar';
 import profilePic from './assets/images/profile.png';
 import verifiedLogo from './assets/images/verifiedlogo/verified.jpeg';
@@ -46,43 +44,24 @@ import iconDatabaseManagement from './assets/images/programminglogo/other/Databa
 import iconSDLC from './assets/images/programminglogo/other/SDLC.png';
 import iconSystemDesign from './assets/images/programminglogo/other/SystemDesign.png';
 
-const sectionVariants = {
-  hidden: { opacity: 0, y: 32 },
-  visible: { opacity: 1, y: 0 },
-};
-
-const heroStagger = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.12, delayChildren: 0.1 } },
-};
-
-const heroItem = {
-  hidden: { opacity: 0, y: 24 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] } },
-};
-
-const skillGroupColors: Record<string, string> = {
-  Frontend: 'from-brand-500/20 to-blue-400/10',
-  Backend: 'from-accent-500/20 to-violet-400/10',
-  Programming: 'from-pink-500/20 to-rose-400/10',
-  Other: 'from-emerald-500/20 to-teal-400/10',
-};
-
 function App() {
-  const [darkMode, setDarkMode] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
-
-  useEffect(() => {
-    document.documentElement.classList.toggle('dark', darkMode);
-  }, [darkMode]);
+  const ticking = useRef(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      const scrollTop = window.scrollY;
-      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-      setScrollProgress(docHeight > 0 ? (scrollTop / docHeight) * 100 : 0);
+      if (ticking.current) return;
+      ticking.current = true;
+
+      requestAnimationFrame(() => {
+        const scrollTop = window.scrollY;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        setScrollProgress(docHeight > 0 ? (scrollTop / docHeight) * 100 : 0);
+        ticking.current = false;
+      });
     };
-    window.addEventListener('scroll', handleScroll);
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
     handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -192,7 +171,7 @@ function App() {
     const src = map[key];
     if (!src) {
       return (
-        <svg className="h-4 w-4 text-brand-500" viewBox="0 0 24 24" fill="none" aria-hidden>
+        <svg className="h-4 w-4 text-black" viewBox="0 0 24 24" fill="none" aria-hidden>
           <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth={1.5} />
           <path d="M8 12h8" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" />
         </svg>
@@ -209,141 +188,99 @@ function App() {
   ];
 
   return (
-    <div className="min-h-screen w-full max-w-[100vw] overflow-x-hidden font-sans text-slate-950 dark:text-slate-100">
-      <BackgroundEffects />
-
-      {/* Scroll progress */}
-      <div className="fixed inset-x-0 top-0 z-50 h-[3px] bg-slate-200/50 dark:bg-slate-800/50">
-        <motion.div
-          className="h-full bg-gradient-to-r from-brand-500 via-accent-500 to-pink-500"
-          style={{ width: `${scrollProgress}%` }}
-        />
+    <div className="min-h-screen w-full max-w-[100vw] overflow-x-hidden bg-white font-sans text-black">
+      <div className="fixed inset-x-0 top-0 z-50 h-[2px] bg-neutral-100">
+        <div className="h-full bg-black transition-[width] duration-75" style={{ width: `${scrollProgress}%` }} />
       </div>
 
-      <Navbar darkMode={darkMode} setDarkMode={setDarkMode} />
+      <Navbar />
 
-      <main className="relative mx-auto w-full max-w-6xl overflow-x-hidden px-3 pb-16 pt-24 sm:px-6 sm:pb-20 sm:pt-28 lg:px-8">
-        {/* ── HERO ── */}
-        <section className="relative">
-          <motion.div
-            className="glass-card gradient-border overflow-x-hidden overflow-y-visible p-5 sm:p-8 md:p-12 lg:p-14"
-            initial="hidden"
-            animate="visible"
-            variants={heroStagger}
-          >
-            <div className="absolute inset-0 bg-hero-gradient opacity-60" />
-
-            <div className="relative grid gap-8 sm:gap-10 lg:grid-cols-[300px_1fr] lg:gap-16">
-              {/* Profile */}
-              <motion.div variants={heroItem} className="flex w-full max-w-full flex-col items-center overflow-x-hidden overflow-y-visible lg:items-center">
-                <div className="relative animate-float pt-3">
-                  <div className="relative h-56 w-48 overflow-hidden rounded shadow-[0_20px_50px_-12px_rgba(51,150,255,0.35)] ring-2 ring-white/20 dark:ring-white/10 sm:h-64 sm:w-56 md:h-72 md:w-60">
-                    <img
-                      src={profilePic}
-                      alt="Mark Andrey Perez"
-                      className="h-full w-full rounded object-cover"
-                    />
-                    <div className="pointer-events-none absolute inset-0 rounded bg-gradient-to-t from-slate-950/30 to-transparent" />
-                  </div>
+      <main className="relative mx-auto w-full max-w-6xl overflow-x-hidden px-4 pb-28 pt-[4.25rem] sm:px-6 md:pb-20 md:pt-28 lg:px-8">
+        {/* HERO */}
+        <section className="relative" id="home">
+          <div className="card overflow-x-hidden p-4 sm:p-8 md:p-12 lg:p-14">
+            <div className="grid gap-6 sm:gap-10 lg:grid-cols-[280px_1fr] lg:gap-16">
+              <div className="flex w-full flex-col items-center">
+                <div className="relative aspect-square w-40 overflow-hidden rounded border border-neutral-200 sm:w-48 md:w-56 lg:w-60">
+                  <img src={profilePic} alt="Mark Andrey Perez" className="h-full w-full object-contain bg-white" />
                 </div>
-                <div className="mt-5 flex items-center gap-2 rounded border border-emerald-500/30 bg-emerald-500/10 px-4 py-1.5">
-                  <span className="relative flex h-2 w-2">
-                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
-                    <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
-                  </span>
-                  <span className="text-xs font-semibold text-emerald-600 dark:text-emerald-400">Available for work</span>
+                <div className="mt-5 flex items-center gap-2 rounded border border-neutral-200 bg-neutral-50 px-4 py-1.5">
+                  <span className="h-2 w-2 rounded-full bg-black" />
+                  <span className="text-xs font-semibold text-black">Available for work</span>
                 </div>
                 <a
                   href={resumePdf}
                   target="_blank"
                   rel="noopener noreferrer"
                   download="Mark-Andrey-Perez-Resume.pdf"
-                  className="mt-4 inline-flex w-full max-w-xs items-center justify-center gap-2 rounded border border-slate-200/80 bg-white/70 px-5 py-3 text-sm font-semibold text-slate-700 transition-all duration-300 hover:-translate-y-0.5 hover:border-brand-400/50 hover:text-brand-600 hover:shadow-glow active:scale-[0.98] dark:border-white/10 dark:bg-slate-800/60 dark:text-slate-200 dark:hover:border-brand-500/40 dark:hover:text-brand-400 sm:max-w-none"
+                  className="mt-4 inline-flex items-center gap-2 rounded border border-neutral-200 bg-neutral-50 px-4 py-1.5 text-xs font-semibold text-black transition-colors duration-200 hover:bg-neutral-100"
                 >
                   <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                   </svg>
                   Download CV
                 </a>
-              </motion.div>
+              </div>
 
-              {/* Intro */}
-              <div className="flex min-w-0 flex-col justify-center overflow-hidden text-center sm:text-left">
-                <motion.p variants={heroItem} className="section-label mb-3 sm:mb-4">
-                  Hello, I'm
-                </motion.p>
-                <motion.h1
-                  variants={heroItem}
-                  className="font-display text-4xl font-extrabold leading-[1.08] tracking-tight sm:text-5xl md:text-6xl lg:text-7xl"
-                >
-                  <span className="block sm:inline">Mark Andrey</span>
-                  <span className="mt-0.5 inline-flex items-center gap-1.5 whitespace-nowrap sm:mt-0 sm:gap-2 sm:pl-2 md:gap-2.5">
-                    <span className="text-gradient leading-none">Perez</span>
+              <div className="flex min-w-0 flex-col justify-center text-center sm:text-left">
+                <p className="section-label mb-3">Hello, I'm</p>
+                <h1 className="text-[1.65rem] font-bold leading-tight text-black min-[400px]:text-3xl sm:text-4xl md:text-5xl lg:text-6xl">
+                  Mark Andrey{' '}
+                  <span className="inline-flex items-center gap-[0.12em]">
+                    Perez
                     <img
                       src={verifiedLogo}
                       alt="Verified"
-                      className="h-[0.5em] w-[0.5em] min-h-[18px] min-w-[18px] max-h-6 max-w-6 shrink-0 translate-y-[0.05em] object-contain sm:max-h-7 sm:max-w-7 sm:translate-y-[0.06em] lg:max-h-8 lg:max-w-8"
+                      className="h-[0.52em] w-[0.52em] shrink-0 translate-y-[0.14em] object-contain"
                     />
                   </span>
-                </motion.h1>
-                <motion.p
-                  variants={heroItem}
-                  className="mt-3 text-lg font-medium text-slate-600 dark:text-slate-300 sm:mt-4 sm:text-xl md:text-2xl"
-                >
-                  <span className="block sm:inline">AI-Augmented</span>{' '}
-                  <span className="hidden text-slate-400 sm:inline dark:text-slate-500">|</span>{' '}
-                  <span className="block sm:inline">Full-stack Developer</span>
-                </motion.p>
-                <motion.p
-                  variants={heroItem}
-                  className="mx-auto mt-4 max-w-xl text-sm leading-7 text-slate-600 dark:text-slate-400 sm:mx-0 sm:mt-6 sm:text-base sm:leading-8"
-                >
+                </h1>
+                <p className="mt-3 text-base font-medium text-neutral-600 sm:text-xl md:text-2xl">
+                  AI-Augmented | Full-stack Developer
+                </p>
+                <p className="mx-auto mt-4 max-w-xl text-sm leading-7 text-neutral-600 sm:mx-0 sm:mt-6 sm:text-base sm:leading-8">
                   Aspiring Full-Stack AI-Augmented Developer building scalable, intelligent, and user-friendly applications that make a real impact.
-                </motion.p>
+                </p>
 
-                <motion.div variants={heroItem} className="mt-6 flex flex-col gap-3 sm:mt-8 sm:flex-row">
+                <div className="mt-6 flex flex-col gap-3 sm:mt-8 sm:flex-row">
                   <a href="#projects" className="btn-primary w-full justify-center sm:w-auto">
                     View Projects
                   </a>
-                  <a href="#contact" className="btn-secondary w-full justify-center text-slate-800 dark:text-slate-100 sm:w-auto">
+                  <a href="#contact" className="btn-secondary w-full justify-center sm:w-auto">
                     Contact Me
                   </a>
-                </motion.div>
+                </div>
 
-                {/* Stats */}
-                <motion.div variants={heroItem} className="mt-8 grid grid-cols-3 gap-2 border-t border-slate-200/60 pt-6 sm:mt-10 sm:gap-4 sm:pt-8 dark:border-white/8">
-                  {stats.map((stat) => (
-                    <div key={stat.label} className="min-w-0">
-                      <p className="font-display text-2xl font-bold text-gradient sm:text-3xl">{stat.value}</p>
-                      <p className="mt-0.5 text-[10px] font-medium uppercase leading-tight tracking-wide text-slate-500 dark:text-slate-400 sm:mt-1 sm:text-xs sm:tracking-wider">
+                <div className="mt-8 grid grid-cols-3 border-t border-neutral-200 pt-5 sm:mt-10 sm:pt-8">
+                  {stats.map((stat, index) => (
+                    <div
+                      key={stat.label}
+                      className={`flex min-w-0 flex-col items-center px-1 text-center sm:px-4 ${
+                        index > 0 ? 'border-l border-neutral-200' : ''
+                      }`}
+                    >
+                      <p className="text-xl font-bold text-black sm:text-3xl">{stat.value}</p>
+                      <p className="mt-1 text-[9px] font-medium uppercase leading-tight tracking-wide text-neutral-500 sm:text-xs sm:tracking-wider">
                         {stat.label}
                       </p>
                     </div>
                   ))}
-                </motion.div>
+                </div>
               </div>
             </div>
-          </motion.div>
+          </div>
         </section>
 
-        {/* ── ABOUT ── */}
-        <motion.section
-          className="mt-24"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.15 }}
-          variants={sectionVariants}
-          transition={{ duration: 0.7 }}
-          id="about"
-        >
+        {/* ABOUT */}
+        <section className="section-reveal mobile-section" id="about">
           <SectionHeader
             number="01"
             title="About Me"
             subtitle="Passionate about building intelligent software that solves real problems."
           />
-          <div className="glass-card w-full overflow-hidden p-6 sm:p-8 md:p-10">
+          <div className="card w-full overflow-hidden p-5 sm:p-8 md:p-10">
             <div className="grid gap-8 lg:grid-cols-[1fr_280px]">
-              <div className="space-y-5 text-justify leading-8 text-slate-600 dark:text-slate-400">
+              <div className="space-y-5 text-justify text-sm leading-7 text-neutral-600 sm:text-base sm:leading-8">
                 <p>
                   I aspire to become an AI-Augmented Full-Stack Software Developer, combining strong foundations in both front-end and back-end development with the power of modern artificial intelligence tools and workflows. I specialize in building user-friendly, dynamic, and scalable web applications using technologies such as HTML, CSS, JavaScript, PHP, React, TypeScript, and C++.
                 </p>
@@ -356,93 +293,53 @@ function App() {
               </div>
               <div className="flex flex-col gap-3">
                 {['React & TypeScript', 'PHP & Node.js', 'AI-Augmented Dev', 'System Design'].map((tag) => (
-                  <div
-                    key={tag}
-                    className="flex items-center gap-3 rounded border border-slate-200/60 bg-white/50 px-4 py-3 dark:border-white/8 dark:bg-slate-800/40"
-                  >
-                    <span className="h-2 w-2 rounded-full bg-gradient-to-r from-brand-500 to-accent-500" />
-                    <span className="text-sm font-semibold text-slate-700 dark:text-slate-300">{tag}</span>
+                  <div key={tag} className="flex items-center gap-3 rounded border border-neutral-200 bg-neutral-50 px-4 py-3">
+                    <span className="h-2 w-2 shrink-0 rounded-full bg-black" />
+                    <span className="text-sm font-semibold text-black">{tag}</span>
                   </div>
                 ))}
               </div>
             </div>
           </div>
-        </motion.section>
+        </section>
 
-        {/* ── SKILLS ── */}
-        <motion.section
-          className="mt-24"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.1 }}
-          variants={sectionVariants}
-          transition={{ duration: 0.7 }}
-          id="skills"
-        >
+        {/* SKILLS */}
+        <section className="section-reveal mobile-section" id="skills">
           <SectionHeader
             number="02"
             title="Skills & Expertise"
             subtitle="Technologies and competencies I've honed through projects and certifications."
           />
           <div className="grid gap-5 sm:grid-cols-2">
-            {['Frontend', 'Backend', 'Programming', 'Other'].map((group, gi) => (
-              <motion.div
-                key={group}
-                className="glass-card overflow-hidden p-6 sm:p-7"
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: gi * 0.1 }}
-              >
-                <div className={`mb-6 inline-flex items-center gap-2 rounded bg-gradient-to-r ${skillGroupColors[group]} px-4 py-1.5`}>
-                  <span className="font-display text-sm font-bold text-slate-800 dark:text-white">{group}</span>
+            {['Frontend', 'Backend', 'Programming', 'Other'].map((group) => (
+              <div key={group} className="card overflow-hidden p-6 sm:p-7">
+                <div className="mb-6 inline-flex items-center gap-2 rounded border border-neutral-200 bg-neutral-50 px-4 py-1.5">
+                  <span className="font-display text-sm font-bold text-black">{group}</span>
                 </div>
                 <div className="space-y-5">
                   {skills
                     .filter((skill) => skill.category === group)
-                    .map((skill, si) => (
-                      <SkillBar
-                        key={skill.label}
-                        label={skill.label}
-                        level={skill.level}
-                        icon={getSkillIcon(skill.label)}
-                        delay={si * 0.05}
-                      />
+                    .map((skill) => (
+                      <SkillBar key={skill.label} label={skill.label} level={skill.level} icon={getSkillIcon(skill.label)} />
                     ))}
                 </div>
-              </motion.div>
+              </div>
             ))}
           </div>
-        </motion.section>
+        </section>
 
-        {/* ── PROJECTS ── */}
-        <motion.section
-          className="mt-24"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.1 }}
-          variants={sectionVariants}
-          transition={{ duration: 0.7 }}
-          id="projects"
-        >
+        {/* PROJECTS */}
+        <section className="section-reveal mobile-section" id="projects">
           <SectionHeader
             number="03"
             title="Featured Projects"
             subtitle="Real-world applications I've designed and built from the ground up."
           />
           <ProjectsShowcase projects={projects} />
-        </motion.section>
+        </section>
 
-        {/* ── CERTIFICATIONS ── */}
-        <motion.section
-          className="mt-24"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.1 }}
-          variants={sectionVariants}
-          transition={{ duration: 0.7 }}
-          id="certifications"
-        >
+        {/* CERTIFICATIONS */}
+        <section className="section-reveal mobile-section" id="certifications">
           <SectionHeader
             number="04"
             title="Certifications"
@@ -453,110 +350,77 @@ function App() {
               <CertificationCard key={cert.title} {...cert} />
             ))}
           </div>
-        </motion.section>
+        </section>
 
-        {/* ── EXPERIENCE ── */}
-        <motion.section
-          className="mt-24"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.1 }}
-          variants={sectionVariants}
-          transition={{ duration: 0.7 }}
-          id="experience"
-        >
+        {/* EXPERIENCE */}
+        <section className="section-reveal mobile-section" id="experience">
           <SectionHeader
             number="05"
             title="Experience"
             subtitle="Areas of focus and professional growth."
           />
           <div className="relative">
-            <div className="absolute left-6 top-0 hidden h-full w-px bg-gradient-to-b from-brand-500 via-accent-500 to-transparent sm:block" />
+            <div className="absolute left-6 top-0 hidden h-full w-px bg-neutral-200 sm:block" />
             <div className="space-y-6">
-              {experiences.map((item, i) => (
-                <motion.div
-                  key={item.title}
-                  className="relative sm:pl-16"
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.6, delay: i * 0.1 }}
-                >
-                  <div className="absolute left-4 top-6 hidden h-4 w-4 rounded-full border-2 border-brand-500 bg-white shadow-glow sm:block dark:bg-slate-950" />
-                  <div className="glass-card w-full overflow-hidden p-6 sm:p-7">
-                    <h3 className="font-display text-xl font-bold text-slate-950 dark:text-white">{item.title}</h3>
-                    <p className="mt-3 text-sm leading-7 text-justify text-slate-600 dark:text-slate-400">
-                      {item.description}
-                    </p>
+              {experiences.map((item) => (
+                <div key={item.title} className="relative sm:pl-16">
+                  <div className="absolute left-4 top-6 hidden h-4 w-4 rounded-full border-2 border-black bg-white sm:block" />
+                  <div className="card w-full overflow-hidden p-6 sm:p-7">
+                    <h3 className="font-display text-xl font-bold text-black">{item.title}</h3>
+                    <p className="mt-3 text-sm leading-7 text-justify text-neutral-600">{item.description}</p>
                   </div>
-                </motion.div>
+                </div>
               ))}
             </div>
           </div>
-        </motion.section>
+        </section>
 
-        {/* ── CONTACT ── */}
-        <motion.section
-          className="mt-24"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.1 }}
-          variants={sectionVariants}
-          transition={{ duration: 0.7 }}
-          id="contact"
-        >
+        {/* CONTACT */}
+        <section className="section-reveal mobile-section" id="contact">
           <SectionHeader
             number="06"
             title="Get In Touch"
             subtitle="Have a project in mind? Let's talk."
           />
           <div className="grid gap-8 lg:grid-cols-[1fr_380px]">
-            <div className="glass-card w-full overflow-hidden p-6 sm:p-8 md:p-10">
-              <h3 className="font-display text-2xl font-bold text-slate-950 dark:text-white">
-                Let's build something{' '}
-                <span className="text-gradient">effective</span> together.
+            <div className="card w-full overflow-hidden p-6 sm:p-8 md:p-10">
+              <h3 className="font-display text-2xl font-bold text-black">
+                Let's build something effective together.
               </h3>
-              <p className="mt-4 leading-7 text-slate-600 dark:text-slate-400">
+              <p className="mt-4 leading-7 text-neutral-600">
                 Reach out by email or send a quick message using the form. I'm available for freelance opportunities and project collaborations.
               </p>
               <div className="mt-8 space-y-3">
-                {socialLinks.map((link) => {
-                  const Tag = link.external ? 'a' : 'a';
-                  return (
-                    <Tag
-                      key={link.label}
-                      href={link.href}
-                      {...(link.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-                      className="group flex items-center gap-4 rounded border border-slate-200/60 bg-white/50 p-4 transition-all duration-300 hover:-translate-y-0.5 hover:border-brand-400/50 hover:shadow-glow dark:border-white/8 dark:bg-slate-800/40 dark:hover:border-brand-500/30"
+                {socialLinks.map((link) => (
+                  <a
+                    key={link.label}
+                    href={link.href}
+                    {...(link.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                    className="group flex items-center gap-4 rounded border border-neutral-200 bg-white p-4 transition-colors duration-200 hover:border-neutral-400 hover:bg-neutral-50"
+                  >
+                    <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded border border-neutral-200 bg-neutral-50">
+                      <img src={link.icon} alt={link.label} className="h-5 w-5" />
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <p className="text-xs font-semibold uppercase tracking-widest text-neutral-500">{link.label}</p>
+                      <p className="truncate text-sm font-semibold text-black">{link.display}</p>
+                    </div>
+                    <svg
+                      className="ml-auto h-4 w-4 text-neutral-400 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:text-black"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth={2}
                     >
-                      <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded bg-gradient-to-br from-brand-500/15 to-accent-500/15 ring-1 ring-brand-500/20 transition group-hover:from-brand-500/25 group-hover:to-accent-500/25">
-                        <img src={link.icon} alt={link.label} className="h-5 w-5" />
-                      </div>
-                      <div>
-                        <p className="text-xs font-semibold uppercase tracking-widest text-slate-500 dark:text-slate-400">
-                          {link.label}
-                        </p>
-                        <p className="text-sm font-semibold text-brand-600 transition group-hover:text-brand-700 dark:text-brand-400 dark:group-hover:text-brand-300">
-                          {link.display}
-                        </p>
-                      </div>
-                      <svg
-                        className="ml-auto h-4 w-4 text-slate-400 transition-transform group-hover:translate-x-1 group-hover:text-brand-500"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        strokeWidth={2}
-                      >
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                      </svg>
-                    </Tag>
-                  );
-                })}
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                    </svg>
+                  </a>
+                ))}
               </div>
             </div>
             <ContactForm />
           </div>
-        </motion.section>
+        </section>
       </main>
 
       <Footer />
