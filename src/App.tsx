@@ -7,7 +7,6 @@ import ContactForm from './components/ContactForm';
 import Footer from './components/Footer';
 import SkillBar from './components/SkillBar';
 import profilePic from './assets/images/profile.png';
-import verifiedLogo from './assets/images/verifiedlogo/verified.jpeg';
 import resumePdf from './assets/images/resume/Perez-resume.pdf';
 import gcashDashboard from './assets/images/gcashposdashboard.png';
 import gcashSales from './assets/images/gcashposdailysales.png';
@@ -225,15 +224,7 @@ function App() {
               <div className="flex min-w-0 flex-col justify-center text-center sm:text-left">
                 <p className="section-label mb-3">Hello, I'm</p>
                 <h1 className="text-[1.65rem] font-bold leading-tight text-black min-[400px]:text-3xl sm:text-4xl md:text-5xl lg:text-6xl">
-                  Mark Andrey{' '}
-                  <span className="inline-flex items-center gap-[0.12em]">
-                    Perez
-                    <img
-                      src={verifiedLogo}
-                      alt="Verified"
-                      className="h-[0.52em] w-[0.52em] shrink-0 translate-y-[0.14em] object-contain"
-                    />
-                  </span>
+                  Mark Andrey Perez
                 </h1>
                 <p className="mt-3 text-base font-medium text-neutral-600 sm:text-xl md:text-2xl">
                   AI-Augmented | Full-stack Developer
