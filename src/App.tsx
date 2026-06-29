@@ -201,7 +201,7 @@ function App() {
             <div className="grid gap-6 sm:gap-10 lg:grid-cols-[280px_1fr] lg:gap-16">
               <div className="flex w-full flex-col items-center">
                 <div className="relative aspect-square w-40 overflow-hidden rounded border border-neutral-200 sm:w-48 md:w-56 lg:w-60">
-                  <img src={profilePic} alt="Mark Andrey Perez" className="h-full w-full object-contain bg-white" />
+                  <img src={profilePic} alt="Mark Andrey Perez" className="h-full w-full object-cover object-center" />
                 </div>
                 <div className="mt-5 flex items-center gap-2 rounded border border-neutral-200 bg-neutral-50 px-4 py-1.5">
                   <span className="h-2 w-2 rounded-full bg-black" />
