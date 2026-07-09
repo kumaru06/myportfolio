@@ -205,14 +205,14 @@ export default function ProjectsShowcase({ projects }: ProjectsShowcaseProps) {
               onClick={() => goTo(i)}
               className={`relative flex shrink-0 items-center gap-2.5 rounded border px-4 py-3 text-left transition-colors duration-200 ${
                 i === active
-                  ? 'border-black bg-neutral-50'
-                  : 'border-neutral-200 bg-white hover:border-neutral-300'
+                  ? 'border-black bg-neutral-50 dark:border-white dark:bg-neutral-900'
+                  : 'border-neutral-200 bg-white hover:border-neutral-300 dark:border-neutral-700 dark:bg-neutral-950 dark:hover:border-neutral-600'
               }`}
             >
-              <span className={`font-display text-xs font-bold ${i === active ? 'text-black' : 'text-neutral-400'}`}>
+              <span className={`font-display text-xs font-bold ${i === active ? 'text-black dark:text-white' : 'text-neutral-400'}`}>
                 {String(i + 1).padStart(2, '0')}
               </span>
-              <span className={`whitespace-nowrap text-sm font-semibold ${i === active ? 'text-black' : 'text-neutral-500'}`}>
+              <span className={`whitespace-nowrap text-sm font-semibold ${i === active ? 'text-black dark:text-white' : 'text-neutral-500 dark:text-neutral-400'}`}>
                 {shortTitle(p.title)}
               </span>
             </button>
@@ -224,7 +224,7 @@ export default function ProjectsShowcase({ projects }: ProjectsShowcaseProps) {
             type="button"
             onClick={goPrev}
             aria-label="Previous project"
-            className="flex h-10 w-10 items-center justify-center rounded border border-neutral-200 bg-white text-black transition-colors hover:bg-neutral-50"
+            className="flex h-10 w-10 items-center justify-center rounded border border-neutral-200 bg-white text-black transition-colors hover:bg-neutral-50 dark:border-neutral-700 dark:bg-neutral-900 dark:text-white dark:hover:bg-neutral-800"
           >
             <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
@@ -234,7 +234,7 @@ export default function ProjectsShowcase({ projects }: ProjectsShowcaseProps) {
             type="button"
             onClick={goNext}
             aria-label="Next project"
-            className="flex h-10 w-10 items-center justify-center rounded border border-neutral-200 bg-white text-black transition-colors hover:bg-neutral-50"
+            className="flex h-10 w-10 items-center justify-center rounded border border-neutral-200 bg-white text-black transition-colors hover:bg-neutral-50 dark:border-neutral-700 dark:bg-neutral-900 dark:text-white dark:hover:bg-neutral-800"
           >
             <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
@@ -251,27 +251,27 @@ export default function ProjectsShowcase({ projects }: ProjectsShowcaseProps) {
             <div className="flex flex-wrap items-center gap-3">
               <span className="font-display text-sm font-bold text-neutral-400">
                 {String(active + 1).padStart(2, '0')}{' '}
-                <span className="text-neutral-300">/</span>{' '}
+                <span className="text-neutral-300 dark:text-neutral-600">/</span>{' '}
                 {String(projects.length).padStart(2, '0')}
               </span>
               {project.type && (
-                <span className="rounded border border-neutral-200 bg-neutral-50 px-3 py-1 text-xs font-semibold text-neutral-600">
+                <span className="rounded border border-neutral-200 bg-neutral-50 px-3 py-1 text-xs font-semibold text-neutral-600 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-300">
                   {project.type}
                 </span>
               )}
               {project.liveUrl && (
-                <span className="inline-flex items-center gap-1.5 rounded border border-neutral-200 bg-neutral-50 px-3 py-1 text-xs font-semibold text-black">
-                  <span className="h-1.5 w-1.5 rounded-full bg-black" />
+                <span className="inline-flex items-center gap-1.5 rounded border border-neutral-200 bg-neutral-50 px-3 py-1 text-xs font-semibold text-black dark:border-neutral-700 dark:bg-neutral-900 dark:text-white">
+                  <span className="h-1.5 w-1.5 rounded-full bg-black dark:bg-white" />
                   Live
                 </span>
               )}
             </div>
 
-            <h3 className="mt-5 font-display text-2xl font-bold leading-tight text-black sm:text-3xl">
+            <h3 className="mt-5 font-display text-2xl font-bold leading-tight text-black dark:text-white sm:text-3xl">
               {project.title}
             </h3>
 
-            <p className="mt-4 text-sm leading-7 text-neutral-600 sm:text-base">{project.description}</p>
+            <p className="mt-4 text-sm leading-7 text-neutral-600 dark:text-neutral-400 sm:text-base">{project.description}</p>
 
             <div className="mt-7">
               <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-neutral-400">Built with</p>
@@ -282,7 +282,7 @@ export default function ProjectsShowcase({ projects }: ProjectsShowcaseProps) {
                     <div
                       key={item}
                       title={item}
-                      className="flex items-center gap-2 rounded border border-neutral-200 bg-white px-3 py-2 transition-colors hover:border-neutral-300"
+                      className="flex items-center gap-2 rounded border border-neutral-200 bg-white px-3 py-2 transition-colors hover:border-neutral-300 dark:border-neutral-700 dark:bg-neutral-900 dark:hover:border-neutral-600"
                     >
                       {icon ? (
                         <img
@@ -291,11 +291,11 @@ export default function ProjectsShowcase({ projects }: ProjectsShowcaseProps) {
                           className={`object-contain ${item.toLowerCase() === 'electron' ? 'h-5 w-5' : 'h-4 w-4'}`}
                         />
                       ) : (
-                        <span className="flex h-4 w-4 items-center justify-center rounded bg-neutral-100 text-[8px] font-bold text-black">
+                        <span className="flex h-4 w-4 items-center justify-center rounded bg-neutral-100 text-[8px] font-bold text-black dark:bg-neutral-800 dark:text-white">
                           {item.slice(0, 2)}
                         </span>
                       )}
-                      <span className="text-xs font-semibold text-black">{item}</span>
+                      <span className="text-xs font-semibold text-black dark:text-white">{item}</span>
                     </div>
                   );
                 })}
@@ -316,7 +316,7 @@ export default function ProjectsShowcase({ projects }: ProjectsShowcaseProps) {
                   View Live Site
                 </a>
               ) : (
-                <span className="inline-flex flex-1 cursor-not-allowed items-center justify-center gap-2 rounded bg-neutral-100 px-6 py-3 text-sm font-semibold text-neutral-400 sm:flex-none">
+                <span className="inline-flex flex-1 cursor-not-allowed items-center justify-center gap-2 rounded bg-neutral-100 px-6 py-3 text-sm font-semibold text-neutral-400 dark:bg-neutral-800 dark:text-neutral-500 sm:flex-none">
                   View Live Site
                 </span>
               )}
@@ -333,7 +333,7 @@ export default function ProjectsShowcase({ projects }: ProjectsShowcaseProps) {
                   Source Code
                 </a>
               ) : (
-                <span className="inline-flex flex-1 cursor-not-allowed items-center justify-center gap-2 rounded border border-neutral-200 px-6 py-3 text-sm font-semibold text-neutral-400 sm:flex-none">
+                <span className="inline-flex flex-1 cursor-not-allowed items-center justify-center gap-2 rounded border border-neutral-200 px-6 py-3 text-sm font-semibold text-neutral-400 dark:border-neutral-700 dark:text-neutral-500 sm:flex-none">
                   Source Code
                 </span>
               )}
@@ -342,8 +342,8 @@ export default function ProjectsShowcase({ projects }: ProjectsShowcaseProps) {
         </div>
 
         {projects.length > 1 && (
-          <div className="h-1 bg-neutral-100">
-            <div className="h-full bg-black transition-[width] duration-75" style={{ width: `${progress}%` }} />
+          <div className="h-1 bg-neutral-100 dark:bg-neutral-800">
+            <div className="h-full bg-black transition-[width] duration-75 dark:bg-white" style={{ width: `${progress}%` }} />
           </div>
         )}
       </div>
@@ -354,7 +354,7 @@ export default function ProjectsShowcase({ projects }: ProjectsShowcaseProps) {
             type="button"
             onClick={goPrev}
             aria-label="Previous project"
-            className="flex h-11 w-11 items-center justify-center rounded border border-neutral-200 bg-white"
+            className="flex h-11 w-11 items-center justify-center rounded border border-neutral-200 bg-white dark:border-neutral-700 dark:bg-neutral-900 dark:text-white"
           >
             <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
@@ -364,7 +364,7 @@ export default function ProjectsShowcase({ projects }: ProjectsShowcaseProps) {
             type="button"
             onClick={goNext}
             aria-label="Next project"
-            className="flex h-11 w-11 items-center justify-center rounded border border-neutral-200 bg-white"
+            className="flex h-11 w-11 items-center justify-center rounded border border-neutral-200 bg-white dark:border-neutral-700 dark:bg-neutral-900 dark:text-white"
           >
             <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />

@@ -6,6 +6,8 @@ import CertificationCard from './components/CertificationCard';
 import ContactForm from './components/ContactForm';
 import Footer from './components/Footer';
 import SkillBar from './components/SkillBar';
+import GitHubContributions from './components/GitHubContributions';
+import { HeroReveal, ScrollReveal, ScrollStagger, ScrollStaggerItem } from './components/ScrollReveal';
 import profilePic from './assets/images/profile.png';
 import resumePdf from './assets/images/resume/Perez-resume.pdf';
 import gcashDashboard from './assets/images/gcashposdashboard.png';
@@ -20,10 +22,7 @@ import certPacketTracer from './assets/images/certificationspdf/Getting Started 
 import certNetSec from './assets/images/certificationspdf/Network Security.pdf';
 import certCPA from './assets/images/certificationspdf/Partner CPA - Programming Essentials in C++.pdf';
 import certCPP from './assets/images/certificationspdf/Partner CPP - Advanced Programming in C++.pdf';
-import emailIcon from './assets/images/logo/email.png';
-import facebookIcon from './assets/images/logo/facebook.png';
-import githubIcon from './assets/images/logo/github.png';
-import linkedinIcon from './assets/images/logo/linkedin.png';
+import SocialIcon from './components/SocialIcon';
 import iconHtml from './assets/images/programminglogo/front-end/HTML.png';
 import iconCss from './assets/images/programminglogo/front-end/CSS.png';
 import iconJs from './assets/images/programminglogo/front-end/JavaScript.png';
@@ -170,7 +169,7 @@ function App() {
     const src = map[key];
     if (!src) {
       return (
-        <svg className="h-4 w-4 text-black" viewBox="0 0 24 24" fill="none" aria-hidden>
+        <svg className="h-4 w-4 text-black dark:text-white" viewBox="0 0 24 24" fill="none" aria-hidden>
           <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth={1.5} />
           <path d="M8 12h8" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" />
         </svg>
@@ -180,39 +179,45 @@ function App() {
   }
 
   const socialLinks = [
-    { href: 'mailto:markandreyperez@gmail.com', icon: emailIcon, label: 'Email', display: 'markandreyperez@gmail.com', external: false },
-    { href: 'https://github.com/kumaru06', icon: githubIcon, label: 'GitHub', display: 'Mark Perez', external: true },
-    { href: 'https://www.linkedin.com/in/mark-perez-5a5346404/', icon: linkedinIcon, label: 'LinkedIn', display: 'Mark Perez', external: true },
-    { href: 'https://web.facebook.com/errantknight01/', icon: facebookIcon, label: 'Facebook', display: 'Mark Andrey Perez', external: true },
+    { href: 'mailto:markandreyperez@gmail.com', icon: 'email' as const, label: 'Email', display: 'markandreyperez@gmail.com', external: false },
+    { href: 'https://github.com/kumaru06', icon: 'github' as const, label: 'GitHub', display: 'Mark Perez', external: true },
+    { href: 'https://www.linkedin.com/in/mark-perez-5a5346404/', icon: 'linkedin' as const, label: 'LinkedIn', display: 'Mark Perez', external: true },
+    { href: 'https://web.facebook.com/errantknight01/', icon: 'facebook' as const, label: 'Facebook', display: 'Mark Andrey Perez', external: true },
   ];
 
   return (
-    <div className="min-h-screen w-full max-w-[100vw] overflow-x-hidden bg-white font-sans text-black">
-      <div className="fixed inset-x-0 top-0 z-50 h-[2px] bg-neutral-100">
-        <div className="h-full bg-black transition-[width] duration-75" style={{ width: `${scrollProgress}%` }} />
+    <div className="min-h-screen w-full max-w-[100vw] overflow-x-hidden bg-white font-sans text-black dark:bg-neutral-950 dark:text-white">
+      <div className="fixed inset-x-0 top-0 z-50 h-[2px] bg-neutral-100 dark:bg-neutral-800">
+        <div className="h-full bg-black transition-[width] duration-150 ease-out dark:bg-white" style={{ width: `${scrollProgress}%` }} />
       </div>
 
       <Navbar />
 
-      <main className="relative mx-auto w-full max-w-6xl overflow-x-hidden px-4 pb-28 pt-[4.25rem] sm:px-6 md:pb-20 md:pt-28 lg:px-8">
+      <main className="relative mx-auto w-full max-w-6xl overflow-x-hidden px-4 pb-[calc(5.5rem+env(safe-area-inset-bottom))] pt-[calc(4.25rem+env(safe-area-inset-top))] sm:px-6 md:pb-20 md:pt-28 lg:px-8">
         {/* HERO */}
         <section className="relative" id="home">
+          <HeroReveal>
           <div className="card overflow-x-hidden p-4 sm:p-8 md:p-12 lg:p-14">
             <div className="grid gap-6 sm:gap-10 lg:grid-cols-[280px_1fr] lg:gap-16">
               <div className="flex w-full flex-col items-center">
-                <div className="relative aspect-square w-40 overflow-hidden rounded border border-neutral-200 sm:w-48 md:w-56 lg:w-60">
-                  <img src={profilePic} alt="Mark Andrey Perez" className="h-full w-full object-cover object-center" />
+                <div className="relative aspect-square w-40 overflow-hidden rounded border border-neutral-200 dark:border-neutral-700 sm:w-48 md:w-56 lg:w-60">
+                  <img
+                    src={profilePic}
+                    alt="Mark Andrey Perez"
+                    draggable={false}
+                    className="h-full w-full select-none object-cover object-center"
+                  />
                 </div>
-                <div className="mt-5 flex items-center gap-2 rounded border border-neutral-200 bg-neutral-50 px-4 py-1.5">
-                  <span className="h-2 w-2 rounded-full bg-black" />
-                  <span className="text-xs font-semibold text-black">Available for work</span>
+                <div className="mt-5 flex items-center gap-2 rounded border border-neutral-200 bg-neutral-50 px-4 py-1.5 dark:border-neutral-700 dark:bg-neutral-900">
+                  <span className="h-2 w-2 rounded-full bg-black dark:bg-white" />
+                  <span className="text-xs font-semibold text-black dark:text-white">Available for work</span>
                 </div>
                 <a
                   href={resumePdf}
                   target="_blank"
                   rel="noopener noreferrer"
                   download="Mark-Andrey-Perez-Resume.pdf"
-                  className="mt-4 inline-flex items-center gap-2 rounded border border-neutral-200 bg-neutral-50 px-4 py-1.5 text-xs font-semibold text-black transition-colors duration-200 hover:bg-neutral-100"
+                  className="mt-4 inline-flex items-center gap-2 rounded border border-neutral-200 bg-neutral-50 px-4 py-1.5 text-xs font-semibold text-black transition-colors duration-200 hover:bg-neutral-100 dark:border-neutral-700 dark:bg-neutral-900 dark:text-white dark:hover:bg-neutral-800"
                 >
                   <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -223,35 +228,35 @@ function App() {
 
               <div className="flex min-w-0 flex-col justify-center text-center sm:text-left">
                 <p className="section-label mb-3">Hello, I'm</p>
-                <h1 className="text-[1.65rem] font-bold leading-tight text-black min-[400px]:text-3xl sm:text-4xl md:text-5xl lg:text-6xl">
+                <h1 className="text-[1.65rem] font-bold leading-tight text-black dark:text-white min-[400px]:text-3xl sm:text-4xl md:text-5xl lg:text-6xl">
                   Mark Andrey Perez
                 </h1>
-                <p className="mt-3 text-base font-medium text-neutral-600 sm:text-xl md:text-2xl">
+                <p className="mt-3 text-base font-medium text-neutral-600 dark:text-neutral-400 sm:text-xl md:text-2xl">
                   AI-Augmented | Full-stack Developer
                 </p>
-                <p className="mx-auto mt-4 max-w-xl text-sm leading-7 text-neutral-600 sm:mx-0 sm:mt-6 sm:text-base sm:leading-8">
+                <p className="mx-auto mt-4 max-w-xl text-sm leading-7 text-neutral-600 dark:text-neutral-400 sm:mx-0 sm:mt-6 sm:text-base sm:leading-8">
                   Aspiring Full-Stack AI-Augmented Developer building scalable, intelligent, and user-friendly applications that make a real impact.
                 </p>
 
-                <div className="mt-6 flex flex-col gap-3 sm:mt-8 sm:flex-row">
-                  <a href="#projects" className="btn-primary w-full justify-center sm:w-auto">
+                <div className="mt-6 flex flex-col items-center gap-2.5 sm:mt-8 sm:flex-row sm:items-center sm:justify-start">
+                  <a href="#projects" className="btn-primary w-auto min-w-[9.5rem] justify-center px-5 py-2.5 sm:min-w-0 sm:px-6 sm:py-3">
                     View Projects
                   </a>
-                  <a href="#contact" className="btn-secondary w-full justify-center sm:w-auto">
+                  <a href="#contact" className="btn-secondary w-auto min-w-[9.5rem] justify-center px-5 py-2.5 sm:min-w-0 sm:px-6 sm:py-3">
                     Contact Me
                   </a>
                 </div>
 
-                <div className="mt-8 grid grid-cols-3 border-t border-neutral-200 pt-5 sm:mt-10 sm:pt-8">
+                <div className="mt-8 grid grid-cols-3 border-t border-neutral-200 pt-5 dark:border-neutral-800 sm:mt-10 sm:pt-8">
                   {stats.map((stat, index) => (
                     <div
                       key={stat.label}
                       className={`flex min-w-0 flex-col items-center px-1 text-center sm:px-4 ${
-                        index > 0 ? 'border-l border-neutral-200' : ''
+                        index > 0 ? 'border-l border-neutral-200 dark:border-neutral-800' : ''
                       }`}
                     >
-                      <p className="text-xl font-bold text-black sm:text-3xl">{stat.value}</p>
-                      <p className="mt-1 text-[9px] font-medium uppercase leading-tight tracking-wide text-neutral-500 sm:text-xs sm:tracking-wider">
+                      <p className="text-xl font-bold text-black dark:text-white sm:text-3xl">{stat.value}</p>
+                      <p className="mt-1 text-[9px] font-medium uppercase leading-tight tracking-wide text-neutral-500 dark:text-neutral-400 sm:text-xs sm:tracking-wider">
                         {stat.label}
                       </p>
                     </div>
@@ -260,18 +265,22 @@ function App() {
               </div>
             </div>
           </div>
+          </HeroReveal>
         </section>
 
         {/* ABOUT */}
-        <section className="section-reveal mobile-section" id="about">
+        <section className="mobile-section" id="about">
+          <ScrollReveal>
           <SectionHeader
             number="01"
             title="About Me"
             subtitle="Passionate about building intelligent software that solves real problems."
           />
+          </ScrollReveal>
+          <ScrollReveal delay={0.08}>
           <div className="card w-full overflow-hidden p-5 sm:p-8 md:p-10">
             <div className="grid gap-8 lg:grid-cols-[1fr_280px]">
-              <div className="space-y-5 text-justify text-sm leading-7 text-neutral-600 sm:text-base sm:leading-8">
+              <div className="space-y-5 text-justify text-sm leading-7 text-neutral-600 dark:text-neutral-400 sm:text-base sm:leading-8">
                 <p>
                   I aspire to become an AI-Augmented Full-Stack Software Developer, combining strong foundations in both front-end and back-end development with the power of modern artificial intelligence tools and workflows. I specialize in building user-friendly, dynamic, and scalable web applications using technologies such as HTML, CSS, JavaScript, PHP, React, TypeScript, and C++.
                 </p>
@@ -284,28 +293,32 @@ function App() {
               </div>
               <div className="flex flex-col gap-3">
                 {['React & TypeScript', 'PHP & Node.js', 'AI-Augmented Dev', 'System Design'].map((tag) => (
-                  <div key={tag} className="flex items-center gap-3 rounded border border-neutral-200 bg-neutral-50 px-4 py-3">
-                    <span className="h-2 w-2 shrink-0 rounded-full bg-black" />
-                    <span className="text-sm font-semibold text-black">{tag}</span>
+                  <div key={tag} className="flex items-center gap-3 rounded border border-neutral-200 bg-neutral-50 px-4 py-3 dark:border-neutral-700 dark:bg-neutral-900">
+                    <span className="h-2 w-2 shrink-0 rounded-full bg-black dark:bg-white" />
+                    <span className="text-sm font-semibold text-black dark:text-white">{tag}</span>
                   </div>
                 ))}
               </div>
             </div>
           </div>
+          </ScrollReveal>
         </section>
 
         {/* SKILLS */}
-        <section className="section-reveal mobile-section" id="skills">
+        <section className="mobile-section" id="skills">
+          <ScrollReveal>
           <SectionHeader
             number="02"
             title="Skills & Expertise"
             subtitle="Technologies and competencies I've honed through projects and certifications."
           />
-          <div className="grid gap-5 sm:grid-cols-2">
+          </ScrollReveal>
+          <ScrollStagger className="grid gap-5 sm:grid-cols-2">
             {['Frontend', 'Backend', 'Programming', 'Other'].map((group) => (
-              <div key={group} className="card overflow-hidden p-6 sm:p-7">
-                <div className="mb-6 inline-flex items-center gap-2 rounded border border-neutral-200 bg-neutral-50 px-4 py-1.5">
-                  <span className="font-display text-sm font-bold text-black">{group}</span>
+              <ScrollStaggerItem key={group}>
+              <div className="card overflow-hidden p-6 sm:p-7">
+                <div className="mb-6 inline-flex items-center gap-2 rounded border border-neutral-200 bg-neutral-50 px-4 py-1.5 dark:border-neutral-700 dark:bg-neutral-900">
+                  <span className="font-display text-sm font-bold text-black dark:text-white">{group}</span>
                 </div>
                 <div className="space-y-5">
                   {skills
@@ -315,70 +328,100 @@ function App() {
                     ))}
                 </div>
               </div>
+              </ScrollStaggerItem>
             ))}
-          </div>
+          </ScrollStagger>
         </section>
 
         {/* PROJECTS */}
-        <section className="section-reveal mobile-section" id="projects">
+        <section className="mobile-section" id="projects">
+          <ScrollReveal>
           <SectionHeader
             number="03"
             title="Featured Projects"
             subtitle="Real-world applications I've designed and built from the ground up."
           />
+          </ScrollReveal>
+          <ScrollReveal delay={0.08}>
           <ProjectsShowcase projects={projects} />
+          </ScrollReveal>
         </section>
 
         {/* CERTIFICATIONS */}
-        <section className="section-reveal mobile-section" id="certifications">
+        <section className="mobile-section" id="certifications">
+          <ScrollReveal>
           <SectionHeader
             number="04"
             title="Certifications"
             subtitle="Industry-recognized credentials from Cisco and NetAcad."
           />
-          <div className="grid gap-4 sm:grid-cols-2">
+          </ScrollReveal>
+          <ScrollStagger className="grid gap-4 sm:grid-cols-2">
             {certifications.map((cert) => (
-              <CertificationCard key={cert.title} {...cert} />
+              <ScrollStaggerItem key={cert.title}>
+              <CertificationCard {...cert} />
+              </ScrollStaggerItem>
             ))}
-          </div>
+          </ScrollStagger>
         </section>
 
         {/* EXPERIENCE */}
-        <section className="section-reveal mobile-section" id="experience">
+        <section className="mobile-section" id="experience">
+          <ScrollReveal>
           <SectionHeader
             number="05"
             title="Experience"
             subtitle="Areas of focus and professional growth."
           />
+          </ScrollReveal>
           <div className="relative">
-            <div className="absolute left-6 top-0 hidden h-full w-px bg-neutral-200 sm:block" />
-            <div className="space-y-6">
+            <div className="absolute left-6 top-0 hidden h-full w-px bg-neutral-200 dark:bg-neutral-800 sm:block" />
+            <ScrollStagger className="space-y-6">
               {experiences.map((item) => (
-                <div key={item.title} className="relative sm:pl-16">
-                  <div className="absolute left-4 top-6 hidden h-4 w-4 rounded-full border-2 border-black bg-white sm:block" />
+                <ScrollStaggerItem key={item.title}>
+                <div className="relative sm:pl-16">
+                  <div className="absolute left-4 top-6 hidden h-4 w-4 rounded-full border-2 border-black bg-white dark:border-white dark:bg-neutral-950 sm:block" />
                   <div className="card w-full overflow-hidden p-6 sm:p-7">
-                    <h3 className="font-display text-xl font-bold text-black">{item.title}</h3>
-                    <p className="mt-3 text-sm leading-7 text-justify text-neutral-600">{item.description}</p>
+                    <h3 className="font-display text-xl font-bold text-black dark:text-white">{item.title}</h3>
+                    <p className="mt-3 text-sm leading-7 text-justify text-neutral-600 dark:text-neutral-400">{item.description}</p>
                   </div>
                 </div>
+                </ScrollStaggerItem>
               ))}
-            </div>
+            </ScrollStagger>
           </div>
         </section>
 
-        {/* CONTACT */}
-        <section className="section-reveal mobile-section" id="contact">
+        {/* GITHUB */}
+        <section className="mobile-section" id="github">
+          <ScrollReveal>
           <SectionHeader
             number="06"
+            title="GitHub"
+            subtitle="My open-source activity and contributions over the past year."
+          />
+          </ScrollReveal>
+          <ScrollReveal delay={0.08}>
+          <GitHubContributions username="kumaru06" />
+          </ScrollReveal>
+        </section>
+
+        {/* CONTACT */}
+        <section className="mobile-section" id="contact">
+          <ScrollReveal>
+          <SectionHeader
+            number="07"
             title="Get In Touch"
             subtitle="Have a project in mind? Let's talk."
           />
-          <div className="grid gap-8 lg:grid-cols-[1fr_380px]">
+          </ScrollReveal>
+          <ScrollStagger className="grid gap-8 lg:grid-cols-[1fr_380px]">
+            <ScrollStaggerItem>
             <div className="card w-full overflow-hidden p-6 sm:p-8 md:p-10">
-              <h3 className="font-display text-2xl font-bold text-black">
+              <h3 className="font-display text-2xl font-bold text-black dark:text-white">
                 Let's build something effective together.
               </h3>
-              <p className="mt-4 leading-7 text-neutral-600">
+              <p className="mt-4 leading-7 text-neutral-600 dark:text-neutral-400">
                 Reach out by email or send a quick message using the form. I'm available for freelance opportunities and project collaborations.
               </p>
               <div className="mt-8 space-y-3">
@@ -387,17 +430,17 @@ function App() {
                     key={link.label}
                     href={link.href}
                     {...(link.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-                    className="group flex items-center gap-4 rounded border border-neutral-200 bg-white p-4 transition-colors duration-200 hover:border-neutral-400 hover:bg-neutral-50"
+                    className="group flex items-center gap-4 rounded border border-neutral-200 bg-white p-4 transition-colors duration-200 hover:border-neutral-400 hover:bg-neutral-50 dark:border-neutral-700 dark:bg-neutral-900 dark:hover:border-neutral-500 dark:hover:bg-neutral-800"
                   >
-                    <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded border border-neutral-200 bg-neutral-50">
-                      <img src={link.icon} alt={link.label} className="h-5 w-5" />
+                    <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded border border-neutral-200 bg-neutral-50 text-black dark:border-neutral-700 dark:bg-neutral-950 dark:text-white">
+                      <SocialIcon platform={link.icon} />
                     </div>
                     <div className="min-w-0 flex-1">
-                      <p className="text-xs font-semibold uppercase tracking-widest text-neutral-500">{link.label}</p>
-                      <p className="truncate text-sm font-semibold text-black">{link.display}</p>
+                      <p className="text-xs font-semibold uppercase tracking-widest text-neutral-500 dark:text-neutral-400">{link.label}</p>
+                      <p className="truncate text-sm font-semibold text-black dark:text-white">{link.display}</p>
                     </div>
                     <svg
-                      className="ml-auto h-4 w-4 text-neutral-400 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:text-black"
+                      className="ml-auto h-4 w-4 text-neutral-400 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:text-black dark:group-hover:text-white"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
@@ -409,8 +452,11 @@ function App() {
                 ))}
               </div>
             </div>
+            </ScrollStaggerItem>
+            <ScrollStaggerItem>
             <ContactForm />
-          </div>
+            </ScrollStaggerItem>
+          </ScrollStagger>
         </section>
       </main>
 
