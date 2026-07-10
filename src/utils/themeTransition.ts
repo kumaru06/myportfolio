@@ -1,7 +1,6 @@
 import type { Theme } from '../context/ThemeContext';
 
 const DURATION_MS = 500;
-const EASING = 'cubic-bezier(0.32, 0.08, 0.24, 1)';
 
 function prefersReducedMotion() {
   return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -45,6 +44,12 @@ function clearVtCoords(root: HTMLElement) {
   root.style.removeProperty('--vt-r');
 }
 
+function cleanupTransition(root: HTMLElement) {
+  delete root.dataset.themeVt;
+  clearVtCoords(root);
+  root.classList.remove('theme-switching');
+}
+
 function circularReveal(
   x: number,
   y: number,
@@ -70,57 +75,14 @@ function circularReveal(
     });
 
     transition.ready
+      .then(() => transition.finished)
       .then(() => {
-        if (reverse) {
-          root.animate(
-            {
-              clipPath: [
-                `circle(${radius}px at ${x}px ${y}px)`,
-                `circle(0px at ${x}px ${y}px)`,
-              ],
-            },
-            {
-              duration: DURATION_MS,
-              easing: EASING,
-              fill: 'forwards',
-              pseudoElement: '::view-transition-old(root)',
-            },
-          );
-        } else {
-          root.animate(
-            {
-              clipPath: [
-                `circle(0px at ${x}px ${y}px)`,
-                `circle(${radius}px at ${x}px ${y}px)`,
-              ],
-            },
-            {
-              duration: DURATION_MS,
-              easing: EASING,
-              fill: 'both',
-              pseudoElement: '::view-transition-new(root)',
-            },
-          );
-        }
-      })
-      .catch(() => {
-        delete root.dataset.themeVt;
-        clearVtCoords(root);
-        root.classList.remove('theme-switching');
-        root.classList.remove('theme-anim');
-      });
-
-    transition.finished
-      .then(() => {
-        delete root.dataset.themeVt;
-        clearVtCoords(root);
-        root.classList.remove('theme-switching');
+        cleanupTransition(root);
         resolve();
       })
       .catch(() => {
-        delete root.dataset.themeVt;
-        clearVtCoords(root);
-        root.classList.remove('theme-switching');
+        cleanupTransition(root);
+        root.classList.remove('theme-anim');
         resolve();
       });
   });

@@ -52,6 +52,7 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   view-transition-name: root;
+  background: var(--page);
 }
 
 body {
@@ -99,6 +100,26 @@ html.theme-anim *::after {
   animation: none;
   mix-blend-mode: normal;
   opacity: 1;
+  width: 100%;
+  height: 100%;
+}
+
+@keyframes theme-vt-expand {
+  from {
+    clip-path: circle(0px at var(--vt-x) var(--vt-y));
+  }
+  to {
+    clip-path: circle(var(--vt-r) at var(--vt-x) var(--vt-y));
+  }
+}
+
+@keyframes theme-vt-collapse {
+  from {
+    clip-path: circle(var(--vt-r) at var(--vt-x) var(--vt-y));
+  }
+  to {
+    clip-path: circle(0px at var(--vt-x) var(--vt-y));
+  }
 }
 
 html[data-theme-vt='expand']::view-transition-old(root) {
@@ -107,12 +128,12 @@ html[data-theme-vt='expand']::view-transition-old(root) {
 
 html[data-theme-vt='expand']::view-transition-new(root) {
   z-index: 1;
-  clip-path: circle(0px at var(--vt-x) var(--vt-y));
+  animation: theme-vt-expand 0.5s cubic-bezier(0.32, 0.08, 0.24, 1) both;
 }
 
 html[data-theme-vt='collapse']::view-transition-old(root) {
   z-index: 1;
-  clip-path: circle(var(--vt-r) at var(--vt-x) var(--vt-y));
+  animation: theme-vt-collapse 0.5s cubic-bezier(0.32, 0.08, 0.24, 1) both;
 }
 
 html[data-theme-vt='collapse']::view-transition-new(root) {
