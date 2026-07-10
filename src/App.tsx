@@ -232,10 +232,10 @@ function App() {
                   Mark Andrey Perez
                 </h1>
                 <p className="mt-3 text-base font-medium text-neutral-600 dark:text-neutral-400 sm:text-xl md:text-2xl">
-                  AI-Augmented | Full-stack Developer
+                  AI-Augmented | Software Developer
                 </p>
                 <p className="mx-auto mt-4 max-w-xl text-sm leading-7 text-neutral-600 dark:text-neutral-400 sm:mx-0 sm:mt-6 sm:text-base sm:leading-8">
-                  Aspiring Full-Stack AI-Augmented Developer building scalable, intelligent, and user-friendly applications that make a real impact.
+                  Full-stack AI-Augmented Developer building scalable, intelligent, and user-friendly applications that make a real impact.
                 </p>
 
                 <div className="mt-6 flex flex-col items-center gap-2.5 sm:mt-8 sm:flex-row sm:items-center sm:justify-start">
@@ -282,14 +282,13 @@ function App() {
             <div className="grid gap-8 lg:grid-cols-[1fr_280px]">
               <div className="space-y-5 text-justify text-sm leading-7 text-neutral-600 dark:text-neutral-400 sm:text-base sm:leading-8">
                 <p>
-                  I aspire to become an AI-Augmented Full-Stack Software Developer, combining strong foundations in both front-end and back-end development with the power of modern artificial intelligence tools and workflows. I specialize in building user-friendly, dynamic, and scalable web applications using technologies such as HTML, CSS, JavaScript, PHP, React, TypeScript, and C++.
+                  I am an AI-Augmented Full-Stack Software Developer who combines strong foundations in both front-end and back-end development with the power of modern artificial intelligence tools and workflows. I specialize in building user-friendly, dynamic, and scalable web applications using technologies such as HTML, CSS, JavaScript, PHP, React, TypeScript, and C++.
                 </p>
                 <p>
-                  My experience includes developing systems like inventory management platforms, hotel booking systems, and mobile applications, where I applied software engineering principles, system design, and problem-solving skills to deliver efficient and reliable solutions.
+                  My experience includes developing systems like inventory management platforms, hotel booking systems, and mobile applications, where I apply software engineering principles, system design, and problem-solving skills to deliver efficient and reliable solutions.
                 </p>
                 <p>
-                  Detail-oriented, adaptable, and driven to learn, I thrive in both collaborative and independent environments. My goal is to grow professionally while building intelligent, impactful solutions that push the boundaries of modern software development.
-                </p>
+                  Detail-oriented, adaptable, and driven to learn, I thrive in both collaborative and independent environments. My goal is to continually deliver intelligent, impactful solutions that push the boundaries of modern software development.                </p>
               </div>
               <div className="flex flex-col gap-3">
                 {['React & TypeScript', 'PHP & Node.js', 'AI-Augmented Dev', 'System Design'].map((tag) => (
