@@ -314,12 +314,12 @@ function App() {
           </ScrollReveal>
           <ScrollStagger className="grid gap-5 sm:grid-cols-2">
             {['Frontend', 'Backend', 'Programming', 'Other'].map((group) => (
-              <ScrollStaggerItem key={group}>
-              <div className="card overflow-hidden p-6 sm:p-7">
-                <div className="mb-6 inline-flex items-center gap-2 rounded border border-neutral-200 bg-neutral-50 px-4 py-1.5 dark:border-neutral-700 dark:bg-neutral-900">
+              <ScrollStaggerItem key={group} className="h-full">
+              <div className="card flex h-[380px] flex-col overflow-hidden p-6 sm:h-[420px] sm:p-7">
+                <div className="mb-6 inline-flex shrink-0 items-center gap-2 rounded border border-neutral-200 bg-neutral-50 px-4 py-1.5 dark:border-neutral-700 dark:bg-neutral-900">
                   <span className="font-display text-sm font-bold text-black dark:text-white">{group}</span>
                 </div>
-                <div className="space-y-5">
+                <div className="min-h-0 flex-1 space-y-5 overflow-y-auto scrollbar-none">
                   {skills
                     .filter((skill) => skill.category === group)
                     .map((skill) => (
