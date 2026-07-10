@@ -316,7 +316,7 @@ function App() {
             {['Frontend', 'Backend', 'Programming', 'Other'].map((group) => (
               <ScrollStaggerItem key={group} className="h-full">
               <div className="card flex h-[380px] flex-col overflow-hidden p-6 sm:h-[420px] sm:p-7">
-                <div className="mb-6 inline-flex shrink-0 items-center gap-2 rounded border border-neutral-200 bg-neutral-50 px-4 py-1.5 dark:border-neutral-700 dark:bg-neutral-900">
+                <div className="mb-6 inline-flex w-fit shrink-0 self-start items-center gap-2 rounded border border-neutral-200 bg-neutral-50 px-4 py-1.5 dark:border-neutral-700 dark:bg-neutral-900">
                   <span className="font-display text-sm font-bold text-black dark:text-white">{group}</span>
                 </div>
                 <div className="min-h-0 flex-1 space-y-5 overflow-y-auto scrollbar-none">
