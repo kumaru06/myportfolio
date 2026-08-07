@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" role="img">
+  <title>Algorithms &amp; Data Structures</title>
+  <circle cx="12" cy="5.5" r="2.25" stroke="#A16207" stroke-width="1.75"/>
+  <circle cx="6.5" cy="18" r="2.25" stroke="#A16207" stroke-width="1.75"/>
+  <circle cx="17.5" cy="18" r="2.25" stroke="#A16207" stroke-width="1.75"/>
+  <path d="M12 7.75v3.5M12 11.25L7.8 16M12 11.25l4.2 4.75" stroke="#A16207" stroke-width="1.75" stroke-linecap="round"/>
+</svg>

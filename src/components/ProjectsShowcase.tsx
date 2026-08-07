@@ -1,14 +1,17 @@
 import { useCallback, useEffect, useState } from 'react';
-import iconElectron from '../assets/images/programminglogo/electron.png';
-import iconNodeJs from '../assets/images/programminglogo/back-end/Node.js.png';
-import iconJavaScript from '../assets/images/programminglogo/front-end/JavaScript.png';
-import iconHtml from '../assets/images/programminglogo/front-end/HTML.png';
-import iconCss from '../assets/images/programminglogo/front-end/CSS.png';
-import iconSql from '../assets/images/programminglogo/other/Database Management.png';
-import iconJson from '../assets/images/programminglogo/json.png';
-import iconPhp from '../assets/images/programminglogo/back-end/PHP.png';
-import iconReact from '../assets/images/programminglogo/front-end/React.png';
-import iconTs from '../assets/images/programminglogo/front-end/TypeScript.png';
+import iconElectron from '../assets/images/programminglogo/electron.svg';
+import iconNodeJs from '../assets/images/programminglogo/back-end/Node.js.svg';
+import iconJavaScript from '../assets/images/programminglogo/front-end/JavaScript.svg';
+import iconHtml from '../assets/images/programminglogo/front-end/HTML.svg';
+import iconCss from '../assets/images/programminglogo/front-end/CSS.svg';
+import iconSql from '../assets/images/programminglogo/programming/Databases & SQL.svg';
+import iconJson from '../assets/images/programminglogo/json.svg';
+import iconPhp from '../assets/images/programminglogo/back-end/PHP.svg';
+import iconReact from '../assets/images/programminglogo/front-end/React.svg';
+import iconTs from '../assets/images/programminglogo/front-end/TypeScript.svg';
+import iconLaravel from '../assets/images/programminglogo/back-end/Laravel.svg';
+import iconSqlite from '../assets/images/programminglogo/back-end/SQLite.svg';
+import iconMysql from '../assets/images/programminglogo/back-end/MySQL.svg';
 
 const techIconMap: Record<string, string> = {
   electron: iconElectron,
@@ -21,6 +24,9 @@ const techIconMap: Record<string, string> = {
   php: iconPhp,
   react: iconReact,
   typescript: iconTs,
+  laravel: iconLaravel,
+  sqlite: iconSqlite,
+  mysql: iconMysql,
 };
 
 export interface Project {
@@ -185,7 +191,7 @@ export default function ProjectsShowcase({ projects }: ProjectsShowcaseProps) {
 
   const shortTitle = (title: string) => {
     if (title.includes('Southdev')) return 'Southdev Home Depot';
-    if (title.includes('GCash')) return 'GCash POS';
+    if (title.includes('CashPOS') || title.includes('GCash')) return 'CashPOS';
     if (title.includes('AMA')) return 'AMA OJT Portal';
     return title.split(' ').slice(0, 3).join(' ');
   };

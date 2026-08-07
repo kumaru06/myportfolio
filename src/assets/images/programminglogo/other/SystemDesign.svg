@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" role="img">
+  <title>System Design</title>
+  <rect x="3.5" y="3.5" width="17" height="4.5" rx="1.25" stroke="#2563EB" stroke-width="1.75"/>
+  <rect x="3.5" y="9.75" width="17" height="4.5" rx="1.25" stroke="#2563EB" stroke-width="1.75"/>
+  <rect x="3.5" y="16" width="17" height="4.5" rx="1.25" stroke="#2563EB" stroke-width="1.75"/>
+  <circle cx="7" cy="5.75" r="0.9" fill="#2563EB"/>
+  <circle cx="7" cy="12" r="0.9" fill="#2563EB"/>
+  <circle cx="7" cy="18.25" r="0.9" fill="#2563EB"/>
+</svg>

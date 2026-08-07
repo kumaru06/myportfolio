@@ -10,10 +10,10 @@ import GitHubContributions from './components/GitHubContributions';
 import { HeroReveal, ScrollReveal, ScrollStagger, ScrollStaggerItem } from './components/ScrollReveal';
 import profilePic from './assets/images/profile.png';
 import resumePdf from './assets/images/resume/Perez-resume.pdf';
-import gcashDashboard from './assets/images/gcashposdashboard.png';
-import gcashSales from './assets/images/gcashposdailysales.png';
-import gcashMonthlySales from './assets/images/gcashposmonthlysales.png';
-import gcashCustomer from './assets/images/customertransactions.png';
+import cashPosDesk1 from './assets/images/cashpos/cashPOSdeskapp.png';
+import cashPosDesk2 from './assets/images/cashpos/cashPOSdeskapp2.png';
+import cashPosDesk3 from './assets/images/cashpos/cashPOSdeskapp3.png';
+import cashPosWeb from './assets/images/cashpos/cashposweb.png';
 import southdevImg from './assets/southdev.png';
 import amaOjtImg from './assets/ama-ojtportal.png';
 import certCCNA from './assets/images/certificationspdf/CCNAv7 Introduction to Networks.pdf';
@@ -23,24 +23,24 @@ import certNetSec from './assets/images/certificationspdf/Network Security.pdf';
 import certCPA from './assets/images/certificationspdf/Partner CPA - Programming Essentials in C++.pdf';
 import certCPP from './assets/images/certificationspdf/Partner CPP - Advanced Programming in C++.pdf';
 import SocialIcon from './components/SocialIcon';
-import iconHtml from './assets/images/programminglogo/front-end/HTML.png';
-import iconCss from './assets/images/programminglogo/front-end/CSS.png';
-import iconJs from './assets/images/programminglogo/front-end/JavaScript.png';
-import iconReact from './assets/images/programminglogo/front-end/React.png';
-import iconTs from './assets/images/programminglogo/front-end/TypeScript.png';
-import iconNode from './assets/images/programminglogo/back-end/Node.js.png';
-import iconPhp from './assets/images/programminglogo/back-end/PHP.png';
-import iconRest from './assets/images/programminglogo/back-end/REST API Design.png';
-import iconAuth from './assets/images/programminglogo/back-end/Authentication & Authorization.png';
-import iconDbDesign from './assets/images/programminglogo/back-end/Database Design & ORM.png';
-import iconDeploy from './assets/images/programminglogo/back-end/Deployment & Monitoring.png';
-import iconCpp from './assets/images/programminglogo/programming/Advanced C++.png';
-import iconAlgo from './assets/images/programminglogo/programming/Algorithms & Data Structures.png';
-import iconDbSql from './assets/images/programminglogo/programming/Databases & SQL.png';
-import iconDebug from './assets/images/programminglogo/programming/Debugging & Profiling.png';
-import iconDatabaseManagement from './assets/images/programminglogo/other/Database Management.png';
-import iconSDLC from './assets/images/programminglogo/other/SDLC.png';
-import iconSystemDesign from './assets/images/programminglogo/other/SystemDesign.png';
+import iconHtml from './assets/images/programminglogo/front-end/HTML.svg';
+import iconCss from './assets/images/programminglogo/front-end/CSS.svg';
+import iconJs from './assets/images/programminglogo/front-end/JavaScript.svg';
+import iconReact from './assets/images/programminglogo/front-end/React.svg';
+import iconTs from './assets/images/programminglogo/front-end/TypeScript.svg';
+import iconNode from './assets/images/programminglogo/back-end/Node.js.svg';
+import iconPhp from './assets/images/programminglogo/back-end/PHP.svg';
+import iconRest from './assets/images/programminglogo/back-end/REST API Design.svg';
+import iconAuth from './assets/images/programminglogo/back-end/Authentication & Authorization.svg';
+import iconDbDesign from './assets/images/programminglogo/back-end/Database Design & ORM.svg';
+import iconDeploy from './assets/images/programminglogo/back-end/Deployment & Monitoring.svg';
+import iconCpp from './assets/images/programminglogo/programming/Cplusplus.svg';
+import iconAlgo from './assets/images/programminglogo/programming/Algorithms & Data Structures.svg';
+import iconDbSql from './assets/images/programminglogo/programming/Databases & SQL.svg';
+import iconDebug from './assets/images/programminglogo/programming/Debugging & Profiling.svg';
+import iconDatabaseManagement from './assets/images/programminglogo/other/Database Management.svg';
+import iconSDLC from './assets/images/programminglogo/other/SDLC.svg';
+import iconSystemDesign from './assets/images/programminglogo/other/SystemDesign.svg';
 
 function App() {
   const [scrollProgress, setScrollProgress] = useState(0);
@@ -100,13 +100,15 @@ function App() {
         type: 'Web Application',
       },
       {
-        title: 'GCash POS Transaction Record (Electron Based)',
+        title: 'CashPOS — Hybrid Offline POS (Electron + Laravel)',
         description:
-          'A desktop POS application built with Electron for recording and managing GCash transactions—with dashboards for daily and monthly sales, customer records, and offline-capable logging for fast and reliable transaction tracking.',
-        tech: ['Electron', 'Node.js', 'JavaScript', 'HTML', 'CSS', 'SQL', 'JSON'],
-        image: gcashDashboard,
-        images: [gcashDashboard, gcashSales, gcashMonthlySales, gcashCustomer],
-        type: 'Desktop Application',
+          'A hybrid offline-first POS for cash-in/cash-out transactions—Electron desktop app with local SQLite, auto cloud sync every 10s to a Laravel admin panel, role-based access, sales reports, PDF/CSV export, and auto-updates via GitHub Releases.',
+        tech: ['Electron', 'Node.js', 'JavaScript', 'Laravel', 'PHP', 'SQLite', 'MySQL'],
+        liveUrl: 'https://adminpos.online',
+        sourceUrl: 'https://github.com/kumaru06/gcashpos',
+        image: cashPosDesk1,
+        images: [cashPosDesk1, cashPosDesk2, cashPosDesk3, cashPosWeb],
+        type: 'Desktop & Web Application',
       },
       {
         title: 'AMA Practicum Management System',
