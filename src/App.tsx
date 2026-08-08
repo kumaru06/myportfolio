@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import Navbar from './components/Navbar';
+import Sidebar from './components/Sidebar';
 import SectionHeader from './components/SectionHeader';
 import ProjectsShowcase from './components/ProjectsShowcase';
 import CertificationCard from './components/CertificationCard';
@@ -189,13 +189,14 @@ function App() {
 
   return (
     <div className="min-h-screen w-full max-w-[100vw] overflow-x-hidden bg-white font-sans text-black dark:bg-neutral-950 dark:text-white">
-      <div className="fixed inset-x-0 top-0 z-50 h-[2px] bg-neutral-100 dark:bg-neutral-800">
+      <div className="fixed left-0 right-0 top-0 z-50 h-[2px] bg-neutral-100 dark:bg-neutral-800 md:left-64">
         <div className="h-full bg-black transition-[width] duration-150 ease-out dark:bg-white" style={{ width: `${scrollProgress}%` }} />
       </div>
 
-      <Navbar />
+      <Sidebar />
 
-      <main className="relative mx-auto w-full max-w-6xl overflow-x-hidden px-4 pb-[calc(5.5rem+env(safe-area-inset-bottom))] pt-[calc(4.25rem+env(safe-area-inset-top))] sm:px-6 md:pb-20 md:pt-28 lg:px-8">
+      <div className="md:pl-64">
+      <main className="relative mx-auto w-full max-w-6xl overflow-x-hidden px-4 pb-16 pt-[calc(4.5rem+env(safe-area-inset-top))] sm:px-6 md:pb-20 md:pt-16 lg:px-8">
         {/* HERO */}
         <section className="relative" id="home">
           <HeroReveal>
@@ -462,6 +463,7 @@ function App() {
       </main>
 
       <Footer />
+      </div>
     </div>
   );
 }

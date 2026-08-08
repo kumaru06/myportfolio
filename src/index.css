@@ -214,15 +214,13 @@ img {
   }
 }
 
+section[id] {
+  scroll-margin-top: 2rem;
+}
+
 @media (max-width: 767px) {
   section[id] {
     scroll-margin-top: calc(4.5rem + env(safe-area-inset-top, 0px));
-    scroll-margin-bottom: calc(5.75rem + env(safe-area-inset-bottom, 0px));
-  }
-
-  #home {
-    scroll-margin-top: calc(4.5rem + env(safe-area-inset-top, 0px));
-    scroll-margin-bottom: 0;
   }
 }
 

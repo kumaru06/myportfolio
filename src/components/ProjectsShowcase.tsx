@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import iconElectron from '../assets/images/programminglogo/electron.svg';
 import iconNodeJs from '../assets/images/programminglogo/back-end/Node.js.svg';
 import iconJavaScript from '../assets/images/programminglogo/front-end/JavaScript.svg';
@@ -46,15 +46,38 @@ interface ProjectsShowcaseProps {
 
 const AUTO_ADVANCE_MS = 7000;
 const SLIDE_MS = 3500;
+/** Room for the tilted cards peeking out below the centre card. */
+const DECK_OVERHANG = 104;
+
+function useMediaQuery(query: string) {
+  const [matches, setMatches] = useState(() => window.matchMedia(query).matches);
+
+  useEffect(() => {
+    const mql = window.matchMedia(query);
+    const onChange = () => setMatches(mql.matches);
+    onChange();
+    mql.addEventListener('change', onChange);
+    return () => mql.removeEventListener('change', onChange);
+  }, [query]);
+
+  return matches;
+}
+
+function slidesFor(project: Project) {
+  if (project.images && project.images.length > 1) return project.images;
+  return project.image ? [project.image] : [];
+}
 
 function BrowserMockup({
   slides,
   liveUrl,
   title,
+  playing = true,
 }: {
   slides: string[];
   liveUrl?: string;
   title: string;
+  playing?: boolean;
 }) {
   const [current, setCurrent] = useState(0);
   const hasMultiple = slides.length > 1;
@@ -64,21 +87,21 @@ function BrowserMockup({
   }, [slides]);
 
   useEffect(() => {
-    if (!hasMultiple) return;
+    if (!hasMultiple || !playing) return;
     const interval = setInterval(() => {
       setCurrent((prev) => (prev + 1) % slides.length);
     }, SLIDE_MS);
     return () => clearInterval(interval);
-  }, [hasMultiple, slides]);
+  }, [hasMultiple, playing, slides]);
 
   const displayUrl = liveUrl
     ? liveUrl.replace(/^https?:\/\//, '').replace(/\/$/, '')
     : 'localhost:3000';
 
   return (
-    <div className="relative w-full max-w-full overflow-hidden">
-      <div className="relative overflow-hidden rounded border border-neutral-200 bg-neutral-900">
-        <div className="flex items-center gap-3 border-b border-neutral-700 bg-neutral-800 px-4 py-3">
+    <div className="relative w-full max-w-full overflow-hidden lg:flex lg:h-full lg:flex-col lg:justify-center">
+      <div className="relative w-full overflow-hidden rounded border border-neutral-200 bg-neutral-900">
+        <div className="flex shrink-0 items-center gap-3 border-b border-neutral-700 bg-neutral-800 px-4 py-3">
           <div className="flex gap-1.5">
             <span className="h-3 w-3 rounded-full bg-red-500/90" />
             <span className="h-3 w-3 rounded-full bg-amber-400/90" />
@@ -99,7 +122,7 @@ function BrowserMockup({
                 key={slides[current]}
                 src={slides[current]}
                 alt={`${title} screenshot ${current + 1}`}
-                className="absolute inset-0 h-full w-full object-cover object-top transition-opacity duration-300"
+                className="absolute inset-0 h-full w-full object-contain transition-opacity duration-300"
               />
 
               {hasMultiple && (
@@ -136,18 +159,148 @@ function BrowserMockup({
   );
 }
 
+function ProjectCard({
+  project,
+  index,
+  total,
+  playing,
+}: {
+  project: Project;
+  index: number;
+  total: number;
+  playing: boolean;
+}) {
+  return (
+    <div className="card overflow-hidden">
+      <div className="grid gap-8 p-6 sm:p-8 lg:grid-cols-[1.15fr_1fr] lg:gap-10 lg:p-10">
+        <BrowserMockup slides={slidesFor(project)} liveUrl={project.liveUrl} title={project.title} playing={playing} />
+
+        <div className="flex flex-col justify-center">
+          <div className="flex flex-wrap items-center gap-3">
+            <span className="font-display text-sm font-bold text-neutral-400">
+              {String(index + 1).padStart(2, '0')}{' '}
+              <span className="text-neutral-300 dark:text-neutral-600">/</span>{' '}
+              {String(total).padStart(2, '0')}
+            </span>
+            {project.type && (
+              <span className="rounded border border-neutral-200 bg-neutral-50 px-3 py-1 text-xs font-semibold text-neutral-600 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-300">
+                {project.type}
+              </span>
+            )}
+            {project.liveUrl && (
+              <span className="inline-flex items-center gap-1.5 rounded border border-neutral-200 bg-neutral-50 px-3 py-1 text-xs font-semibold text-black dark:border-neutral-700 dark:bg-neutral-900 dark:text-white">
+                <span className="h-1.5 w-1.5 rounded-full bg-black dark:bg-white" />
+                Live
+              </span>
+            )}
+          </div>
+
+          <h3 className="mt-5 font-display text-2xl font-bold leading-tight text-black dark:text-white sm:text-3xl">
+            {project.title}
+          </h3>
+
+          <p className="mt-4 text-sm leading-7 text-neutral-600 dark:text-neutral-400 sm:text-base">{project.description}</p>
+
+          <div className="mt-7">
+            <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-neutral-400">Built with</p>
+            <div className="flex flex-wrap gap-2">
+              {project.tech.map((item) => {
+                const icon = techIconMap[item.toLowerCase()];
+                return (
+                  <div
+                    key={item}
+                    title={item}
+                    className="flex items-center gap-2 rounded border border-neutral-200 bg-white px-3 py-2 transition-colors hover:border-neutral-300 dark:border-neutral-700 dark:bg-neutral-900 dark:hover:border-neutral-600"
+                  >
+                    {icon ? (
+                      <img
+                        src={icon}
+                        alt={item}
+                        className={`object-contain ${item.toLowerCase() === 'electron' ? 'h-5 w-5' : 'h-4 w-4'}`}
+                      />
+                    ) : (
+                      <span className="flex h-4 w-4 items-center justify-center rounded bg-neutral-100 text-[8px] font-bold text-black dark:bg-neutral-800 dark:text-white">
+                        {item.slice(0, 2)}
+                      </span>
+                    )}
+                    <span className="text-xs font-semibold text-black dark:text-white">{item}</span>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+            {project.liveUrl ? (
+              <a
+                href={project.liveUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-primary flex-1 justify-center gap-2 sm:flex-none"
+              >
+                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                </svg>
+                View Live Site
+              </a>
+            ) : (
+              <span className="inline-flex flex-1 cursor-not-allowed items-center justify-center gap-2 rounded bg-neutral-100 px-6 py-3 text-sm font-semibold text-neutral-400 dark:bg-neutral-800 dark:text-neutral-500 sm:flex-none">
+                View Live Site
+              </span>
+            )}
+            {project.sourceUrl ? (
+              <a
+                href={project.sourceUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-secondary flex-1 justify-center gap-2 sm:flex-none"
+              >
+                <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.385-1.335-1.755-1.335-1.755-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12z" />
+                </svg>
+                Source Code
+              </a>
+            ) : (
+              <span className="inline-flex flex-1 cursor-not-allowed items-center justify-center gap-2 rounded border border-neutral-200 px-6 py-3 text-sm font-semibold text-neutral-400 dark:border-neutral-700 dark:text-neutral-500 sm:flex-none">
+                Source Code
+              </span>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+type DeckSlot = 'center' | 'left' | 'right' | 'behind';
+
+// Tuned so the rotated top corner of a side card still lands inside the content
+// column — any further out and the deck gets clipped by the page's overflow rules.
+const slotTransform: Record<DeckSlot, string> = {
+  center: 'z-30 translate-x-0 translate-y-0 rotate-0 scale-100',
+  left: 'z-10 -translate-x-[12%] translate-y-3 -rotate-[7deg] scale-[0.88] cursor-pointer',
+  right: 'z-20 translate-x-[12%] translate-y-3 rotate-[7deg] scale-[0.88] cursor-pointer',
+  behind: 'z-0 translate-y-6 scale-[0.85] opacity-0 pointer-events-none',
+};
+
+const slotHover: Record<DeckSlot, string> = {
+  center: 'hover:-translate-y-1.5 hover:scale-[1.01]',
+  left: 'hover:z-[25] hover:-translate-x-[13.5%] hover:translate-y-0 hover:-rotate-[5.5deg] hover:scale-[0.9]',
+  right: 'hover:z-[25] hover:translate-x-[13.5%] hover:translate-y-0 hover:rotate-[5.5deg] hover:scale-[0.9]',
+  behind: '',
+};
+
 export default function ProjectsShowcase({ projects }: ProjectsShowcaseProps) {
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
   const [progress, setProgress] = useState(0);
+  const [deckHeight, setDeckHeight] = useState(0);
+
+  // Below this the centre card gets too narrow for its two-column layout.
+  const isDeck = useMediaQuery('(min-width: 1280px)');
+  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   const project = projects[active];
-  const slides =
-    project?.images && project.images.length > 1
-      ? project.images
-      : project?.image
-        ? [project.image]
-        : [];
 
   const goTo = useCallback(
     (index: number) => {
@@ -159,6 +312,15 @@ export default function ProjectsShowcase({ projects }: ProjectsShowcaseProps) {
 
   const goNext = useCallback(() => goTo(active + 1), [active, goTo]);
   const goPrev = useCallback(() => goTo(active - 1), [active, goTo]);
+
+  const slotFor = (index: number): DeckSlot => {
+    const total = projects.length;
+    const offset = (index - active + total) % total;
+    if (offset === 0) return 'center';
+    if (offset === 1) return 'right';
+    if (offset === total - 1) return 'left';
+    return 'behind';
+  };
 
   useEffect(() => {
     if (projects.length <= 1 || paused) return;
@@ -187,6 +349,22 @@ export default function ProjectsShowcase({ projects }: ProjectsShowcaseProps) {
     return () => window.removeEventListener('keydown', handleKey);
   }, [goNext, goPrev]);
 
+  // Absolutely positioned cards can't size the deck, so track the tallest one.
+  useLayoutEffect(() => {
+    if (!isDeck) return;
+
+    const measure = () => {
+      const tallest = cardRefs.current.reduce((max, el) => Math.max(max, el?.offsetHeight ?? 0), 0);
+      setDeckHeight(tallest);
+    };
+
+    measure();
+
+    const observer = new ResizeObserver(measure);
+    cardRefs.current.forEach((el) => el && observer.observe(el));
+    return () => observer.disconnect();
+  }, [isDeck, projects]);
+
   if (!project) return null;
 
   const shortTitle = (title: string) => {
@@ -198,7 +376,7 @@ export default function ProjectsShowcase({ projects }: ProjectsShowcaseProps) {
 
   return (
     <div
-      className="relative w-full max-w-full overflow-hidden"
+      className="relative w-full max-w-full"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
@@ -249,110 +427,64 @@ export default function ProjectsShowcase({ projects }: ProjectsShowcaseProps) {
         </div>
       </div>
 
-      <div className="card overflow-hidden">
-        <div key={active} className="grid gap-8 p-6 sm:p-8 lg:grid-cols-[1.15fr_1fr] lg:gap-10 lg:p-10">
-          <BrowserMockup slides={slides} liveUrl={project.liveUrl} title={project.title} />
+      {isDeck ? (
+        <div
+          className="relative"
+          style={deckHeight ? { height: deckHeight + DECK_OVERHANG } : undefined}
+        >
+          {projects.map((p, i) => {
+            const slot = slotFor(i);
+            const isCenter = slot === 'center';
 
-          <div className="flex flex-col justify-center">
-            <div className="flex flex-wrap items-center gap-3">
-              <span className="font-display text-sm font-bold text-neutral-400">
-                {String(active + 1).padStart(2, '0')}{' '}
-                <span className="text-neutral-300 dark:text-neutral-600">/</span>{' '}
-                {String(projects.length).padStart(2, '0')}
-              </span>
-              {project.type && (
-                <span className="rounded border border-neutral-200 bg-neutral-50 px-3 py-1 text-xs font-semibold text-neutral-600 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-300">
-                  {project.type}
-                </span>
-              )}
-              {project.liveUrl && (
-                <span className="inline-flex items-center gap-1.5 rounded border border-neutral-200 bg-neutral-50 px-3 py-1 text-xs font-semibold text-black dark:border-neutral-700 dark:bg-neutral-900 dark:text-white">
-                  <span className="h-1.5 w-1.5 rounded-full bg-black dark:bg-white" />
-                  Live
-                </span>
-              )}
-            </div>
+            return (
+              <div
+                key={p.title}
+                ref={(el) => {
+                  cardRefs.current[i] = el;
+                }}
+                onClick={isCenter ? undefined : () => goTo(i)}
+                onKeyDown={
+                  isCenter
+                    ? undefined
+                    : (event) => {
+                        if (event.key === 'Enter' || event.key === ' ') {
+                          event.preventDefault();
+                          goTo(i);
+                        }
+                      }
+                }
+                role={isCenter ? undefined : 'button'}
+                tabIndex={isCenter ? undefined : 0}
+                aria-label={isCenter ? undefined : `Show ${shortTitle(p.title)}`}
+                className={`absolute inset-x-[13%] top-0 origin-bottom rounded outline-none transition-[transform,opacity,box-shadow] duration-500 ease-[cubic-bezier(.22,1,.36,1)] ${
+                  isCenter
+                    ? 'shadow-[0_26px_55px_-22px_rgba(10,10,10,0.3)]'
+                    : 'shadow-[0_16px_32px_-18px_rgba(10,10,10,0.25)]'
+                } ${slotTransform[slot]} ${slotHover[slot]}`}
+              >
+                <div className={isCenter ? undefined : 'pointer-events-none select-none'}>
+                  <ProjectCard project={p} index={i} total={projects.length} playing={isCenter} />
+                </div>
 
-            <h3 className="mt-5 font-display text-2xl font-bold leading-tight text-black dark:text-white sm:text-3xl">
-              {project.title}
-            </h3>
-
-            <p className="mt-4 text-sm leading-7 text-neutral-600 dark:text-neutral-400 sm:text-base">{project.description}</p>
-
-            <div className="mt-7">
-              <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-neutral-400">Built with</p>
-              <div className="flex flex-wrap gap-2">
-                {project.tech.map((item) => {
-                  const icon = techIconMap[item.toLowerCase()];
-                  return (
-                    <div
-                      key={item}
-                      title={item}
-                      className="flex items-center gap-2 rounded border border-neutral-200 bg-white px-3 py-2 transition-colors hover:border-neutral-300 dark:border-neutral-700 dark:bg-neutral-900 dark:hover:border-neutral-600"
-                    >
-                      {icon ? (
-                        <img
-                          src={icon}
-                          alt={item}
-                          className={`object-contain ${item.toLowerCase() === 'electron' ? 'h-5 w-5' : 'h-4 w-4'}`}
-                        />
-                      ) : (
-                        <span className="flex h-4 w-4 items-center justify-center rounded bg-neutral-100 text-[8px] font-bold text-black dark:bg-neutral-800 dark:text-white">
-                          {item.slice(0, 2)}
-                        </span>
-                      )}
-                      <span className="text-xs font-semibold text-black dark:text-white">{item}</span>
-                    </div>
-                  );
-                })}
+                {!isCenter && (
+                  <span
+                    aria-hidden
+                    className="pointer-events-none absolute inset-0 rounded bg-white/55 transition-colors duration-300 dark:bg-neutral-950/55"
+                  />
+                )}
               </div>
-            </div>
-
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              {project.liveUrl ? (
-                <a
-                  href={project.liveUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn-primary flex-1 justify-center gap-2 sm:flex-none"
-                >
-                  <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                  </svg>
-                  View Live Site
-                </a>
-              ) : (
-                <span className="inline-flex flex-1 cursor-not-allowed items-center justify-center gap-2 rounded bg-neutral-100 px-6 py-3 text-sm font-semibold text-neutral-400 dark:bg-neutral-800 dark:text-neutral-500 sm:flex-none">
-                  View Live Site
-                </span>
-              )}
-              {project.sourceUrl ? (
-                <a
-                  href={project.sourceUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn-secondary flex-1 justify-center gap-2 sm:flex-none"
-                >
-                  <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.385-1.335-1.755-1.335-1.755-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12z" />
-                  </svg>
-                  Source Code
-                </a>
-              ) : (
-                <span className="inline-flex flex-1 cursor-not-allowed items-center justify-center gap-2 rounded border border-neutral-200 px-6 py-3 text-sm font-semibold text-neutral-400 dark:border-neutral-700 dark:text-neutral-500 sm:flex-none">
-                  Source Code
-                </span>
-              )}
-            </div>
-          </div>
+            );
+          })}
         </div>
+      ) : (
+        <ProjectCard project={project} index={active} total={projects.length} playing />
+      )}
 
-        {projects.length > 1 && (
-          <div className="h-1 bg-neutral-100 dark:bg-neutral-800">
-            <div className="h-full bg-black transition-[width] duration-75 dark:bg-white" style={{ width: `${progress}%` }} />
-          </div>
-        )}
-      </div>
+      {projects.length > 1 && (
+        <div className="mt-6 h-1 overflow-hidden rounded bg-neutral-100 dark:bg-neutral-800">
+          <div className="h-full bg-black transition-[width] duration-75 dark:bg-white" style={{ width: `${progress}%` }} />
+        </div>
+      )}
 
       {projects.length > 1 && (
         <div className="mt-4 flex justify-center gap-3 sm:hidden">
