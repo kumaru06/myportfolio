@@ -47,7 +47,7 @@ interface ProjectsShowcaseProps {
 const AUTO_ADVANCE_MS = 7000;
 const SLIDE_MS = 3500;
 /** Room for the tilted cards peeking out below the centre card. */
-const DECK_OVERHANG = 104;
+const DECK_OVERHANG = 64;
 
 function useMediaQuery(query: string) {
   const [matches, setMatches] = useState(() => window.matchMedia(query).matches);
@@ -73,11 +73,13 @@ function BrowserMockup({
   liveUrl,
   title,
   playing = true,
+  compact = false,
 }: {
   slides: string[];
   liveUrl?: string;
   title: string;
   playing?: boolean;
+  compact?: boolean;
 }) {
   const [current, setCurrent] = useState(0);
   const hasMultiple = slides.length > 1;
@@ -101,13 +103,13 @@ function BrowserMockup({
   return (
     <div className="relative w-full max-w-full overflow-hidden lg:flex lg:h-full lg:flex-col lg:justify-center">
       <div className="relative w-full overflow-hidden rounded border border-neutral-200 bg-neutral-900">
-        <div className="flex shrink-0 items-center gap-3 border-b border-neutral-700 bg-neutral-800 px-4 py-3">
+        <div className={`flex shrink-0 items-center border-b border-neutral-700 bg-neutral-800 ${compact ? 'gap-2 px-3 py-2' : 'gap-3 px-4 py-3'}`}>
           <div className="flex gap-1.5">
-            <span className="h-3 w-3 rounded-full bg-red-500/90" />
-            <span className="h-3 w-3 rounded-full bg-amber-400/90" />
-            <span className="h-3 w-3 rounded-full bg-emerald-500/90" />
+            <span className={`rounded-full bg-red-500/90 ${compact ? 'h-2 w-2' : 'h-3 w-3'}`} />
+            <span className={`rounded-full bg-amber-400/90 ${compact ? 'h-2 w-2' : 'h-3 w-3'}`} />
+            <span className={`rounded-full bg-emerald-500/90 ${compact ? 'h-2 w-2' : 'h-3 w-3'}`} />
           </div>
-          <div className="flex flex-1 items-center gap-2 rounded bg-neutral-900 px-3 py-1.5">
+          <div className={`flex flex-1 items-center gap-2 rounded bg-neutral-900 ${compact ? 'px-2 py-1' : 'px-3 py-1.5'}`}>
             <svg className="h-3 w-3 text-neutral-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
             </svg>
@@ -115,7 +117,7 @@ function BrowserMockup({
           </div>
         </div>
 
-        <div className="relative aspect-[16/10] w-full overflow-hidden bg-neutral-950">
+        <div className={`relative w-full overflow-hidden bg-neutral-950 ${compact ? 'aspect-video max-h-[220px]' : 'aspect-[16/10]'}`}>
           {slides.length > 0 ? (
             <>
               <img
@@ -164,87 +166,134 @@ function ProjectCard({
   index,
   total,
   playing,
+  compact = false,
+  minHeight,
 }: {
   project: Project;
   index: number;
   total: number;
   playing: boolean;
+  compact?: boolean;
+  minHeight?: number;
 }) {
-  return (
-    <div className="card overflow-hidden">
-      <div className="grid gap-8 p-6 sm:p-8 lg:grid-cols-[1.15fr_1fr] lg:gap-10 lg:p-10">
-        <BrowserMockup slides={slidesFor(project)} liveUrl={project.liveUrl} title={project.title} playing={playing} />
+  const iconClass = (item: string) => {
+    if (item.toLowerCase() === 'electron') return compact ? 'h-4 w-4' : 'h-5 w-5';
+    return compact ? 'h-3.5 w-3.5' : 'h-4 w-4';
+  };
 
-        <div className="flex flex-col justify-center">
-          <div className="flex flex-wrap items-center gap-3">
-            <span className="font-display text-sm font-bold text-neutral-400">
+  return (
+    <div className="card overflow-hidden" style={minHeight ? { minHeight } : undefined}>
+      <div
+        className={
+          compact
+            ? 'grid grid-cols-[0.9fr_1fr] items-center gap-5 p-5'
+            : 'grid gap-8 p-6 sm:p-8 lg:grid-cols-[1.15fr_1fr] lg:gap-10 lg:p-10'
+        }
+      >
+        <BrowserMockup
+          slides={slidesFor(project)}
+          liveUrl={project.liveUrl}
+          title={project.title}
+          playing={playing}
+          compact={compact}
+        />
+
+        <div className="flex min-w-0 flex-col justify-center">
+          <div className={`flex flex-wrap items-center ${compact ? 'gap-2' : 'gap-3'}`}>
+            <span className={`font-display font-bold text-neutral-400 ${compact ? 'text-xs' : 'text-sm'}`}>
               {String(index + 1).padStart(2, '0')}{' '}
               <span className="text-neutral-300 dark:text-neutral-600">/</span>{' '}
               {String(total).padStart(2, '0')}
             </span>
             {project.type && (
-              <span className="rounded border border-neutral-200 bg-neutral-50 px-3 py-1 text-xs font-semibold text-neutral-600 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-300">
+              <span
+                className={`rounded border border-neutral-200 bg-neutral-50 font-semibold text-neutral-600 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-300 ${
+                  compact ? 'px-2 py-0.5 text-[11px]' : 'px-3 py-1 text-xs'
+                }`}
+              >
                 {project.type}
               </span>
             )}
             {project.liveUrl && (
-              <span className="inline-flex items-center gap-1.5 rounded border border-neutral-200 bg-neutral-50 px-3 py-1 text-xs font-semibold text-black dark:border-neutral-700 dark:bg-neutral-900 dark:text-white">
+              <span
+                className={`inline-flex items-center gap-1.5 rounded border border-neutral-200 bg-neutral-50 font-semibold text-black dark:border-neutral-700 dark:bg-neutral-900 dark:text-white ${
+                  compact ? 'px-2 py-0.5 text-[11px]' : 'px-3 py-1 text-xs'
+                }`}
+              >
                 <span className="h-1.5 w-1.5 rounded-full bg-black dark:bg-white" />
                 Live
               </span>
             )}
           </div>
 
-          <h3 className="mt-5 font-display text-2xl font-bold leading-tight text-black dark:text-white sm:text-3xl">
+          <h3
+            className={`font-display font-bold leading-tight text-black dark:text-white ${
+              compact ? 'mt-3 text-xl leading-snug' : 'mt-5 text-2xl sm:text-3xl'
+            }`}
+          >
             {project.title}
           </h3>
 
-          <p className="mt-4 text-sm leading-7 text-neutral-600 dark:text-neutral-400 sm:text-base">{project.description}</p>
+          <p
+            className={`text-neutral-600 dark:text-neutral-400 ${
+              compact ? 'mt-2 line-clamp-3 text-sm leading-6' : 'mt-4 text-sm leading-7 sm:text-base'
+            }`}
+          >
+            {project.description}
+          </p>
 
-          <div className="mt-7">
-            <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-neutral-400">Built with</p>
-            <div className="flex flex-wrap gap-2">
+          <div className={compact ? 'mt-4' : 'mt-7'}>
+            <p className={`font-semibold uppercase tracking-widest text-neutral-400 ${compact ? 'mb-2 text-[10px]' : 'mb-3 text-xs'}`}>
+              Built with
+            </p>
+            <div className={`flex flex-wrap ${compact ? 'gap-1.5' : 'gap-2'}`}>
               {project.tech.map((item) => {
                 const icon = techIconMap[item.toLowerCase()];
                 return (
                   <div
                     key={item}
                     title={item}
-                    className="flex items-center gap-2 rounded border border-neutral-200 bg-white px-3 py-2 transition-colors hover:border-neutral-300 dark:border-neutral-700 dark:bg-neutral-900 dark:hover:border-neutral-600"
+                    className={`flex items-center rounded border border-neutral-200 bg-white transition-colors hover:border-neutral-300 dark:border-neutral-700 dark:bg-neutral-900 dark:hover:border-neutral-600 ${
+                      compact ? 'gap-1.5 px-2 py-1' : 'gap-2 px-3 py-2'
+                    }`}
                   >
                     {icon ? (
-                      <img
-                        src={icon}
-                        alt={item}
-                        className={`object-contain ${item.toLowerCase() === 'electron' ? 'h-5 w-5' : 'h-4 w-4'}`}
-                      />
+                      <img src={icon} alt={item} className={`object-contain ${iconClass(item)}`} />
                     ) : (
-                      <span className="flex h-4 w-4 items-center justify-center rounded bg-neutral-100 text-[8px] font-bold text-black dark:bg-neutral-800 dark:text-white">
+                      <span
+                        className={`flex items-center justify-center rounded bg-neutral-100 font-bold text-black dark:bg-neutral-800 dark:text-white ${
+                          compact ? 'h-3.5 w-3.5 text-[7px]' : 'h-4 w-4 text-[8px]'
+                        }`}
+                      >
                         {item.slice(0, 2)}
                       </span>
                     )}
-                    <span className="text-xs font-semibold text-black dark:text-white">{item}</span>
+                    <span className={`font-semibold text-black dark:text-white ${compact ? 'text-[11px]' : 'text-xs'}`}>{item}</span>
                   </div>
                 );
               })}
             </div>
           </div>
 
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+          <div className={`flex flex-col sm:flex-row ${compact ? 'mt-4 gap-2' : 'mt-8 gap-3'}`}>
             {project.liveUrl ? (
               <a
                 href={project.liveUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn-primary flex-1 justify-center gap-2 sm:flex-none"
+                className={`btn-primary flex-1 justify-center gap-2 sm:flex-none ${compact ? '!px-3.5 !py-2 !text-xs' : ''}`}
               >
-                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                <svg className={compact ? 'h-3.5 w-3.5' : 'h-4 w-4'} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                 </svg>
                 View Live Site
               </a>
             ) : (
-              <span className="inline-flex flex-1 cursor-not-allowed items-center justify-center gap-2 rounded bg-neutral-100 px-6 py-3 text-sm font-semibold text-neutral-400 dark:bg-neutral-800 dark:text-neutral-500 sm:flex-none">
+              <span
+                className={`inline-flex flex-1 cursor-not-allowed items-center justify-center gap-2 rounded bg-neutral-100 font-semibold text-neutral-400 dark:bg-neutral-800 dark:text-neutral-500 sm:flex-none ${
+                  compact ? 'px-3.5 py-2 text-xs' : 'px-6 py-3 text-sm'
+                }`}
+              >
                 View Live Site
               </span>
             )}
@@ -253,15 +302,19 @@ function ProjectCard({
                 href={project.sourceUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn-secondary flex-1 justify-center gap-2 sm:flex-none"
+                className={`btn-secondary flex-1 justify-center gap-2 sm:flex-none ${compact ? '!px-3.5 !py-2 !text-xs' : ''}`}
               >
-                <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
+                <svg className={compact ? 'h-3.5 w-3.5' : 'h-4 w-4'} fill="currentColor" viewBox="0 0 24 24">
                   <path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.385-1.335-1.755-1.335-1.755-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12z" />
                 </svg>
                 Source Code
               </a>
             ) : (
-              <span className="inline-flex flex-1 cursor-not-allowed items-center justify-center gap-2 rounded border border-neutral-200 px-6 py-3 text-sm font-semibold text-neutral-400 dark:border-neutral-700 dark:text-neutral-500 sm:flex-none">
+              <span
+                className={`inline-flex flex-1 cursor-not-allowed items-center justify-center gap-2 rounded border border-neutral-200 font-semibold text-neutral-400 dark:border-neutral-700 dark:text-neutral-500 sm:flex-none ${
+                  compact ? 'px-3.5 py-2 text-xs' : 'px-6 py-3 text-sm'
+                }`}
+              >
                 Source Code
               </span>
             )}
@@ -278,15 +331,15 @@ type DeckSlot = 'center' | 'left' | 'right' | 'behind';
 // column — any further out and the deck gets clipped by the page's overflow rules.
 const slotTransform: Record<DeckSlot, string> = {
   center: 'z-30 translate-x-0 translate-y-0 rotate-0 scale-100',
-  left: 'z-10 -translate-x-[12%] translate-y-3 -rotate-[7deg] scale-[0.88] cursor-pointer',
-  right: 'z-20 translate-x-[12%] translate-y-3 rotate-[7deg] scale-[0.88] cursor-pointer',
+  left: 'z-10 -translate-x-[10%] translate-y-2 -rotate-[6deg] scale-[0.92] cursor-pointer',
+  right: 'z-20 translate-x-[10%] translate-y-2 rotate-[6deg] scale-[0.92] cursor-pointer',
   behind: 'z-0 translate-y-6 scale-[0.85] opacity-0 pointer-events-none',
 };
 
 const slotHover: Record<DeckSlot, string> = {
   center: 'hover:-translate-y-1.5 hover:scale-[1.01]',
-  left: 'hover:z-[25] hover:-translate-x-[13.5%] hover:translate-y-0 hover:-rotate-[5.5deg] hover:scale-[0.9]',
-  right: 'hover:z-[25] hover:translate-x-[13.5%] hover:translate-y-0 hover:rotate-[5.5deg] hover:scale-[0.9]',
+  left: 'hover:z-[25] hover:-translate-x-[11.5%] hover:translate-y-0 hover:-rotate-[4.5deg] hover:scale-[0.94]',
+  right: 'hover:z-[25] hover:translate-x-[11.5%] hover:translate-y-0 hover:rotate-[4.5deg] hover:scale-[0.94]',
   behind: '',
 };
 
@@ -387,7 +440,7 @@ export default function ProjectsShowcase({ projects }: ProjectsShowcaseProps) {
               key={p.title}
               type="button"
               onClick={() => goTo(i)}
-              className={`relative flex shrink-0 items-center gap-2.5 rounded border px-4 py-3 text-left transition-colors duration-200 ${
+              className={`relative flex shrink-0 items-center gap-2 rounded border px-3 py-2 text-left transition-colors duration-200 ${
                 i === active
                   ? 'border-black bg-neutral-50 dark:border-white dark:bg-neutral-900'
                   : 'border-neutral-200 bg-white hover:border-neutral-300 dark:border-neutral-700 dark:bg-neutral-950 dark:hover:border-neutral-600'
@@ -408,7 +461,7 @@ export default function ProjectsShowcase({ projects }: ProjectsShowcaseProps) {
             type="button"
             onClick={goPrev}
             aria-label="Previous project"
-            className="flex h-10 w-10 items-center justify-center rounded border border-neutral-200 bg-white text-black transition-colors hover:bg-neutral-50 dark:border-neutral-700 dark:bg-neutral-900 dark:text-white dark:hover:bg-neutral-800"
+            className="flex h-9 w-9 items-center justify-center rounded border border-neutral-200 bg-white text-black transition-colors hover:bg-neutral-50 dark:border-neutral-700 dark:bg-neutral-900 dark:text-white dark:hover:bg-neutral-800"
           >
             <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
@@ -418,7 +471,7 @@ export default function ProjectsShowcase({ projects }: ProjectsShowcaseProps) {
             type="button"
             onClick={goNext}
             aria-label="Next project"
-            className="flex h-10 w-10 items-center justify-center rounded border border-neutral-200 bg-white text-black transition-colors hover:bg-neutral-50 dark:border-neutral-700 dark:bg-neutral-900 dark:text-white dark:hover:bg-neutral-800"
+            className="flex h-9 w-9 items-center justify-center rounded border border-neutral-200 bg-white text-black transition-colors hover:bg-neutral-50 dark:border-neutral-700 dark:bg-neutral-900 dark:text-white dark:hover:bg-neutral-800"
           >
             <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
@@ -463,7 +516,14 @@ export default function ProjectsShowcase({ projects }: ProjectsShowcaseProps) {
                 } ${slotTransform[slot]} ${slotHover[slot]}`}
               >
                 <div className={isCenter ? undefined : 'pointer-events-none select-none'}>
-                  <ProjectCard project={p} index={i} total={projects.length} playing={isCenter} />
+                  <ProjectCard
+                    project={p}
+                    index={i}
+                    total={projects.length}
+                    playing={isCenter}
+                    compact
+                    minHeight={deckHeight || undefined}
+                  />
                 </div>
 
                 {!isCenter && (
