@@ -1,15 +1,5 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
-import {
-  AboutIcon,
-  CertsIcon,
-  CloseIcon,
-  ContactIcon,
-  ExperienceIcon,
-  GitHubIcon,
-  MenuIcon,
-  ProjectsIcon,
-  SkillsIcon,
-} from './NavIcons';
+import { useEffect, useRef, useState } from 'react';
+import { AboutIcon, CertsIcon, ContactIcon, ExperienceIcon, GitHubIcon, ProjectsIcon, SkillsIcon } from './NavIcons';
 import ThemeToggle from './ThemeToggle';
 
 const links = [
@@ -35,13 +25,15 @@ function useActiveSection() {
         const offset = window.innerWidth < 768 ? 100 : 120;
         const sections = links.map((l) => l.href.slice(1));
 
+        let current = '';
         for (let i = sections.length - 1; i >= 0; i--) {
           const el = document.getElementById(sections[i]);
           if (el && el.getBoundingClientRect().top <= offset) {
-            setActiveSection(sections[i]);
+            current = sections[i];
             break;
           }
         }
+        setActiveSection(current);
 
         ticking.current = false;
       });
@@ -60,12 +52,10 @@ function Brand({ onNavigate }: { onNavigate?: () => void }) {
     <a
       href="#home"
       onClick={onNavigate}
-      className="flex min-w-0 items-center gap-2.5 text-xl font-bold tracking-widest text-black dark:text-white"
+      className="flex min-w-0 items-center gap-3 text-[var(--text-primary)]"
     >
-      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded bg-black text-sm font-extrabold text-white dark:bg-white dark:text-black">
-        M
-      </span>
-      <span>MAP</span>
+      <span className="brand-mark">M</span>
+      <span className="font-display text-[1.55rem] leading-none tracking-[0.22em]">MAP</span>
     </a>
   );
 }
@@ -83,14 +73,14 @@ function NavList({ activeSection, onNavigate }: { activeSection: string; onNavig
             href={link.href}
             onClick={onNavigate}
             aria-current={isActive ? 'page' : undefined}
-            className={`relative flex items-center gap-3.5 rounded px-3 py-3 text-base font-medium transition-colors duration-200 ${
+            className={`relative flex items-center gap-3.5 rounded-2xl px-3 py-3 text-[15px] font-medium transition duration-300 ${
               isActive
-                ? 'bg-neutral-100 text-black dark:bg-neutral-900 dark:text-white'
-                : 'text-neutral-500 hover:bg-neutral-50 hover:text-black dark:text-neutral-400 dark:hover:bg-neutral-900/60 dark:hover:text-white'
+                ? 'bg-[var(--nav-active)] text-[var(--text-primary)] shadow-[0_10px_24px_-16px_var(--card-shadow)]'
+                : 'text-[var(--text-tertiary)] hover:bg-[var(--nav-hover)] hover:text-[var(--text-primary)]'
             }`}
           >
             {isActive && (
-              <span className="absolute left-0 top-1/2 h-6 w-0.5 -translate-y-1/2 rounded-full bg-black dark:bg-white" />
+              <span className="absolute left-0 top-1/2 h-6 w-0.5 -translate-y-1/2 rounded-full bg-[var(--accent)]" />
             )}
             <Icon active={isActive} />
             <span className="truncate">{link.label}</span>
@@ -101,97 +91,86 @@ function NavList({ activeSection, onNavigate }: { activeSection: string; onNavig
   );
 }
 
+const dock = [
+  {
+    label: 'Home',
+    href: '#home',
+    icon: AboutIcon,
+    isOn: (section: string) => section === '' || section === 'about',
+  },
+  {
+    label: 'Work',
+    href: '#projects',
+    icon: ProjectsIcon,
+    isOn: (section: string) => section === 'projects' || section === 'experience',
+  },
+  {
+    label: 'Skills',
+    href: '#skills',
+    icon: SkillsIcon,
+    isOn: (section: string) => section === 'skills' || section === 'certifications' || section === 'github',
+  },
+  {
+    label: 'Contact',
+    href: '#contact',
+    icon: ContactIcon,
+    isOn: (section: string) => section === 'contact',
+  },
+];
+
 export default function Sidebar() {
   const activeSection = useActiveSection();
-  const [drawerOpen, setDrawerOpen] = useState(false);
-  const closeDrawer = useCallback(() => setDrawerOpen(false), []);
-
-  useEffect(() => {
-    if (!drawerOpen) return;
-
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') closeDrawer();
-    };
-
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-    window.addEventListener('keydown', handleKeyDown);
-
-    return () => {
-      document.body.style.overflow = previousOverflow;
-      window.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [drawerOpen, closeDrawer]);
 
   return (
     <>
-      <aside className="fixed inset-y-0 left-0 z-40 hidden w-64 flex-col border-r border-neutral-200 bg-white dark:border-neutral-800 dark:bg-neutral-950 md:flex">
-        <div className="flex h-20 shrink-0 items-center border-b border-neutral-200 px-5 dark:border-neutral-800">
+      <aside className="fixed inset-y-0 left-0 z-40 hidden w-64 flex-col border-r border-[var(--line)] bg-[var(--sidebar)] shadow-[12px_0_40px_-32px_var(--card-shadow)] backdrop-blur-xl md:flex">
+        <div className="flex h-24 shrink-0 items-center border-b border-[var(--line)] px-5">
           <Brand />
         </div>
         <div className="min-h-0 flex-1 overflow-y-auto scrollbar-none p-3">
           <NavList activeSection={activeSection} />
         </div>
-        <div className="shrink-0 border-t border-neutral-200 p-3 dark:border-neutral-800">
+        <div className="shrink-0 border-t border-[var(--line)] p-3">
           <ThemeToggle />
         </div>
       </aside>
 
       <header
-        className="fixed inset-x-0 top-0 z-40 border-b border-neutral-200 bg-white/95 backdrop-blur-sm dark:border-neutral-800 dark:bg-neutral-950/95 md:hidden"
+        className="fixed inset-x-0 top-0 z-40 border-b border-[var(--line)] bg-[var(--sidebar)] backdrop-blur-xl md:hidden"
         style={{ paddingTop: 'env(safe-area-inset-top, 0px)' }}
       >
-        <div className="flex h-16 items-center justify-between px-4">
+        <div className="flex h-14 items-center justify-between px-4">
           <Brand />
-          <button
-            type="button"
-            onClick={() => setDrawerOpen(true)}
-            aria-label="Open navigation menu"
-            aria-expanded={drawerOpen}
-            className="flex h-11 w-11 touch-manipulation items-center justify-center rounded border border-neutral-200 text-black transition-colors duration-200 active:bg-neutral-50 dark:border-neutral-700 dark:text-white dark:active:bg-neutral-900"
-          >
-            <MenuIcon className="h-5 w-5" />
-          </button>
+          <ThemeToggle compact />
         </div>
       </header>
 
-      <div
-        onClick={closeDrawer}
-        aria-hidden
-        className={`fixed inset-0 z-40 bg-black/40 transition-opacity duration-200 md:hidden ${
-          drawerOpen ? 'opacity-100' : 'pointer-events-none opacity-0'
-        }`}
-      />
-
-      <div
-        role="dialog"
-        aria-modal="true"
-        aria-label="Navigation menu"
-        aria-hidden={!drawerOpen}
-        className={`fixed inset-y-0 left-0 z-50 flex w-72 max-w-[82vw] flex-col border-r border-neutral-200 bg-white transition-[transform,visibility] duration-300 ease-out dark:border-neutral-800 dark:bg-neutral-950 md:hidden ${
-          drawerOpen ? 'visible translate-x-0' : 'invisible -translate-x-full'
-        }`}
-        style={{ paddingTop: 'env(safe-area-inset-top, 0px)', paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}
+      <nav
+        aria-label="Mobile"
+        className="fixed inset-x-0 bottom-0 z-40 border-t border-[var(--line)] bg-[var(--sidebar)] backdrop-blur-xl md:hidden"
+        style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}
       >
-        <div className="flex h-16 shrink-0 items-center justify-between border-b border-neutral-200 px-4 dark:border-neutral-800">
-          <Brand onNavigate={closeDrawer} />
-          <button
-            type="button"
-            onClick={closeDrawer}
-            aria-label="Close navigation menu"
-            tabIndex={drawerOpen ? 0 : -1}
-            className="flex h-11 w-11 touch-manipulation items-center justify-center rounded border border-neutral-200 text-black transition-colors duration-200 active:bg-neutral-50 dark:border-neutral-700 dark:text-white dark:active:bg-neutral-900"
-          >
-            <CloseIcon className="h-5 w-5" />
-          </button>
+        <div className="grid grid-cols-4">
+          {dock.map((item) => {
+            const isActive = item.isOn(activeSection);
+            const Icon = item.icon;
+
+            return (
+              <a
+                key={item.label}
+                href={item.href}
+                aria-current={isActive ? 'page' : undefined}
+                className={`flex flex-col items-center gap-1 px-1 py-2.5 text-[10px] font-semibold tracking-wide transition-colors ${
+                  isActive ? 'text-[var(--accent)]' : 'text-[var(--text-tertiary)]'
+                }`}
+              >
+                <Icon active={isActive} className="h-5 w-5" />
+                <span>{item.label}</span>
+              </a>
+            );
+          })}
         </div>
-        <div className="min-h-0 flex-1 overflow-y-auto scrollbar-none p-3">
-          <NavList activeSection={activeSection} onNavigate={closeDrawer} />
-        </div>
-        <div className="shrink-0 border-t border-neutral-200 p-3 dark:border-neutral-800">
-          <ThemeToggle />
-        </div>
-      </div>
+      </nav>
     </>
   );
 }

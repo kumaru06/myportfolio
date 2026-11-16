@@ -49,18 +49,18 @@ export default function ContactForm() {
   };
 
   const inputClass =
-    'w-full rounded border border-neutral-200 bg-white px-4 py-3.5 text-black outline-none transition-colors duration-200 placeholder:text-neutral-400 focus:border-black focus:ring-1 focus:ring-black/10 dark:border-neutral-700 dark:bg-neutral-900 dark:text-white dark:placeholder:text-neutral-500 dark:focus:border-white dark:focus:ring-white/10';
+    'w-full rounded-2xl border border-[var(--line)] bg-[var(--input)] px-4 py-3.5 text-[var(--text-primary)] outline-none transition duration-200 placeholder:text-[var(--text-tertiary)] focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent-soft)]';
 
   return (
-    <form onSubmit={handleSubmit} className="card p-8">
+    <form onSubmit={handleSubmit} className="card h-full p-7 sm:p-8">
       <div className="mb-6">
-        <h3 className="font-display text-xl font-bold text-black dark:text-white">Send a message</h3>
-        <p className="mt-1 text-sm text-neutral-500 dark:text-neutral-400">I'll respond within 24 hours.</p>
+        <h3 className="font-display text-4xl leading-none text-[var(--text-primary)]">Send a message</h3>
+        <p className="mt-2 text-sm text-[var(--text-secondary)]">I'll respond within 24 hours.</p>
       </div>
 
       <div className="space-y-5">
         <div>
-          <label className="mb-2 block text-sm font-semibold text-black dark:text-white" htmlFor="name">
+          <label className="mb-2 block text-sm font-semibold text-[var(--text-primary)]" htmlFor="name">
             Name
           </label>
           <input
@@ -74,7 +74,7 @@ export default function ContactForm() {
           />
         </div>
         <div>
-          <label className="mb-2 block text-sm font-semibold text-black dark:text-white" htmlFor="email">
+          <label className="mb-2 block text-sm font-semibold text-[var(--text-primary)]" htmlFor="email">
             Email
           </label>
           <input
@@ -88,7 +88,7 @@ export default function ContactForm() {
           />
         </div>
         <div>
-          <label className="mb-2 block text-sm font-semibold text-black dark:text-white" htmlFor="message">
+          <label className="mb-2 block text-sm font-semibold text-[var(--text-primary)]" htmlFor="message">
             Message
           </label>
           <textarea
@@ -103,10 +103,8 @@ export default function ContactForm() {
 
         {message && (
           <div
-            className={`rounded p-4 text-sm font-medium ${
-              status === 'success'
-                ? 'border border-neutral-300 bg-neutral-50 text-black dark:border-neutral-600 dark:bg-neutral-900 dark:text-white'
-                : 'border border-neutral-400 bg-neutral-100 text-black dark:border-neutral-500 dark:bg-neutral-800 dark:text-white'
+            className={`rounded-2xl border p-4 text-sm font-medium text-[var(--text-primary)] ${
+              status === 'success' ? 'border-[var(--accent)] bg-[var(--accent-soft)]' : 'border-[var(--line-strong)] bg-[var(--chip)]'
             }`}
           >
             {message}

@@ -23,6 +23,8 @@ import certNetSec from './assets/images/certificationspdf/Network Security.pdf';
 import certCPA from './assets/images/certificationspdf/Partner CPA - Programming Essentials in C++.pdf';
 import certCPP from './assets/images/certificationspdf/Partner CPP - Advanced Programming in C++.pdf';
 import SocialIcon from './components/SocialIcon';
+import PortraitStage from './components/PortraitStage';
+import TiltSurface from './components/TiltSurface';
 import iconHtml from './assets/images/programminglogo/front-end/HTML.svg';
 import iconCss from './assets/images/programminglogo/front-end/CSS.svg';
 import iconJs from './assets/images/programminglogo/front-end/JavaScript.svg';
@@ -137,9 +139,21 @@ function App() {
 
   const experiences = useMemo(
     () => [
-      { title: 'Software Developer', description: 'Hands-on experience designing and building full-stack web applications using modern technologies such as HTML, CSS, JavaScript, PHP, React, and TypeScript, with a focus on clean architecture and user-centric design.' },
-      { title: 'Advanced Programming in C++', description: 'In-depth coursework and practical training covering advanced C++ concepts including templates, the Standard Template Library (STL), memory management, object-oriented design, and performance optimization.' },
-      { title: 'AI Machine Learning', description: 'Foundational knowledge and applied experience in artificial intelligence and machine learning, including model training, data preprocessing, and integrating AI-driven tools into modern software development workflows.' },
+      {
+        role: 'Web Developer Intern',
+        context: 'OJT · IT Department',
+        org: 'AMA Computer College, Inc.',
+        branch: 'Davao City Branch',
+        address: '123 General Malvar Street, Poblacion District, Davao City',
+        periodStart: 'Jun 17, 2026',
+        periodEnd: 'Oct 7, 2026',
+        hours: '514 hours',
+        points: [
+          'Completed 514 hours (513 hrs and 59 mins) of on-the-job training under the IT Department, focused on full-stack web application development.',
+          'Engineered and deployed the AMA OJT Portal, a role-based multi-portal management system on a custom PHP 8 MVC architecture with front-controller routing and access control lists.',
+          'Integrated Dompdf and PHPMailer for automated PDF document generation and email notifications, with secured database queries and responsive UI layouts.',
+        ],
+      },
     ],
     [],
   );
@@ -171,7 +185,7 @@ function App() {
     const src = map[key];
     if (!src) {
       return (
-        <svg className="h-4 w-4 text-black dark:text-white" viewBox="0 0 24 24" fill="none" aria-hidden>
+        <svg className="h-4 w-4 text-[var(--accent)]" viewBox="0 0 24 24" fill="none" aria-hidden>
           <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth={1.5} />
           <path d="M8 12h8" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" />
         </svg>
@@ -188,84 +202,56 @@ function App() {
   ];
 
   return (
-    <div className="min-h-screen w-full max-w-[100vw] overflow-x-hidden bg-white font-sans text-black dark:bg-neutral-950 dark:text-white">
-      <div className="fixed left-0 right-0 top-0 z-50 h-[2px] bg-neutral-100 dark:bg-neutral-800 md:left-64">
-        <div className="h-full bg-black transition-[width] duration-150 ease-out dark:bg-white" style={{ width: `${scrollProgress}%` }} />
+    <div className="min-h-screen w-full max-w-[100vw] overflow-x-hidden bg-transparent font-sans text-[var(--text-primary)]">
+      <div className="fixed left-0 right-0 top-0 z-50 h-[3px] bg-[var(--progress-track)] md:left-64">
+        <div className="h-full bg-[var(--accent)] shadow-[0_0_12px_var(--accent-soft)] transition-[width] duration-150 ease-out" style={{ width: `${scrollProgress}%` }} />
       </div>
 
       <Sidebar />
 
       <div className="md:pl-64">
-      <main className="relative mx-auto w-full max-w-6xl overflow-x-hidden px-4 pb-16 pt-[calc(4.5rem+env(safe-area-inset-top))] sm:px-6 md:pb-20 md:pt-16 lg:px-8">
+      <main className="relative mx-auto w-full max-w-6xl overflow-x-hidden px-4 pb-[calc(6.5rem+env(safe-area-inset-bottom))] pt-[calc(4.25rem+env(safe-area-inset-top))] sm:px-6 md:pb-24 md:pt-14 lg:px-8">
         {/* HERO */}
         <section className="relative" id="home">
+          <div className="hero-atmosphere" aria-hidden />
           <HeroReveal>
-          <div className="card overflow-x-hidden p-4 sm:p-8 md:p-12 lg:p-14">
-            <div className="grid gap-6 sm:gap-10 lg:grid-cols-[280px_1fr] lg:gap-16">
-              <div className="flex w-full flex-col items-center">
-                <div className="relative aspect-square w-40 overflow-hidden rounded border border-neutral-200 dark:border-neutral-700 sm:w-48 md:w-56 lg:w-60">
-                  <img
-                    src={profilePic}
-                    alt="Mark Andrey Perez"
-                    draggable={false}
-                    className="h-full w-full select-none object-cover object-center"
-                  />
-                </div>
-                <div className="mt-5 flex items-center gap-2 rounded border border-neutral-200 bg-neutral-50 px-4 py-1.5 dark:border-neutral-700 dark:bg-neutral-900">
-                  <span className="h-2 w-2 rounded-full bg-black dark:bg-white" />
-                  <span className="text-xs font-semibold text-black dark:text-white">Available for work</span>
-                </div>
-                <a
-                  href={resumePdf}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  download="Mark-Andrey-Perez-Resume.pdf"
-                  className="mt-4 inline-flex items-center gap-2 rounded border border-neutral-200 bg-neutral-50 px-4 py-1.5 text-xs font-semibold text-black transition-colors duration-200 hover:bg-neutral-100 dark:border-neutral-700 dark:bg-neutral-900 dark:text-white dark:hover:bg-neutral-800"
-                >
-                  <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                  </svg>
-                  Download CV
+          <div className="relative z-[1] grid items-center gap-8 lg:min-h-[calc(100vh-8.5rem)] lg:grid-cols-[1.15fr_0.85fr] lg:gap-8">
+            <div className="flex min-w-0 flex-col justify-center text-left">
+              <p className="section-label">Hello, I'm</p>
+              <h1 className="mt-3 font-display text-[clamp(2.6rem,12vw,3.4rem)] leading-[0.88] tracking-[-0.04em] text-[var(--text-primary)] lg:mt-4 lg:text-[clamp(3.15rem,5.1vw,5.45rem)]">
+                <span className="block">Mark Andrey</span>
+                <em className="italic text-[var(--accent)]">Perez</em>
+              </h1>
+              <p className="mt-5 max-w-md text-lg font-medium text-[var(--text-primary)] lg:mt-6 lg:text-xl">
+                Software Developer
+              </p>
+              <p className="mt-3 max-w-xl text-sm leading-7 text-[var(--text-secondary)] lg:text-base lg:leading-8">
+                Full-stack Software Developer building scalable, intelligent, and user‑friendly applications that make a real impact.
+              </p>
+
+              <div className="mt-6 flex flex-wrap items-center justify-start gap-3 lg:mt-8">
+                <a href="#projects" className="btn-primary px-6 py-3">
+                  View Projects
+                </a>
+                <a href="#contact" className="btn-secondary px-6 py-3">
+                  Contact Me
                 </a>
               </div>
 
-              <div className="flex min-w-0 flex-col justify-center text-center sm:text-left">
-                <p className="section-label mb-3">Hello, I'm</p>
-                <h1 className="text-[1.65rem] font-bold leading-tight text-black dark:text-white min-[400px]:text-3xl sm:text-4xl md:text-5xl lg:text-6xl">
-                  Mark Andrey Perez
-                </h1>
-                <p className="mt-3 text-base font-medium text-neutral-600 dark:text-neutral-400 sm:text-xl md:text-2xl">
-                  AI-Augmented | Software Developer
-                </p>
-                <p className="mx-auto mt-4 max-w-xl text-sm leading-7 text-neutral-600 dark:text-neutral-400 sm:mx-0 sm:mt-6 sm:text-base sm:leading-8">
-                  Full-stack AI-Augmented Developer building scalable, intelligent, and user-friendly applications that make a real impact.
-                </p>
-
-                <div className="mt-6 flex flex-col items-center gap-2.5 sm:mt-8 sm:flex-row sm:items-center sm:justify-start">
-                  <a href="#projects" className="btn-primary w-auto min-w-[9.5rem] justify-center px-5 py-2.5 sm:min-w-0 sm:px-6 sm:py-3">
-                    View Projects
-                  </a>
-                  <a href="#contact" className="btn-secondary w-auto min-w-[9.5rem] justify-center px-5 py-2.5 sm:min-w-0 sm:px-6 sm:py-3">
-                    Contact Me
-                  </a>
-                </div>
-
-                <div className="mt-8 grid grid-cols-3 border-t border-neutral-200 pt-5 dark:border-neutral-800 sm:mt-10 sm:pt-8">
-                  {stats.map((stat, index) => (
-                    <div
-                      key={stat.label}
-                      className={`flex min-w-0 flex-col items-center px-1 text-center sm:px-4 ${
-                        index > 0 ? 'border-l border-neutral-200 dark:border-neutral-800' : ''
-                      }`}
-                    >
-                      <p className="text-xl font-bold text-black dark:text-white sm:text-3xl">{stat.value}</p>
-                      <p className="mt-1 text-[9px] font-medium uppercase leading-tight tracking-wide text-neutral-500 dark:text-neutral-400 sm:text-xs sm:tracking-wider">
-                        {stat.label}
-                      </p>
-                    </div>
-                  ))}
-                </div>
+              <div className="mt-6 grid w-full max-w-lg grid-cols-3 gap-2 lg:mt-8 lg:gap-3">
+                {stats.map((stat) => (
+                  <div key={stat.label} className="stat-tile text-center">
+                    <p className="font-display text-2xl leading-none text-[var(--text-primary)] md:text-4xl">{stat.value}</p>
+                    <p className="mt-2 text-[10px] font-semibold uppercase leading-tight tracking-[0.12em] text-[var(--text-tertiary)] md:text-[11px] md:tracking-[0.14em]">
+                      {stat.label}
+                    </p>
+                  </div>
+                ))}
               </div>
+            </div>
+
+            <div>
+              <PortraitStage src={profilePic} name="Mark Andrey Perez" resumeHref={resumePdf} />
             </div>
           </div>
           </HeroReveal>
@@ -283,9 +269,9 @@ function App() {
           <ScrollReveal delay={0.08}>
           <div className="card w-full overflow-hidden p-5 sm:p-8 md:p-10">
             <div className="grid gap-8 lg:grid-cols-[1fr_280px]">
-              <div className="space-y-5 text-justify text-sm leading-7 text-neutral-600 dark:text-neutral-400 sm:text-base sm:leading-8">
+              <div className="space-y-5 text-justify text-sm leading-7 text-[var(--text-secondary)] sm:text-base sm:leading-8">
                 <p>
-                  I am an AI-Augmented Full-Stack Software Developer who combines strong foundations in both front-end and back-end development with the power of modern artificial intelligence tools and workflows. I specialize in building user-friendly, dynamic, and scalable web applications using technologies such as HTML, CSS, JavaScript, PHP, React, TypeScript, and C++.
+                  I am an Full-Stack Software Developer who combines strong foundations in both front-end and back-end development with the power of modern artificial intelligence tools and workflows. I specialize in building user-friendly, dynamic, and scalable web applications using technologies such as HTML, CSS, JavaScript, PHP, React, TypeScript, and C++.
                 </p>
                 <p>
                   My experience includes developing systems like inventory management platforms, hotel booking systems, and mobile applications, where I apply software engineering principles, system design, and problem-solving skills to deliver efficient and reliable solutions.
@@ -294,10 +280,10 @@ function App() {
                   Detail-oriented, adaptable, and driven to learn, I thrive in both collaborative and independent environments. My goal is to continually deliver intelligent, impactful solutions that push the boundaries of modern software development.                </p>
               </div>
               <div className="flex flex-col gap-3">
-                {['React & TypeScript', 'PHP & Node.js', 'AI-Augmented Dev', 'System Design'].map((tag) => (
-                  <div key={tag} className="flex items-center gap-3 rounded border border-neutral-200 bg-neutral-50 px-4 py-3 dark:border-neutral-700 dark:bg-neutral-900">
-                    <span className="h-2 w-2 shrink-0 rounded-full bg-black dark:bg-white" />
-                    <span className="text-sm font-semibold text-black dark:text-white">{tag}</span>
+                {['React & TypeScript', 'PHP & Node.js', 'Full-stack Developer', 'System Design'].map((tag) => (
+                  <div key={tag} className="chip px-4 py-3">
+                    <span className="h-2 w-2 shrink-0 rounded-full bg-[var(--accent)]" />
+                    <span className="text-sm font-semibold text-[var(--text-primary)]">{tag}</span>
                   </div>
                 ))}
               </div>
@@ -315,14 +301,15 @@ function App() {
             subtitle="Technologies and competencies I've honed through projects and certifications."
           />
           </ScrollReveal>
-          <ScrollStagger className="grid gap-5 sm:grid-cols-2">
+          <ScrollStagger className="flex snap-x snap-mandatory gap-4 overflow-x-auto pb-2 scrollbar-none md:grid md:snap-none md:grid-cols-2 md:overflow-visible">
             {['Frontend', 'Backend', 'Programming', 'Other'].map((group) => (
-              <ScrollStaggerItem key={group} className="h-full">
-              <div className="card flex h-[380px] flex-col overflow-hidden p-6 sm:h-[420px] sm:p-7">
-                <div className="mb-6 inline-flex w-fit shrink-0 self-start items-center gap-2 rounded border border-neutral-200 bg-neutral-50 px-4 py-1.5 dark:border-neutral-700 dark:bg-neutral-900">
-                  <span className="font-display text-sm font-bold text-black dark:text-white">{group}</span>
+              <ScrollStaggerItem key={group} className="h-full w-[86%] shrink-0 snap-center md:w-auto md:shrink">
+              <TiltSurface className="h-full" max={5.5}>
+              <div className="card flex h-full flex-col p-6 sm:p-7">
+                <div className="mb-6 inline-flex w-fit shrink-0 items-center self-start rounded-full border border-[var(--line)] bg-[var(--accent-soft)] px-4 py-1.5">
+                  <span className="font-display text-2xl leading-none text-[var(--text-primary)]">{group}</span>
                 </div>
-                <div className="min-h-0 flex-1 space-y-5 overflow-y-auto scrollbar-none">
+                <div className="skill-scroll space-y-5">
                   {skills
                     .filter((skill) => skill.category === group)
                     .map((skill) => (
@@ -330,6 +317,7 @@ function App() {
                     ))}
                 </div>
               </div>
+              </TiltSurface>
               </ScrollStaggerItem>
             ))}
           </ScrollStagger>
@@ -360,8 +348,10 @@ function App() {
           </ScrollReveal>
           <ScrollStagger className="grid gap-4 sm:grid-cols-2">
             {certifications.map((cert) => (
-              <ScrollStaggerItem key={cert.title}>
+              <ScrollStaggerItem key={cert.title} className="h-full">
+              <TiltSurface className="h-full" max={6}>
               <CertificationCard {...cert} />
+              </TiltSurface>
               </ScrollStaggerItem>
             ))}
           </ScrollStagger>
@@ -373,24 +363,45 @@ function App() {
           <SectionHeader
             number="05"
             title="Experience"
-            subtitle="Areas of focus and professional growth."
+            subtitle="On-the-job training and the system I shipped."
           />
           </ScrollReveal>
-          <div className="relative">
-            <div className="absolute left-6 top-0 hidden h-full w-px bg-neutral-200 dark:bg-neutral-800 sm:block" />
-            <ScrollStagger className="space-y-6">
-              {experiences.map((item) => (
-                <ScrollStaggerItem key={item.title}>
-                <div className="relative sm:pl-16">
-                  <div className="absolute left-4 top-6 hidden h-4 w-4 rounded-full border-2 border-black bg-white dark:border-white dark:bg-neutral-950 sm:block" />
-                  <div className="card w-full overflow-hidden p-6 sm:p-7">
-                    <h3 className="font-display text-xl font-bold text-black dark:text-white">{item.title}</h3>
-                    <p className="mt-3 text-sm leading-7 text-justify text-neutral-600 dark:text-neutral-400">{item.description}</p>
+          <div className="space-y-5">
+            {experiences.map((item) => (
+              <ScrollReveal key={item.role} delay={0.06}>
+                <article className="card grid gap-6 p-6 sm:p-8 lg:grid-cols-[minmax(17.5rem,280px)_1fr] lg:gap-10 lg:p-10">
+                  <div className="flex flex-col gap-4 border-b border-[var(--line)] pb-5 lg:border-b-0 lg:border-r lg:pb-0 lg:pr-8">
+                    <p className="whitespace-nowrap font-display text-[1.35rem] leading-none text-[var(--text-primary)] min-[400px]:text-[1.55rem] sm:text-[1.7rem]">
+                      {item.periodStart}{' '}
+                      <span className="italic text-[var(--accent)]">{item.periodEnd}</span>
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      <span className="rounded-full border border-[var(--line)] bg-[var(--accent-soft)] px-3 py-1 text-xs font-semibold text-[var(--accent)]">
+                        {item.hours}
+                      </span>
+                      <span className="rounded-full border border-[var(--line)] bg-[var(--chip)] px-3 py-1 text-xs font-semibold text-[var(--text-secondary)]">
+                        {item.context}
+                      </span>
+                    </div>
+                    <p className="text-sm leading-6 text-[var(--text-tertiary)]">{item.branch}</p>
                   </div>
-                </div>
-                </ScrollStaggerItem>
-              ))}
-            </ScrollStagger>
+
+                  <div>
+                    <p className="section-label">{item.org}</p>
+                    <h3 className="mt-2 font-display text-3xl leading-none text-[var(--text-primary)] md:text-5xl">{item.role}</h3>
+                    <p className="mt-3 text-sm text-[var(--text-secondary)]">{item.address}</p>
+                    <ul className="mt-6 space-y-4">
+                      {item.points.map((point) => (
+                        <li key={point} className="flex gap-3 text-sm leading-7 text-[var(--text-secondary)]">
+                          <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--accent)]" />
+                          <span>{point}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </article>
+              </ScrollReveal>
+            ))}
           </div>
         </section>
 
@@ -417,13 +428,13 @@ function App() {
             subtitle="Have a project in mind? Let's talk."
           />
           </ScrollReveal>
-          <ScrollStagger className="grid gap-8 lg:grid-cols-[1fr_380px]">
-            <ScrollStaggerItem>
-            <div className="card w-full overflow-hidden p-6 sm:p-8 md:p-10">
-              <h3 className="font-display text-2xl font-bold text-black dark:text-white">
+          <ScrollStagger className="grid gap-6 lg:grid-cols-[1fr_380px] lg:gap-8">
+            <ScrollStaggerItem className="order-2 lg:order-1">
+            <div className="card w-full overflow-hidden p-5 sm:p-8 md:p-10">
+              <h3 className="font-display text-3xl leading-[0.95] text-[var(--text-primary)] md:text-5xl">
                 Let's build something effective together.
               </h3>
-              <p className="mt-4 leading-7 text-neutral-600 dark:text-neutral-400">
+              <p className="mt-4 leading-7 text-[var(--text-secondary)]">
                 Reach out by email or send a quick message using the form. I'm available for freelance opportunities and project collaborations.
               </p>
               <div className="mt-8 space-y-3">
@@ -432,17 +443,17 @@ function App() {
                     key={link.label}
                     href={link.href}
                     {...(link.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-                    className="group flex items-center gap-4 rounded border border-neutral-200 bg-white p-4 transition-colors duration-200 hover:border-neutral-400 hover:bg-neutral-50 dark:border-neutral-700 dark:bg-neutral-900 dark:hover:border-neutral-500 dark:hover:bg-neutral-800"
+                    className="group chip p-4 transition duration-300 hover:-translate-y-0.5 hover:border-[var(--accent)]"
                   >
-                    <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded border border-neutral-200 bg-neutral-50 text-black dark:border-neutral-700 dark:bg-neutral-950 dark:text-white">
+                    <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-2xl border border-[var(--line)] bg-[var(--surface)] text-[var(--text-primary)]">
                       <SocialIcon platform={link.icon} />
                     </div>
                     <div className="min-w-0 flex-1">
-                      <p className="text-xs font-semibold uppercase tracking-widest text-neutral-500 dark:text-neutral-400">{link.label}</p>
-                      <p className="truncate text-sm font-semibold text-black dark:text-white">{link.display}</p>
+                      <p className="section-label">{link.label}</p>
+                      <p className="truncate text-sm font-semibold text-[var(--text-primary)]">{link.display}</p>
                     </div>
                     <svg
-                      className="ml-auto h-4 w-4 text-neutral-400 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:text-black dark:group-hover:text-white"
+                      className="ml-auto h-4 w-4 text-[var(--text-tertiary)] transition-transform duration-200 group-hover:translate-x-0.5 group-hover:text-[var(--accent)]"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
@@ -455,7 +466,7 @@ function App() {
               </div>
             </div>
             </ScrollStaggerItem>
-            <ScrollStaggerItem>
+            <ScrollStaggerItem className="order-1 lg:order-2">
             <ContactForm />
             </ScrollStaggerItem>
           </ScrollStagger>

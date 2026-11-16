@@ -2,24 +2,22 @@ export default function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="mt-8 w-full border-t border-neutral-200 bg-white py-10 pb-[calc(2.5rem+env(safe-area-inset-bottom))] dark:border-neutral-800 dark:bg-neutral-950 md:py-12">
+    <footer className="mt-8 w-full border-t border-[var(--line)] py-10 pb-[calc(6.5rem+env(safe-area-inset-bottom))] md:py-12 md:pb-12">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col items-center justify-between gap-6 sm:flex-row">
           <div className="flex items-center gap-3">
-            <span className="flex h-10 w-10 items-center justify-center rounded bg-black font-display text-xs font-extrabold text-white dark:bg-white dark:text-black">
-              M
-            </span>
+            <span className="brand-mark">M</span>
             <div>
-              <p className="font-display text-sm font-bold text-black dark:text-white">Mark Andrey Perez</p>
-              <p className="text-xs text-neutral-500 dark:text-neutral-400">AI-Augmented Full-stack Developer</p>
+              <p className="font-display text-2xl leading-none text-[var(--text-primary)]">Mark Andrey Perez</p>
+              <p className="mt-1 text-xs text-[var(--text-tertiary)]">Full-stack Software Developer</p>
             </div>
           </div>
 
-          <p className="text-sm text-neutral-500 dark:text-neutral-400">© {year} Mark Andrey Perez. All rights reserved.</p>
+          <p className="text-sm text-[var(--text-tertiary)]">© {year} Mark Andrey Perez. All rights reserved.</p>
 
           <a
             href="#home"
-            className="flex items-center gap-2 rounded border border-neutral-200 px-4 py-2 text-xs font-semibold text-neutral-600 transition-colors hover:border-neutral-400 hover:text-black dark:border-neutral-700 dark:text-neutral-400 dark:hover:border-neutral-500 dark:hover:text-white"
+            className="flex items-center gap-2 rounded-full border border-[var(--line)] bg-[var(--chip)] px-4 py-2 text-xs font-semibold text-[var(--text-secondary)] transition duration-300 hover:-translate-y-0.5 hover:border-[var(--accent)] hover:text-[var(--text-primary)]"
           >
             Back to top
             <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>

@@ -47,7 +47,7 @@ interface ProjectsShowcaseProps {
 const AUTO_ADVANCE_MS = 7000;
 const SLIDE_MS = 3500;
 /** Room for the tilted cards peeking out below the centre card. */
-const DECK_OVERHANG = 64;
+const DECK_OVERHANG = 92;
 
 function useMediaQuery(query: string) {
   const [matches, setMatches] = useState(() => window.matchMedia(query).matches);
@@ -102,7 +102,7 @@ function BrowserMockup({
 
   return (
     <div className="relative w-full max-w-full overflow-hidden lg:flex lg:h-full lg:flex-col lg:justify-center">
-      <div className="relative w-full overflow-hidden rounded border border-neutral-200 bg-neutral-900">
+      <div className="relative w-full overflow-hidden rounded-[20px] border border-white/10 bg-neutral-900 shadow-[0_28px_50px_-30px_rgba(0,0,0,0.7)]">
         <div className={`flex shrink-0 items-center border-b border-neutral-700 bg-neutral-800 ${compact ? 'gap-2 px-3 py-2' : 'gap-3 px-4 py-3'}`}>
           <div className="flex gap-1.5">
             <span className={`rounded-full bg-red-500/90 ${compact ? 'h-2 w-2' : 'h-3 w-3'}`} />
@@ -167,6 +167,7 @@ function ProjectCard({
   total,
   playing,
   compact = false,
+  phone = false,
   minHeight,
 }: {
   project: Project;
@@ -174,20 +175,24 @@ function ProjectCard({
   total: number;
   playing: boolean;
   compact?: boolean;
+  phone?: boolean;
   minHeight?: number;
 }) {
   const iconClass = (item: string) => {
     if (item.toLowerCase() === 'electron') return compact ? 'h-4 w-4' : 'h-5 w-5';
     return compact ? 'h-3.5 w-3.5' : 'h-4 w-4';
   };
+  const actionWidth = phone ? 'w-full' : 'flex-1 sm:flex-none';
 
   return (
     <div className="card overflow-hidden" style={minHeight ? { minHeight } : undefined}>
       <div
         className={
-          compact
-            ? 'grid grid-cols-[0.9fr_1fr] items-center gap-5 p-5'
-            : 'grid gap-8 p-6 sm:p-8 lg:grid-cols-[1.15fr_1fr] lg:gap-10 lg:p-10'
+          phone
+            ? 'grid gap-4 p-4'
+            : compact
+              ? 'grid grid-cols-[0.9fr_1fr] items-center gap-5 p-5'
+              : 'grid gap-8 p-6 sm:p-8 lg:grid-cols-[1.15fr_1fr] lg:gap-10 lg:p-10'
         }
       >
         <BrowserMockup
@@ -195,19 +200,18 @@ function ProjectCard({
           liveUrl={project.liveUrl}
           title={project.title}
           playing={playing}
-          compact={compact}
+          compact={compact || phone}
         />
 
         <div className="flex min-w-0 flex-col justify-center">
           <div className={`flex flex-wrap items-center ${compact ? 'gap-2' : 'gap-3'}`}>
-            <span className={`font-display font-bold text-neutral-400 ${compact ? 'text-xs' : 'text-sm'}`}>
-              {String(index + 1).padStart(2, '0')}{' '}
-              <span className="text-neutral-300 dark:text-neutral-600">/</span>{' '}
-              {String(total).padStart(2, '0')}
+            <span className={`font-display text-[var(--accent)] ${compact ? 'text-lg leading-none' : 'text-2xl leading-none'}`}>
+              {String(index + 1).padStart(2, '0')}
+              <span className="text-[var(--text-tertiary)]"> / {String(total).padStart(2, '0')}</span>
             </span>
             {project.type && (
               <span
-                className={`rounded border border-neutral-200 bg-neutral-50 font-semibold text-neutral-600 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-300 ${
+                className={`rounded-full border border-[var(--line)] bg-[var(--chip)] font-semibold text-[var(--text-secondary)] ${
                   compact ? 'px-2 py-0.5 text-[11px]' : 'px-3 py-1 text-xs'
                 }`}
               >
@@ -216,34 +220,34 @@ function ProjectCard({
             )}
             {project.liveUrl && (
               <span
-                className={`inline-flex items-center gap-1.5 rounded border border-neutral-200 bg-neutral-50 font-semibold text-black dark:border-neutral-700 dark:bg-neutral-900 dark:text-white ${
+                className={`inline-flex items-center gap-1.5 rounded-full border border-[var(--line)] bg-[var(--chip)] font-semibold text-[var(--text-primary)] ${
                   compact ? 'px-2 py-0.5 text-[11px]' : 'px-3 py-1 text-xs'
                 }`}
               >
-                <span className="h-1.5 w-1.5 rounded-full bg-black dark:bg-white" />
+                <span className="live-dot" />
                 Live
               </span>
             )}
           </div>
 
           <h3
-            className={`font-display font-bold leading-tight text-black dark:text-white ${
-              compact ? 'mt-3 text-xl leading-snug' : 'mt-5 text-2xl sm:text-3xl'
+            className={`font-display leading-[1.05] text-[var(--text-primary)] ${
+              phone ? 'mt-1 text-2xl' : compact ? 'mt-3 text-[1.65rem]' : 'mt-5 text-3xl sm:text-4xl'
             }`}
           >
             {project.title}
           </h3>
 
           <p
-            className={`text-neutral-600 dark:text-neutral-400 ${
-              compact ? 'mt-2 line-clamp-3 text-sm leading-6' : 'mt-4 text-sm leading-7 sm:text-base'
+            className={`text-[var(--text-secondary)] ${
+              phone || compact ? 'mt-2 line-clamp-3 text-sm leading-6' : 'mt-4 text-sm leading-7 sm:text-base'
             }`}
           >
             {project.description}
           </p>
 
           <div className={compact ? 'mt-4' : 'mt-7'}>
-            <p className={`font-semibold uppercase tracking-widest text-neutral-400 ${compact ? 'mb-2 text-[10px]' : 'mb-3 text-xs'}`}>
+            <p className={`section-label ${compact ? 'mb-2' : 'mb-3'}`}>
               Built with
             </p>
             <div className={`flex flex-wrap ${compact ? 'gap-1.5' : 'gap-2'}`}>
@@ -253,7 +257,7 @@ function ProjectCard({
                   <div
                     key={item}
                     title={item}
-                    className={`flex items-center rounded border border-neutral-200 bg-white transition-colors hover:border-neutral-300 dark:border-neutral-700 dark:bg-neutral-900 dark:hover:border-neutral-600 ${
+                    className={`flex items-center rounded-full border border-[var(--line)] bg-[var(--chip)] transition-colors hover:border-[var(--accent)] ${
                       compact ? 'gap-1.5 px-2 py-1' : 'gap-2 px-3 py-2'
                     }`}
                   >
@@ -261,27 +265,27 @@ function ProjectCard({
                       <img src={icon} alt={item} className={`object-contain ${iconClass(item)}`} />
                     ) : (
                       <span
-                        className={`flex items-center justify-center rounded bg-neutral-100 font-bold text-black dark:bg-neutral-800 dark:text-white ${
+                        className={`flex items-center justify-center rounded-full bg-[var(--accent-soft)] font-bold text-[var(--accent)] ${
                           compact ? 'h-3.5 w-3.5 text-[7px]' : 'h-4 w-4 text-[8px]'
                         }`}
                       >
                         {item.slice(0, 2)}
                       </span>
                     )}
-                    <span className={`font-semibold text-black dark:text-white ${compact ? 'text-[11px]' : 'text-xs'}`}>{item}</span>
+                    <span className={`font-semibold text-[var(--text-primary)] ${compact ? 'text-[11px]' : 'text-xs'}`}>{item}</span>
                   </div>
                 );
               })}
             </div>
           </div>
 
-          <div className={`flex flex-col sm:flex-row ${compact ? 'mt-4 gap-2' : 'mt-8 gap-3'}`}>
+          <div className={`flex flex-col ${phone ? 'mt-5 gap-2' : compact ? 'mt-4 gap-2 sm:flex-row' : 'mt-8 gap-3 sm:flex-row'}`}>
             {project.liveUrl ? (
               <a
                 href={project.liveUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`btn-primary flex-1 justify-center gap-2 sm:flex-none ${compact ? '!px-3.5 !py-2 !text-xs' : ''}`}
+                className={`btn-primary ${actionWidth} justify-center gap-2 ${compact ? '!px-3.5 !py-2 !text-xs' : ''}`}
               >
                 <svg className={compact ? 'h-3.5 w-3.5' : 'h-4 w-4'} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
@@ -290,7 +294,7 @@ function ProjectCard({
               </a>
             ) : (
               <span
-                className={`inline-flex flex-1 cursor-not-allowed items-center justify-center gap-2 rounded bg-neutral-100 font-semibold text-neutral-400 dark:bg-neutral-800 dark:text-neutral-500 sm:flex-none ${
+                className={`inline-flex ${actionWidth} cursor-not-allowed items-center justify-center gap-2 rounded-full bg-[var(--progress-track)] font-semibold text-[var(--text-tertiary)] ${
                   compact ? 'px-3.5 py-2 text-xs' : 'px-6 py-3 text-sm'
                 }`}
               >
@@ -302,7 +306,7 @@ function ProjectCard({
                 href={project.sourceUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`btn-secondary flex-1 justify-center gap-2 sm:flex-none ${compact ? '!px-3.5 !py-2 !text-xs' : ''}`}
+                className={`btn-secondary ${actionWidth} justify-center gap-2 ${compact ? '!px-3.5 !py-2 !text-xs' : ''}`}
               >
                 <svg className={compact ? 'h-3.5 w-3.5' : 'h-4 w-4'} fill="currentColor" viewBox="0 0 24 24">
                   <path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.385-1.335-1.755-1.335-1.755-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12z" />
@@ -311,7 +315,7 @@ function ProjectCard({
               </a>
             ) : (
               <span
-                className={`inline-flex flex-1 cursor-not-allowed items-center justify-center gap-2 rounded border border-neutral-200 font-semibold text-neutral-400 dark:border-neutral-700 dark:text-neutral-500 sm:flex-none ${
+                className={`inline-flex ${actionWidth} cursor-not-allowed items-center justify-center gap-2 rounded-full border border-[var(--line)] font-semibold text-[var(--text-tertiary)] ${
                   compact ? 'px-3.5 py-2 text-xs' : 'px-6 py-3 text-sm'
                 }`}
               >
@@ -331,15 +335,15 @@ type DeckSlot = 'center' | 'left' | 'right' | 'behind';
 // column — any further out and the deck gets clipped by the page's overflow rules.
 const slotTransform: Record<DeckSlot, string> = {
   center: 'z-30 translate-x-0 translate-y-0 rotate-0 scale-100',
-  left: 'z-10 -translate-x-[10%] translate-y-2 -rotate-[6deg] scale-[0.92] cursor-pointer',
-  right: 'z-20 translate-x-[10%] translate-y-2 rotate-[6deg] scale-[0.92] cursor-pointer',
-  behind: 'z-0 translate-y-6 scale-[0.85] opacity-0 pointer-events-none',
+  left: 'z-10 -translate-x-[9%] translate-y-4 -rotate-[8deg] scale-[0.9] cursor-pointer',
+  right: 'z-20 translate-x-[9%] translate-y-4 rotate-[8deg] scale-[0.9] cursor-pointer',
+  behind: 'z-0 translate-y-8 scale-[0.82] opacity-0 pointer-events-none',
 };
 
 const slotHover: Record<DeckSlot, string> = {
-  center: 'hover:-translate-y-1.5 hover:scale-[1.01]',
-  left: 'hover:z-[25] hover:-translate-x-[11.5%] hover:translate-y-0 hover:-rotate-[4.5deg] hover:scale-[0.94]',
-  right: 'hover:z-[25] hover:translate-x-[11.5%] hover:translate-y-0 hover:rotate-[4.5deg] hover:scale-[0.94]',
+  center: 'hover:-translate-y-2 hover:scale-[1.012]',
+  left: 'hover:z-[25] hover:-translate-x-[11%] hover:translate-y-1 hover:-rotate-[5deg] hover:scale-[0.93]',
+  right: 'hover:z-[25] hover:translate-x-[11%] hover:translate-y-1 hover:rotate-[5deg] hover:scale-[0.93]',
   behind: '',
 };
 
@@ -351,6 +355,7 @@ export default function ProjectsShowcase({ projects }: ProjectsShowcaseProps) {
 
   // Below this the centre card gets too narrow for its two-column layout.
   const isDeck = useMediaQuery('(min-width: 1280px)');
+  const isPhone = useMediaQuery('(max-width: 767px)');
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   const project = projects[active];
@@ -433,23 +438,23 @@ export default function ProjectsShowcase({ projects }: ProjectsShowcaseProps) {
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
-      <div className="mb-6 flex w-full max-w-full flex-col gap-4 overflow-hidden sm:flex-row sm:items-center sm:justify-between">
+      <div className={`${isPhone ? 'hidden' : 'mb-6 flex'} w-full max-w-full flex-col gap-4 overflow-hidden sm:flex-row sm:items-center sm:justify-between`}>
         <div className="flex w-full max-w-full gap-2 overflow-x-auto pb-1 scrollbar-none">
           {projects.map((p, i) => (
             <button
               key={p.title}
               type="button"
               onClick={() => goTo(i)}
-              className={`relative flex shrink-0 items-center gap-2 rounded border px-3 py-2 text-left transition-colors duration-200 ${
+              className={`relative flex shrink-0 items-center gap-2 rounded-full border px-3.5 py-2 text-left transition duration-300 ${
                 i === active
-                  ? 'border-black bg-neutral-50 dark:border-white dark:bg-neutral-900'
-                  : 'border-neutral-200 bg-white hover:border-neutral-300 dark:border-neutral-700 dark:bg-neutral-950 dark:hover:border-neutral-600'
+                  ? 'border-[var(--line-strong)] bg-[var(--card-top)] text-[var(--text-primary)] shadow-[0_12px_24px_-18px_var(--card-shadow)]'
+                  : 'border-[var(--line)] bg-transparent text-[var(--text-secondary)] hover:border-[var(--line-strong)]'
               }`}
             >
-              <span className={`font-display text-xs font-bold ${i === active ? 'text-black dark:text-white' : 'text-neutral-400'}`}>
+              <span className={`font-display text-base leading-none ${i === active ? 'text-[var(--accent)]' : 'text-[var(--text-tertiary)]'}`}>
                 {String(i + 1).padStart(2, '0')}
               </span>
-              <span className={`whitespace-nowrap text-sm font-semibold ${i === active ? 'text-black dark:text-white' : 'text-neutral-500 dark:text-neutral-400'}`}>
+              <span className={`whitespace-nowrap text-sm font-semibold ${i === active ? 'text-[var(--text-primary)]' : 'text-[var(--text-secondary)]'}`}>
                 {shortTitle(p.title)}
               </span>
             </button>
@@ -461,7 +466,7 @@ export default function ProjectsShowcase({ projects }: ProjectsShowcaseProps) {
             type="button"
             onClick={goPrev}
             aria-label="Previous project"
-            className="flex h-9 w-9 items-center justify-center rounded border border-neutral-200 bg-white text-black transition-colors hover:bg-neutral-50 dark:border-neutral-700 dark:bg-neutral-900 dark:text-white dark:hover:bg-neutral-800"
+            className="flex h-10 w-10 items-center justify-center rounded-full border border-[var(--line)] bg-[var(--chip)] text-[var(--text-primary)] transition duration-300 hover:-translate-y-0.5 hover:border-[var(--accent)]"
           >
             <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
@@ -471,7 +476,7 @@ export default function ProjectsShowcase({ projects }: ProjectsShowcaseProps) {
             type="button"
             onClick={goNext}
             aria-label="Next project"
-            className="flex h-9 w-9 items-center justify-center rounded border border-neutral-200 bg-white text-black transition-colors hover:bg-neutral-50 dark:border-neutral-700 dark:bg-neutral-900 dark:text-white dark:hover:bg-neutral-800"
+            className="flex h-10 w-10 items-center justify-center rounded-full border border-[var(--line)] bg-[var(--chip)] text-[var(--text-primary)] transition duration-300 hover:-translate-y-0.5 hover:border-[var(--accent)]"
           >
             <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
@@ -482,9 +487,10 @@ export default function ProjectsShowcase({ projects }: ProjectsShowcaseProps) {
 
       {isDeck ? (
         <div
-          className="relative"
+          className="relative [perspective:1800px] [transform-style:preserve-3d]"
           style={deckHeight ? { height: deckHeight + DECK_OVERHANG } : undefined}
         >
+          <div className="pointer-events-none absolute inset-x-[16%] bottom-4 top-10 -z-10 rounded-full bg-[radial-gradient(ellipse_at_center,var(--glow-a),transparent_68%)] blur-2xl" />
           {projects.map((p, i) => {
             const slot = slotFor(i);
             const isCenter = slot === 'center';
@@ -509,13 +515,16 @@ export default function ProjectsShowcase({ projects }: ProjectsShowcaseProps) {
                 role={isCenter ? undefined : 'button'}
                 tabIndex={isCenter ? undefined : 0}
                 aria-label={isCenter ? undefined : `Show ${shortTitle(p.title)}`}
-                className={`absolute inset-x-[13%] top-0 origin-bottom rounded outline-none transition-[transform,opacity,box-shadow] duration-500 ease-[cubic-bezier(.22,1,.36,1)] ${
+                className={`absolute inset-x-[12%] top-0 origin-bottom rounded-[24px] outline-none transition-[transform,opacity,box-shadow] duration-500 ease-[cubic-bezier(.22,1,.36,1)] ${
                   isCenter
-                    ? 'shadow-[0_26px_55px_-22px_rgba(10,10,10,0.3)]'
-                    : 'shadow-[0_16px_32px_-18px_rgba(10,10,10,0.25)]'
+                    ? 'shadow-[0_36px_70px_-28px_var(--card-shadow)]'
+                    : 'shadow-[0_18px_36px_-20px_var(--card-shadow)]'
                 } ${slotTransform[slot]} ${slotHover[slot]}`}
               >
-                <div className={isCenter ? undefined : 'pointer-events-none select-none'}>
+                <div
+                  className={isCenter ? undefined : 'pointer-events-none select-none'}
+                  style={isCenter ? undefined : { transform: 'rotateX(9deg)', transformOrigin: 'center bottom' }}
+                >
                   <ProjectCard
                     project={p}
                     index={i}
@@ -529,7 +538,7 @@ export default function ProjectsShowcase({ projects }: ProjectsShowcaseProps) {
                 {!isCenter && (
                   <span
                     aria-hidden
-                    className="pointer-events-none absolute inset-0 rounded bg-white/55 transition-colors duration-300 dark:bg-neutral-950/55"
+                    className="deck-dim pointer-events-none absolute inset-0 rounded-[24px] transition-colors duration-300"
                   />
                 )}
               </div>
@@ -537,37 +546,29 @@ export default function ProjectsShowcase({ projects }: ProjectsShowcaseProps) {
           })}
         </div>
       ) : (
-        <ProjectCard project={project} index={active} total={projects.length} playing />
+        <ProjectCard project={project} index={active} total={projects.length} playing phone={isPhone} />
       )}
 
       {projects.length > 1 && (
-        <div className="mt-6 h-1 overflow-hidden rounded bg-neutral-100 dark:bg-neutral-800">
-          <div className="h-full bg-black transition-[width] duration-75 dark:bg-white" style={{ width: `${progress}%` }} />
+        <div className="mt-6 h-[3px] overflow-hidden rounded-full bg-[var(--progress-track)]">
+          <div className="h-full rounded-full bg-[var(--accent)] shadow-[0_0_12px_var(--accent-soft)] transition-[width] duration-75" style={{ width: `${progress}%` }} />
         </div>
       )}
 
-      {projects.length > 1 && (
-        <div className="mt-4 flex justify-center gap-3 sm:hidden">
-          <button
-            type="button"
-            onClick={goPrev}
-            aria-label="Previous project"
-            className="flex h-11 w-11 items-center justify-center rounded border border-neutral-200 bg-white dark:border-neutral-700 dark:bg-neutral-900 dark:text-white"
-          >
-            <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
-            </svg>
-          </button>
-          <button
-            type="button"
-            onClick={goNext}
-            aria-label="Next project"
-            className="flex h-11 w-11 items-center justify-center rounded border border-neutral-200 bg-white dark:border-neutral-700 dark:bg-neutral-900 dark:text-white"
-          >
-            <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-            </svg>
-          </button>
+      {isPhone && projects.length > 1 && (
+        <div className="mt-4 flex justify-center gap-2">
+          {projects.map((item, i) => (
+            <button
+              key={item.title}
+              type="button"
+              onClick={() => goTo(i)}
+              aria-label={`Show ${shortTitle(item.title)}`}
+              aria-current={i === active ? 'true' : undefined}
+              className={`h-2 rounded-full transition-all duration-300 ${
+                i === active ? 'w-6 bg-[var(--accent)]' : 'w-2 bg-[var(--progress-track)]'
+              }`}
+            />
+          ))}
         </div>
       )}
     </div>

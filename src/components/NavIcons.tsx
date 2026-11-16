@@ -1,13 +1,10 @@
-const iconActive = 'text-black dark:text-white';
-const iconInactive = 'text-neutral-400 dark:text-neutral-500';
-
 type NavIconProps = {
   active: boolean;
   className?: string;
 };
 
 function iconClass(active: boolean, className = 'h-5 w-5') {
-  return `${className} shrink-0 ${active ? iconActive : iconInactive}`;
+  return `${className} shrink-0 ${active ? 'opacity-100' : 'opacity-60'}`;
 }
 
 export function AboutIcon({ active, className }: NavIconProps) {
